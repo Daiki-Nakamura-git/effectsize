@@ -3323,7 +3323,7 @@ t=d_s*\sqrt{\frac{mn}{m+n}},\\
 \lambda=\delta*\sqrt{\frac{mn}{m+n}},\\
 df=m+n-2
 \]</span></p>
-<p>今回の例の場合、自由度<span class="math inline">\(df=198\)</span>の非心ｔ分布を非心度<span class="math inline">\(λ\)</span>を変えながら描いていったとき、検定統計量<span class="math inline">\(t\)</span>の実現値<span class="math inline">\(t=1.48862\)</span>が上側確率0.975に一致する非心度<span class="math inline">\(λ_L\)</span>を求める。そして、それに<span class="math inline">\(\sqrt{\frac{mn}{m+n}}\)</span> をかけることで効果量<span class="math inline">\(\delta\)</span>に変換したものが効果量<span class="math inline">\(d_s\)</span>の信頼区間の上限値になる。同様に、検定統計量<span class="math inline">\(t\)</span>の実現値が非心ｔ分布の下側確率0.025に一致する非心度<span class="math inline">\(λ_H\)</span>を求めて変換すれば効果量<span class="math inline">\(d_s\)</span>の信頼区間の下限値になる。非心ｔ分布の詳細については、<span class="citation" data-cites="haebara2014">(<a href="#ref-haebara2014" role="doc-biblioref">南風原朝和, 2014</a>)</span>などを参照されたい。※Glass’s <span class="math inline">\(\Delta\)</span> の場合は、自由度<span class="math inline">\(df\)</span>を<span class="math inline">\(n-1\)</span>とする。</p>
+<p>今回の例の場合、自由度<span class="math inline">\(df=198\)</span>の非心ｔ分布を非心度<span class="math inline">\(λ\)</span>を変えながら描いていったとき、検定統計量<span class="math inline">\(t\)</span>の実現値<span class="math inline">\(t=9.008702\)</span>が上側確率0.975に一致する非心度<span class="math inline">\(λ_L\)</span>を求める。そして、それに<span class="math inline">\(\sqrt{\frac{mn}{m+n}}\)</span> をかけることで効果量<span class="math inline">\(\delta\)</span>に変換したものが効果量<span class="math inline">\(d_s\)</span>の信頼区間の上限値になる。同様に、検定統計量<span class="math inline">\(t\)</span>の実現値が非心ｔ分布の下側確率0.025に一致する非心度<span class="math inline">\(λ_H\)</span>を求めて変換すれば効果量<span class="math inline">\(d_s\)</span>の信頼区間の下限値になる。非心ｔ分布の詳細については、<span class="citation" data-cites="haebara2014">(<a href="#ref-haebara2014" role="doc-biblioref">南風原朝和, 2014</a>)</span>などを参照されたい。※Glass’s <span class="math inline">\(\Delta\)</span> の場合は、自由度<span class="math inline">\(df\)</span>を<span class="math inline">\(n-1\)</span>とする。</p>
 <p>Rを利用すれば、Cohen’s <span class="math inline">\(d_s\)</span> の95%信頼区間は以下のように求められる。</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -3529,7 +3529,7 @@ V_{d_z} = \dfrac{2(1-r)}{n}+\frac{d_z^2}{2n}
 0.96      | [0.72, 1.20]</code></pre>
 </div>
 <h3 id="信頼区間-1">信頼区間</h3>
-<p>対応のある2群の平均値差の効果量の信頼区間の計算についても、独立した2群の場合と同様の3種類の方法が使用できる。ここでは、非心ｔ分布に基づく方法のみ紹介する。2つ目は、非心ｔ分布を用いる方法である。これは、以下の式で計算される検定統計量ｔが帰無仮説が偽のときに、非心度<span class="math inline">\(λ\)</span>、自由度<span class="math inline">\(df\)</span>の非心ｔ分布に従うことを利用する方法である。</p>
+<p>対応のある2群の平均値差の効果量の信頼区間の計算についても、独立した2群の場合と同様の3種類の方法が使用できる。ここでは、非心ｔ分布に基づく方法のみ紹介する。これは、以下の式で計算される検定統計量ｔが帰無仮説が偽のときに、非心度<span class="math inline">\(λ\)</span>、自由度<span class="math inline">\(df\)</span>の非心ｔ分布に従うことを利用する方法である。</p>
 <p><span class="math display">\[
 t=d_z*\sqrt{n},\\
 \lambda=\delta*\sqrt{n},\\
