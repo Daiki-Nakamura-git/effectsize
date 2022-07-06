@@ -1,0 +1,106 @@
+
+# 分散の効果量
+
+後で加筆。
+
+## 一元配置分散分析
+
+```{r warning=FALSE}
+# data for ANOVA
+gender <- rep(c("M","F"), times=150)
+group <- rep(c("A","B","C"), each=100)
+set.seed(123)
+A <- rnorm(100, 60, 10)
+B <- rnorm(100, 50, 10)
+C <- rnorm(100, 40, 10)
+dat <- data.frame(gender=gender, group=group, outcome=c(A, B, C))
+```
+
+```{r echo=FALSE, class.source="fold-hide"}
+library(see)
+library(ggplot2)
+ggplot(dat, aes(x = group, y = outcome, fill = group)) +
+  geom_violindot(fill_dots = "black", dots_size = 7) +
+  theme_modern() +
+  scale_fill_material_d()
+```
+
+```{r}
+# One way ANOVA
+res1 <- lm(outcome ~ group, data = dat)
+library(parameters)
+model_parameters(anova(res1), eta_squared="raw")
+```
+
+### 効果量
+
+```{r}
+# eta^2
+library(effectsize)
+eta_squared(res1, partial = FALSE, alternative = "two.sided")
+19705.74/(19705.74+26438.60)
+
+# 95%CI
+library(MBESS)
+par <- model_parameters(anova(res1), eta_squared="raw")
+lambda.ci <- conf.limits.ncf(F.value=par$F[1], df.1 = par$df[1], df.2 = par$df[2], conf.level = .95) # 非心F分布
+lambda.ci$Lower.Limit/(300+lambda.ci$Lower.Limit)
+lambda.ci$Upper.Limit/(300+lambda.ci$Upper.Limit)
+```
+
+## 二元配置分散分析
+
+```{r}
+# partial eta^2
+res2 <- lm(outcome ~ gender + group, data = dat)
+parameters::model_parameters(anova(res2))
+eta_squared(res2, partial = TRUE, alternative = "two.sided")
+
+# partial omega^2
+omega_squared(res2, partial = TRUE, alternative = "two.sided")
+plot(omega_squared(res2, partial = TRUE, alternative = "two.sided"))
+```
+
+#### 結果の報告
+
+```{r}
+# Report
+library(report)
+res2 <- aov(outcome ~ gender + group, data = dat)
+report_table(res2)
+report(res2)
+```
+
+### ベイズ
+
+```{r warning=FALSE}
+# For a Bayesian Test 
+gender <- rep(c("M","F"), times=150)
+group <- rep(c("A","B","C"), each=100)
+set.seed(123)
+A <- rnorm(100, 60, 10)
+B <- rnorm(100, 50, 10)
+C <- rnorm(100, 40, 10)
+dat <- data.frame(gender=gender, group=group, outcome=c(A, B, C))
+
+library(rstanarm)
+m_bayes <- stan_glm(outcome ~ gender + group, 
+                    data = dat, family = gaussian(),
+                    refresh = 0)
+prior_summary(m_bayes)
+library(effectsize)
+pes_posterior <- eta_squared_posterior(m_bayes,
+                                       draws = 1000, 
+                                       partial = T) #事後予測分布からのサンプリング
+library(bayestestR)
+describe_posterior(pes_posterior, rope_range = c(0, 0.1), test = "rope")
+```
+
+#### 結果の報告
+
+```{r}
+# Report
+library(report)
+report_table(m_bayes)
+report(m_bayes)
+```

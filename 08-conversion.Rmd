@@ -1,0 +1,40 @@
+
+# 効果量の変換
+
+後で加筆。
+
+## 統計量から効果量への変換
+
+### t -\> d
+
+```{r}
+set.seed(123)
+A <- rnorm(100, 60, 10)
+B <- rnorm(100, 50, 10)
+# t to d
+res.st <- t.test(A, B)
+cohens_d(A, B)
+t_to_d(res.st$statistic[1], res.st$parameter) #近似値
+dhat <- 2*res.st$statistic[1]/sqrt(res.st$parameter)
+```
+
+## 効果量から効果量への変換
+
+### d \<-\> r
+
+```{r}
+# Converting Between Indices of Effect Size -------------------------------
+# d to r
+group <- rep(c(0, 1), each=100)
+set.seed(123)
+A <- rnorm(100, 50, 10)
+B <- rnorm(100, 60, 10)
+dat <- data.frame(group=group, outcome=c(A, B))
+
+cor(dat) #点双列相関
+
+d <- cohens_d(dat$outcome[group==1], dat$outcome[group==0])$Cohens_d
+r <- cor(dat$group, dat$outcome)
+d_convert <- r_to_d(r)
+r_convert <- d_to_r(d)
+```

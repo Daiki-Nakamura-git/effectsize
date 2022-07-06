@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>効果量に関するまとめ</title>
+  <meta name="description" content="効果量の定義、種類、Rによる計算法、解釈、統合の方法." />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="効果量に関するまとめ" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="効果量の定義、種類、Rによる計算法、解釈、統合の方法." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="効果量に関するまとめ" />
+  
+  <meta name="twitter:description" content="効果量の定義、種類、Rによる計算法、解釈、統合の方法." />
+  
+
+<meta name="author" content="Daiki Nakamura" />
+
+
+<meta name="date" content="2022-07-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="01-introduction.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">効果量に関するまとめ</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> イントロダクション</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#ドキュメントの概要"><i class="fa fa-check"></i><b>1.1</b> ドキュメントの概要</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#効果量とは何か"><i class="fa fa-check"></i><b>1.2</b> 効果量とは何か</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#効果量を利用するメリット"><i class="fa fa-check"></i><b>1.3</b> 効果量を利用するメリット</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#効果量の種類"><i class="fa fa-check"></i><b>1.4</b> 効果量の種類</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#統計ソフトウェアrの準備"><i class="fa fa-check"></i><b>1.5</b> 統計ソフトウェアRの準備</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="01-introduction.html"><a href="01-introduction.html"><i class="fa fa-check"></i><b>2</b> 平均値と推測統計の基礎</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="01-introduction.html"><a href="01-introduction.html#効果量としての平均値"><i class="fa fa-check"></i><b>2.1</b> 効果量としての平均値</a></li>
+<li class="chapter" data-level="2.2" data-path="01-introduction.html"><a href="01-introduction.html#母平均の推定"><i class="fa fa-check"></i><b>2.2</b> 母平均の推定</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="01-introduction.html"><a href="01-introduction.html#点推定"><i class="fa fa-check"></i><b>2.2.1</b> 点推定</a></li>
+<li class="chapter" data-level="2.2.2" data-path="01-introduction.html"><a href="01-introduction.html#区間推定"><i class="fa fa-check"></i><b>2.2.2</b> 区間推定</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="01-introduction.html"><a href="01-introduction.html#ベイズ統計に基づくアプローチ"><i class="fa fa-check"></i><b>2.3</b> ベイズ統計に基づくアプローチ</a></li>
+<li class="chapter" data-level="2.4" data-path="01-introduction.html"><a href="01-introduction.html#結果の報告"><i class="fa fa-check"></i><b>2.4</b> 結果の報告</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="02-mean_difference.html"><a href="02-mean_difference.html"><i class="fa fa-check"></i><b>3</b> 平均値差の効果量</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="02-mean_difference.html"><a href="02-mean_difference.html#独立した2群の平均値差"><i class="fa fa-check"></i><b>3.1</b> 独立した2群の平均値差</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="02-mean_difference.html"><a href="02-mean_difference.html#非標準化平均値差"><i class="fa fa-check"></i><b>3.1.1</b> 非標準化平均値差</a></li>
+<li class="chapter" data-level="3.1.2" data-path="02-mean_difference.html"><a href="02-mean_difference.html#標準化平均値差"><i class="fa fa-check"></i><b>3.1.2</b> 標準化平均値差</a></li>
+<li class="chapter" data-level="3.1.3" data-path="02-mean_difference.html"><a href="02-mean_difference.html#等分散を仮定する場合"><i class="fa fa-check"></i><b>3.1.3</b> 等分散を仮定する場合</a></li>
+<li class="chapter" data-level="3.1.4" data-path="02-mean_difference.html"><a href="02-mean_difference.html#等分散を仮定しない場合"><i class="fa fa-check"></i><b>3.1.4</b> 等分散を仮定しない場合</a></li>
+<li class="chapter" data-level="3.1.5" data-path="02-mean_difference.html"><a href="02-mean_difference.html#信頼区間"><i class="fa fa-check"></i><b>3.1.5</b> 信頼区間</a></li>
+<li class="chapter" data-level="3.1.6" data-path="02-mean_difference.html"><a href="02-mean_difference.html#ベイズ統計に基づくアプローチ-1"><i class="fa fa-check"></i><b>3.1.6</b> ベイズ統計に基づくアプローチ</a></li>
+<li class="chapter" data-level="3.1.7" data-path="02-mean_difference.html"><a href="02-mean_difference.html#結果の報告-1"><i class="fa fa-check"></i><b>3.1.7</b> 結果の報告</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="02-mean_difference.html"><a href="02-mean_difference.html#対応のある2群の平均値差"><i class="fa fa-check"></i><b>3.2</b> 対応のある2群の平均値差</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="02-mean_difference.html"><a href="02-mean_difference.html#非標準化平均値差-1"><i class="fa fa-check"></i><b>3.2.1</b> 非標準化平均値差</a></li>
+<li class="chapter" data-level="3.2.2" data-path="02-mean_difference.html"><a href="02-mean_difference.html#標準化平均値差-1"><i class="fa fa-check"></i><b>3.2.2</b> 標準化平均値差</a></li>
+<li class="chapter" data-level="3.2.3" data-path="02-mean_difference.html"><a href="02-mean_difference.html#信頼区間-1"><i class="fa fa-check"></i><b>3.2.3</b> 信頼区間</a></li>
+<li class="chapter" data-level="3.2.4" data-path="02-mean_difference.html"><a href="02-mean_difference.html#結果の報告-2"><i class="fa fa-check"></i><b>3.2.4</b> 結果の報告</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="02-mean_difference.html"><a href="02-mean_difference.html#標準化平均値差の補正"><i class="fa fa-check"></i><b>3.3</b> 標準化平均値差の補正</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="02-mean_difference.html"><a href="02-mean_difference.html#小標本の補正"><i class="fa fa-check"></i><b>3.3.1</b> 小標本の補正</a></li>
+<li class="chapter" data-level="3.3.2" data-path="02-mean_difference.html"><a href="02-mean_difference.html#信頼性の補正"><i class="fa fa-check"></i><b>3.3.2</b> 信頼性の補正</a></li>
+<li class="chapter" data-level="3.3.3" data-path="02-mean_difference.html"><a href="02-mean_difference.html#範囲制限の補正"><i class="fa fa-check"></i><b>3.3.3</b> 範囲制限の補正</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="02-mean_difference.html"><a href="02-mean_difference.html#名称の混乱問題について"><i class="fa fa-check"></i><b>3.4</b> 名称の混乱問題について</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="03-standard_mean_difference.html"><a href="03-standard_mean_difference.html"><i class="fa fa-check"></i><b>4</b> 平均値差の効果量</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="03-standard_mean_difference.html"><a href="03-standard_mean_difference.html#独立した2群の平均値差-1"><i class="fa fa-check"></i><b>4.1</b> 独立した2群の平均値差</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="03-standard_mean_difference.html"><a href="03-standard_mean_difference.html#非標準化平均値差-2"><i class="fa fa-check"></i><b>4.1.1</b> 非標準化平均値差</a></li>
+<li class="chapter" data-level="4.1.2" data-path="03-standard_mean_difference.html"><a href="03-standard_mean_difference.html#標準化平均値差-2"><i class="fa fa-check"></i><b>4.1.2</b> 標準化平均値差</a></li>
+<li class="chapter" data-level="4.1.3" data-path="03-standard_mean_difference.html"><a href="03-standard_mean_difference.html#等分散を仮定する場合-1"><i class="fa fa-check"></i><b>4.1.3</b> 等分散を仮定する場合</a></li>
+<li class="chapter" data-level="4.1.4" data-path="03-standard_mean_difference.html"><a href="03-standard_mean_difference.html#等分散を仮定しない場合-1"><i class="fa fa-check"></i><b>4.1.4</b> 等分散を仮定しない場合</a></li>
+<li class="chapter" data-level="4.1.5" data-path="03-standard_mean_difference.html"><a href="03-standard_mean_difference.html#信頼区間-2"><i class="fa fa-check"></i><b>4.1.5</b> 信頼区間</a></li>
+<li class="chapter" data-level="4.1.6" data-path="03-standard_mean_difference.html"><a href="03-standard_mean_difference.html#ベイズ統計に基づくアプローチ-2"><i class="fa fa-check"></i><b>4.1.6</b> ベイズ統計に基づくアプローチ</a></li>
+<li class="chapter" data-level="4.1.7" data-path="03-standard_mean_difference.html"><a href="03-standard_mean_difference.html#結果の報告-3"><i class="fa fa-check"></i><b>4.1.7</b> 結果の報告</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="03-standard_mean_difference.html"><a href="03-standard_mean_difference.html#対応のある2群の平均値差-1"><i class="fa fa-check"></i><b>4.2</b> 対応のある2群の平均値差</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="03-standard_mean_difference.html"><a href="03-standard_mean_difference.html#非標準化平均値差-3"><i class="fa fa-check"></i><b>4.2.1</b> 非標準化平均値差</a></li>
+<li class="chapter" data-level="4.2.2" data-path="03-standard_mean_difference.html"><a href="03-standard_mean_difference.html#標準化平均値差-3"><i class="fa fa-check"></i><b>4.2.2</b> 標準化平均値差</a></li>
+<li class="chapter" data-level="4.2.3" data-path="03-standard_mean_difference.html"><a href="03-standard_mean_difference.html#信頼区間-3"><i class="fa fa-check"></i><b>4.2.3</b> 信頼区間</a></li>
+<li class="chapter" data-level="4.2.4" data-path="03-standard_mean_difference.html"><a href="03-standard_mean_difference.html#結果の報告-4"><i class="fa fa-check"></i><b>4.2.4</b> 結果の報告</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="03-standard_mean_difference.html"><a href="03-standard_mean_difference.html#標準化平均値差の補正-1"><i class="fa fa-check"></i><b>4.3</b> 標準化平均値差の補正</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="03-standard_mean_difference.html"><a href="03-standard_mean_difference.html#小標本の補正-1"><i class="fa fa-check"></i><b>4.3.1</b> 小標本の補正</a></li>
+<li class="chapter" data-level="4.3.2" data-path="03-standard_mean_difference.html"><a href="03-standard_mean_difference.html#信頼性の補正-1"><i class="fa fa-check"></i><b>4.3.2</b> 信頼性の補正</a></li>
+<li class="chapter" data-level="4.3.3" data-path="03-standard_mean_difference.html"><a href="03-standard_mean_difference.html#範囲制限の補正-1"><i class="fa fa-check"></i><b>4.3.3</b> 範囲制限の補正</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="03-standard_mean_difference.html"><a href="03-standard_mean_difference.html#名称の混乱問題について-1"><i class="fa fa-check"></i><b>4.4</b> 名称の混乱問題について</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="04-correlation.html"><a href="04-correlation.html"><i class="fa fa-check"></i><b>5</b> 相関の効果量</a>
+<ul>
+<li class="chapter" data-level="5.0.1" data-path="04-correlation.html"><a href="04-correlation.html#pearsons-r"><i class="fa fa-check"></i><b>5.0.1</b> Pearson’s r</a></li>
+<li class="chapter" data-level="5.0.2" data-path="04-correlation.html"><a href="04-correlation.html#ベイズ"><i class="fa fa-check"></i><b>5.0.2</b> ベイズ</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="05-ANOVA.html"><a href="05-ANOVA.html"><i class="fa fa-check"></i><b>6</b> 分散の効果量</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="05-ANOVA.html"><a href="05-ANOVA.html#一元配置分散分析"><i class="fa fa-check"></i><b>6.1</b> 一元配置分散分析</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="05-ANOVA.html"><a href="05-ANOVA.html#効果量"><i class="fa fa-check"></i><b>6.1.1</b> 効果量</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="05-ANOVA.html"><a href="05-ANOVA.html#二元配置分散分析"><i class="fa fa-check"></i><b>6.2</b> 二元配置分散分析</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="05-ANOVA.html"><a href="05-ANOVA.html#ベイズ-1"><i class="fa fa-check"></i><b>6.2.1</b> ベイズ</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="06-ratio.html"><a href="06-ratio.html"><i class="fa fa-check"></i><b>7</b> 比率の効果量</a></li>
+<li class="chapter" data-level="8" data-path="07-single_case.html"><a href="07-single_case.html"><i class="fa fa-check"></i><b>8</b> 単一事例研究の効果量</a></li>
+<li class="chapter" data-level="9" data-path="08-conversion.html"><a href="08-conversion.html"><i class="fa fa-check"></i><b>9</b> 効果量の変換</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="08-conversion.html"><a href="08-conversion.html#統計量から効果量への変換"><i class="fa fa-check"></i><b>9.1</b> 統計量から効果量への変換</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="08-conversion.html"><a href="08-conversion.html#t---d"><i class="fa fa-check"></i><b>9.1.1</b> t -&gt; d</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="08-conversion.html"><a href="08-conversion.html#効果量から効果量への変換"><i class="fa fa-check"></i><b>9.2</b> 効果量から効果量への変換</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="08-conversion.html"><a href="08-conversion.html#d---r"><i class="fa fa-check"></i><b>9.2.1</b> d &lt;-&gt; r</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="09-interpret.html"><a href="09-interpret.html"><i class="fa fa-check"></i><b>10</b> 効果量の解釈と利用</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="09-interpret.html"><a href="09-interpret.html#共通言語効果量"><i class="fa fa-check"></i><b>10.1</b> 共通言語効果量</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="09-interpret.html"><a href="09-interpret.html#優越率probability-of-superiority"><i class="fa fa-check"></i><b>10.1.1</b> 優越率（Probability of Superiority）</a></li>
+<li class="chapter" data-level="10.1.2" data-path="09-interpret.html"><a href="09-interpret.html#cohens-u3"><i class="fa fa-check"></i><b>10.1.2</b> Cohen’s U3</a></li>
+<li class="chapter" data-level="10.1.3" data-path="09-interpret.html"><a href="09-interpret.html#被覆度overlap"><i class="fa fa-check"></i><b>10.1.3</b> 被覆度（Overlap）</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="09-interpret.html"><a href="09-interpret.html#cohenの規準"><i class="fa fa-check"></i><b>10.2</b> Cohenの規準</a></li>
+<li class="chapter" data-level="10.3" data-path="09-interpret.html"><a href="09-interpret.html#分野ごとに細分化された規準"><i class="fa fa-check"></i><b>10.3</b> 分野ごとに細分化された規準</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="10-meta_analysis.html"><a href="10-meta_analysis.html"><i class="fa fa-check"></i><b>11</b> メタ分析</a></li>
+<li class="chapter" data-level="12" data-path="11-pawer_analysis.html"><a href="11-pawer_analysis.html"><i class="fa fa-check"></i><b>12</b> 検定力分析</a></li>
+<li class="chapter" data-level="13" data-path="12-discussion.html"><a href="12-discussion.html"><i class="fa fa-check"></i><b>13</b> 引用文献リスト</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">効果量に関するまとめ</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">効果量に関するまとめ</h1>
+<p class="author"><em>Daiki Nakamura</em></p>
+<p class="date"><em>2022-07-06</em></p>
+</div>
+<div id="イントロダクション" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">chapter: 1</span> イントロダクション<a href="index.html#イントロダクション" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="ドキュメントの概要" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> ドキュメントの概要<a href="index.html#ドキュメントの概要" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>本ドキュメントの目的は、効果量（effect size）の理論と計算法に関する基礎的な内容をまとめることにある。 具体的には、効果量の定義、種類、Rによる計算法、解釈、統合の方法などを扱う。</p>
+<p>近年、多くの研究スタンダードが帰無仮説検定の結果としてp値だけでなく効果量とその信頼区間を報告することを求めている<span class="citation">(e.g., <a href="#ref-american2019publication" role="doc-biblioref">APA, 2019, p. 89</a>)</span>。 しかしながら、効果量に関して網羅的にまとめられた日本語の無料ドキュメントが管見の限り無かったため、本ドキュメントの作成に至った。 著者は統計の専門家ではないため、読者自身で内容の正しさを確認しながら読み進めていただきたい。</p>
+</div>
+<div id="効果量とは何か" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> 効果量とは何か<a href="index.html#効果量とは何か" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>効果量の記載を推奨する文献が多く存在する一方で、効果量の定義について述べた文献は驚くほど少ない<span class="citation">(<a href="#ref-dragicevic2020mean" role="doc-biblioref">Dragicevic, 2020</a>)</span>。それでも数少ない例をあたれば、効果量に関する初期の定義は、効果量という言葉を広めた <a href="https://en.wikipedia.org/wiki/Jacob_Cohen_(statistician)">Jacob Cohen</a> の1977年の著作に見ることができる。</p>
+<blockquote>
+<p>The “effect size,” that is, the degree to which the phenomenon exists. <span class="citation">(<a href="#ref-cohen1977statistical" role="doc-biblioref">Cohen, 1977</a> , p.4)</span></p>
+</blockquote>
+<p>この記述から、Cohen自身は効果量を<strong>ある現象が存在する程度を表す量</strong>として捉えていたことが読み取れる。この表現の意味を正確に理解するためには、Neyman-Pearson流の統計的帰無仮説検定（ Null Hypothesis Significance Testing, NHST）の枠組みを考える必要がある。 NHSTの枠組みにおいて、帰無仮説はある現象が存在しない状態を表す仮説、対立仮説はある現象が存在する状態を表す仮説として設定されることが多い。 例えば、ある病気の発症率の性差を検討する場合、性別間で発症率に差がないという帰無仮説は、発症率の性差という現象が存在しないという状態を表現している。 他方で対立仮説は現象が存在する状態を表し、その強度が効果量として量的に表現されるのである。別の言い方をすれば、効果量は「帰無仮説が偽である程度」も意味する<span class="citation">(<a href="#ref-cohen1977statistical" role="doc-biblioref">Cohen, 1977, pp. 9–10</a>)</span>。</p>
+<p>効果量の定義に言及した最近の文献では、「効果量とは単に<strong>研究者が関心を持つ事柄の大きさで</strong>ある（原文：An effect size is simply the size of anything that may be of interest.）」とされている<span class="citation">(<a href="#ref-cumming2012understanding" role="doc-biblioref">Cumming, 2012, p. 34</a>)</span>。Cohenの定義と異なり、現象の実在性を問題とせず研究者が関心を持つ対象の大きさとして扱っている点や、NHSTの枠組みに依存していない点が特徴的である。何を関心の対象とするかは研究者が自由に決めることができる。</p>
+<p>これらの効果量の定義は広義の効果量と呼ばれ、狭義の効果量の定義とは区別されることがある。効果量には測定単位に依存しない形で表現される標準化効果量（e.g., Cohen’s d）と、測定単位に依存する非標準化効果量（e.g., 平均値差）の2種類が存在する。広義の効果量の定義が両者を効果量に含めるのに対して、狭義の効果量の定義では標準化効果量のみを効果量として扱う。一部の文献では狭義の効果量の定義のみを効果量の定義として記載している<span class="citation">(<a href="#ref-everitt2010cambridge" role="doc-biblioref">Everitt &amp; Skrondal, 2010</a>; <a href="#ref-ialongo2016" role="doc-biblioref">Ialongo, 2016</a>)</span>。この背景には、標準化効果量の方が研究間で比較しやすいという考えがあると推察される。<span class="citation">Ives (<a href="#ref-ives2003" role="doc-biblioref">2003</a>)</span> は理想的な効果量の特徴として、次の3点を挙げている。</p>
+<ol style="list-style-type: decimal">
+<li>結果の実質的な有意性を測るものである</li>
+<li>標本サイズに依存しない</li>
+<li>測定単位に依存しない</li>
+</ol>
+<p>このうち、3番目の特徴は標準化効果量のみが持つ性質だが、測定単位に依存しない（metric free）という性質は研究間に比較・統合の容易性や、検定力を分析する際の利便性などから重宝される。しかしながら、元の測定単位に意味のある状況では、標準化効果量より非標準化効果量の方が好まれることもある<span class="citation">(<a href="#ref-wilkinson1999" role="doc-biblioref">Wilkinson, 1999, p. 599</a>)</span>。また、複数の標本統計量を用いて算出される標準化効果量は、単一の標本統計量を用いて算出される非標準化効果量と比べて不確実性が増加するという理由で使用に反対する意見も存在する<span class="citation">(<a href="#ref-cummings2011" role="doc-biblioref">Cummings, 2011</a>)</span>。 よって、どちらか一方に限定せず、両方の種類を適宜使用することが望ましいと考えられる。</p>
+<p><a href="https://en.wikipedia.org/wiki/Jacob_Cohen_(statistician)">Jacob Cohen</a> 以降の効果量の定義についてレビューした Preacher and Kelley は、広義の定義が最も有用であると結論付けた上で、効果量を以下のように定義している。</p>
+<blockquote>
+<p>We define effect size as any measure that reflects a quantity of interest, either in an absolute sense or as compared with some specified value. […] Although standardized effect sizes can be valuable, they are not always to be preferred over an effect size that is wedded to the original measurement scale, which may already be expressed in meaningful units that appropriately address the question of interest. <span class="citation">(<a href="#ref-preacher2011" role="doc-biblioref">Preacher &amp; Kelley, 2011</a> , p.95)</span></p>
+<p>（著者訳）効果量とは、絶対的な意味で、あるいはある特定の値と比較して、関心のある量を反映するあらゆる尺度であると定義する。（中略）標準化された効果量は有用であるが、非標準化効果量よりも常に優先されるとは限らず、興味のある問題に適切に対応する意味のある単位で既に表現されている場合もある。</p>
+</blockquote>
+<p>以上より、効果量の定義としては広義の定義を採用することが妥当だと考えられ、本ドキュメントも非標準化効果量と標準化効果量の両方を効果量として扱う。</p>
+<p>なお、非標準化効果量という表現は標準化効果量の劣化版という誤った印象を与える可能性があることから、単純効果量（simple effect size）という表現を用いるべきだという主張も存在するが<span class="citation">(e.g., <a href="#ref-baguley2009" role="doc-biblioref">Baguley, 2009, p. 239</a>)</span>、このような表現は少なくとも日本語圏ではあまり普及していないことから、本ドキュメントでは採用しない。</p>
+<p>効果量の定義に関するその他の議論については、<span class="citation">Dragicevic (<a href="#ref-dragicevic2020mean" role="doc-biblioref">2020</a>)</span> や <span class="citation">Kelley &amp; Preacher (<a href="#ref-kelley2012" role="doc-biblioref">2012</a>)</span> などを参照されたい。</p>
+</div>
+<div id="効果量を利用するメリット" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> 効果量を利用するメリット<a href="index.html#効果量を利用するメリット" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>効果量を利用することのメリットとして、<span class="citation">Lakens (<a href="#ref-lakens2013" role="doc-biblioref">2013</a>)</span> は次の3点を挙げている。</p>
+<ol style="list-style-type: decimal">
+<li>効果の大きさを示すことができる</li>
+<li>研究間で効果の大きさを比較・統合することができる</li>
+<li>過去の研究の効果量は、新しい研究を行う際の検定力分析に利用することができる</li>
+</ol>
+<p>Lakensはこれらのメリットを標準化効果量を前提として挙げているが、同様のメリットは非標準化効果量にも当てはまる。効果量を利用するメリットの1つは、従来のNHSTにおける帰無仮説が棄却できるかどうかの議論を超えて、どの程度の効果があるのかを定量的に示すことができる点にある。このような効果量は、同じ効果を表していて単位が共通であれば研究間で比較・統合することができる。例えば、今回得られた効果量が過去の研究と比べて大きいものなのかを比較することが考えられる。また、メタ分析のような効果量を量的統合方法は、母効果量や効果量の分布に関するより精度の高い推測を可能にする。このようにして蓄積された効果量の分布に関する情報は、新たな研究を行う際の検定力分析やサンプルサイズ設計に活用することができる。以上のように、研究において効果量を利用することには様々なメリットがある。</p>
+</div>
+<div id="効果量の種類" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> 効果量の種類<a href="index.html#効果量の種類" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>効果量には様々な種類が提案されており、一説によればその数は40を超える<span class="citation">(<a href="#ref-kirk1996" role="doc-biblioref">Kirk, 1996, pp. 748–749</a>)</span>。Hubertyは、効果量の種類と歴史的な登場時期を下図のように整理している<span class="citation">(<a href="#ref-huberty2002" role="doc-biblioref">Huberty, 2002, fig. 1</a>)</span>。このように、効果量は長い時間をかけて様々な種類が提案されてきたものであって、一定の時期にまとめて提案されたものではない。最近でも新たな効果量は提案され続けている<span class="citation">(e.g., robust effect size: <a href="#ref-vandekar2020" role="doc-biblioref">Vandekar et al., 2020</a>)</span>。</p>
+<p><img src="images/paste-11880CB3.png" alt="効果量の歴史的展開. Figure from Huberty (2002)" /></p>
+<p>効果量には様々な種類があるが、d族（d family）とr族（r family）に大別する分類がよく用いられる<span class="citation">(<a href="#ref-rosenthal1994" role="doc-biblioref">Rosenthal, 1994, p. 234</a>)</span>。基本的に、d族の効果量は群間の平均値差に関する指標であり、r族の効果量はモデルで説明される分散の割合に関する指標である。このような分類は大まかな効果量の種類と共通した性質を整理する上では有用だが、これらの種類に当てはまらない効果量が存在することや、本ドキュメントの効果量の定義が非標準化効果量を含む広義の定義を採用していることを踏まえ、今回は採用しない。代わりに、より細かい効果量の分類に基づき、代表的な効果量の一部を以下の表のように整理した。表に示した効果量は、次章以降で具体的な計算法を紹介する。</p>
+<table>
+<caption>代表的な効果量（仮）</caption>
+<colgroup>
+<col width="16%" />
+<col width="16%" />
+<col width="66%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">種類</th>
+<th align="center">非標準化効果量</th>
+<th align="center">標準化効果量</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">平均値</td>
+<td align="center">平均値</td>
+<td align="center">ー</td>
+</tr>
+<tr class="even">
+<td align="center">平均値差</td>
+<td align="center">平均値差D</td>
+<td align="center">Cohen’s <span class="math inline">\(d\)</span>, Hedges’ <span class="math inline">\(g\)</span>, Glass’s <span class="math inline">\(\Delta\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center">相関</td>
+<td align="center">共分散COV</td>
+<td align="center">積率相関 <span class="math inline">\(r\)</span>, 点双列相関 <span class="math inline">\(r_{pb}\)</span></td>
+</tr>
+<tr class="even">
+<td align="center">分散比</td>
+<td align="center">ー</td>
+<td align="center"><span class="math inline">\(\eta^2\)</span> , <span class="math inline">\(\omega^2\)</span> , <span class="math inline">\(\eta_{p}^2\)</span> , <span class="math inline">\(\omega_p^2\)</span> , <span class="math inline">\(\eta_{G}^2\)</span> , <span class="math inline">\(\omega_{G}^2\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center">比率</td>
+<td align="center">ー</td>
+<td align="center">リスク比<span class="math inline">\(RR\)</span> , オッズ比<span class="math inline">\(OR\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="統計ソフトウェアrの準備" class="section level2 hasAnchor" number="1.5">
+<h2><span class="header-section-number">1.5</span> 統計ソフトウェアRの準備<a href="index.html#統計ソフトウェアrの準備" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Rは無料の統計解析用ソフトウェアである。本ドキュメントでは、Rを用いて効果量に関する計算を実行する方法を示している。Rによる解析は効果量に関する理解を深める上で有用だと考えられるため、ぜひ実行しながら結果を確かめてほしい。Rの基本的な使い方に関しては無料の解説がWeb上に多く存在するため、そちらを参照されたい。</p>
+<p>全ての分析はRだけでも実行可能だが、RStudioというソフトウェアからRを実行した方が利便性が高い。個人的には、<a href="https://www.rstudio.com/products/rstudio/download/">RStudioの無料版</a>を利用することをお勧めする。著者はWindows11 + R4.2.1 + RStudio2022.02.3 の環境で動作確認をしている。</p>
+<p>また、本ドキュメントでは追加のパッケージとして、<code>easystats</code>を使用している。<code>easystats</code>は、様々な統計量を扱うパッケージ群を包括したものであり、効果量に関する分析を行う上では非常に便利である。</p>
+<p><img src="images/logo_wall.png" alt="easystats パッケージ群" /></p>
+<p>以下のコードで<code>easystats</code>に関連するパッケージ群をインストールできる。</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;easystats&quot;</span>, <span class="at">repos =</span> <span class="st">&quot;https://easystats.r-universe.dev&quot;</span>)</span></code></pre></div>
+<div id="レンダリング本のファイル作成" class="section level4 hasAnchor" number="1.5.0.1">
+<h4><span class="header-section-number">1.5.0.1</span> レンダリング(本のファイル作成)<a href="index.html#レンダリング本のファイル作成" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>gitbook形式: 以下のコードを実行</li>
+</ul>
+<!-- -->
+<pre><code>bookdown::render_book(&quot;index.Rmd&quot;, output_format = &quot;bookdown::gitbook&quot;)</code></pre>
+<ul>
+<li>epub形式: 以下のコードを実行</li>
+</ul>
+<!-- -->
+<pre><code>bookdown::render_book(&quot;index.Rmd&quot;, output_format = &quot;bookdown::epub_book&quot;)</code></pre>
+<ul>
+<li>pdf形式: 以下のコードを実行</li>
+</ul>
+<!-- -->
+<pre><code>bookdown::render_book(&quot;index.Rmd&quot;, output_format = &quot;bookdown::pdf_book&quot;)</code></pre>
+
+</div>
+</div>
+</div>
+<h3> 引用文献リスト<a href="12-discussion.html#引用文献リスト" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
+<div id="ref-american2019publication" class="csl-entry">
+APA. (2019). <em>Publication manual of the american psychological association, seventh edition</em>. American Psychological Association.
+</div>
+<div id="ref-baguley2009" class="csl-entry">
+Baguley, T. (2009). Standardized or simple effect size: What should be reported? <em>British Journal of Psychology</em>, <em>100</em>(3), 603–617. <a href="https://doi.org/10.1348/000712608x377117">https://doi.org/10.1348/000712608x377117</a>
+</div>
+<div id="ref-cohen1977statistical" class="csl-entry">
+Cohen, J. (1977). <em>Statistical power analysis for the behavioral sciences. Revised edition</em>.
+</div>
+<div id="ref-cumming2012understanding" class="csl-entry">
+Cumming, G. (2012). <em>Understanding the new statistics: Effect sizes, confidence intervals, and meta-analysis</em>. Routledge.
+</div>
+<div id="ref-cummings2011" class="csl-entry">
+Cummings, P. (2011). Arguments for and Against Standardized Mean Differences (Effect Sizes). <em>Archives of Pediatrics &amp; Adolescent Medicine</em>, <em>165</em>(7), 592. <a href="https://doi.org/10.1001/archpediatrics.2011.97">https://doi.org/10.1001/archpediatrics.2011.97</a>
+</div>
+<div id="ref-dragicevic2020mean" class="csl-entry">
+Dragicevic, P. (2020). <em>A mean difference is an effect size</em> [PhD thesis]. Inria Saclay Ile de France.
+</div>
+<div id="ref-everitt2010cambridge" class="csl-entry">
+Everitt, B. S., &amp; Skrondal, A. (2010). <em>The cambridge dictionary of statistics</em>.
+</div>
+<div id="ref-huberty2002" class="csl-entry">
+Huberty, C. J. (2002). A History of Effect Size Indices. <em>Educational and Psychological Measurement</em>, <em>62</em>(2), 227–240. <a href="https://doi.org/10.1177/0013164402062002002">https://doi.org/10.1177/0013164402062002002</a>
+</div>
+<div id="ref-ialongo2016" class="csl-entry">
+Ialongo, C. (2016). Understanding the effect size and its measures. <em>Biochemia Medica</em>, 150–163. <a href="https://doi.org/10.11613/bm.2016.015">https://doi.org/10.11613/bm.2016.015</a>
+</div>
+<div id="ref-ives2003" class="csl-entry">
+Ives, B. (2003). Effect Size Use in Studies of Learning Disabilities. <em>Journal of Learning Disabilities</em>, <em>36</em>(6), 490–504. <a href="https://doi.org/10.1177/00222194030360060101">https://doi.org/10.1177/00222194030360060101</a>
+</div>
+<div id="ref-kelley2012" class="csl-entry">
+Kelley, K., &amp; Preacher, K. J. (2012). On effect size. <em>Psychological Methods</em>, <em>17</em>(2), 137–152. <a href="https://doi.org/10.1037/a0028086">https://doi.org/10.1037/a0028086</a>
+</div>
+<div id="ref-kirk1996" class="csl-entry">
+Kirk, R. E. (1996). Practical Significance: A Concept Whose Time Has Come. <em>Educational and Psychological Measurement</em>, <em>56</em>(5), 746–759. <a href="https://doi.org/10.1177/0013164496056005002">https://doi.org/10.1177/0013164496056005002</a>
+</div>
+<div id="ref-lakens2013" class="csl-entry">
+Lakens, D. (2013). Calculating and reporting effect sizes to facilitate cumulative science: A practical primer for t-tests and ANOVAs. <em>Frontiers in Psychology</em>, <em>4</em>. <a href="https://doi.org/10.3389/fpsyg.2013.00863">https://doi.org/10.3389/fpsyg.2013.00863</a>
+</div>
+<div id="ref-preacher2011" class="csl-entry">
+Preacher, K. J., &amp; Kelley, K. (2011). Effect size measures for mediation models: Quantitative strategies for communicating indirect effects. <em>Psychological Methods</em>, <em>16</em>(2), 93–115. <a href="https://doi.org/10.1037/a0022658">https://doi.org/10.1037/a0022658</a>
+</div>
+<div id="ref-rosenthal1994" class="csl-entry">
+Rosenthal, R. (1994). PARAMETRIC MEASURES OF EFFECT SIZE. In <em>The handbook of research synthesis</em> (pp. 231–244). Russell Sage Foundation. <a href="http://www.jstor.org/stable/10.7758/9781610441377.20">http://www.jstor.org/stable/10.7758/9781610441377.20</a>
+</div>
+<div id="ref-vandekar2020" class="csl-entry">
+Vandekar, S., Tao, R., &amp; Blume, J. (2020). A Robust Effect Size Index. <em>Psychometrika</em>, <em>85</em>(1), 232–246. <a href="https://doi.org/10.1007/s11336-020-09698-2">https://doi.org/10.1007/s11336-020-09698-2</a>
+</div>
+<div id="ref-wilkinson1999" class="csl-entry">
+Wilkinson, L. (1999). Statistical methods in psychology journals: Guidelines and explanations. <em>American Psychologist</em>, <em>54</em>(8), 594–604. <a href="https://doi.org/10.1037/0003-066x.54.8.594">https://doi.org/10.1037/0003-066x.54.8.594</a>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="01-introduction.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/Daiki-Nakamura-git/effectsize/edit/master/index.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["book_filename.pdf", "book_filename.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

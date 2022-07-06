@@ -1,0 +1,26 @@
+# 相関の効果量
+
+後で加筆。
+
+### Pearson's r
+
+```{r}
+# データ生成
+library(mvtnorm)
+set.seed(123)
+sigma <- matrix(c(100,50,50,100), byrow=TRUE, ncol=2) 
+mu <- c(50, 60)
+n <- 100
+dat <- data.frame(rmvnorm(n=n, mean=mu, sigma=sigma)) 
+colnames(dat) <- c("A","B")
+
+# ピアソンの積率相関
+library(correlation)
+correlation(dat)
+```
+
+### ベイズ
+
+```{r}
+correlation(dat, bayesian = T)
+```
