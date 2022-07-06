@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>chapter: 8 効果量の変換 | 効果量に関するまとめ</title>
+  <meta name="description" content="効果量の定義、種類、Rによる計算法、解釈、統合の方法." />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="chapter: 8 効果量の変換 | 効果量に関するまとめ" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="効果量の定義、種類、Rによる計算法、解釈、統合の方法." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="chapter: 8 効果量の変換 | 効果量に関するまとめ" />
+  
+  <meta name="twitter:description" content="効果量の定義、種類、Rによる計算法、解釈、統合の方法." />
+  
+
+<meta name="author" content="Daiki Nakamura" />
+
+
+<meta name="date" content="2022-07-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="06-single_case.html"/>
+<link rel="next" href="08-interpret.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">効果量に関するまとめ</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> イントロダクション</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#ドキュメントの概要"><i class="fa fa-check"></i><b>1.1</b> ドキュメントの概要</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#効果量とは何か"><i class="fa fa-check"></i><b>1.2</b> 効果量とは何か</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#効果量を利用するメリット"><i class="fa fa-check"></i><b>1.3</b> 効果量を利用するメリット</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#効果量の種類"><i class="fa fa-check"></i><b>1.4</b> 効果量の種類</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#統計ソフトウェアrの準備"><i class="fa fa-check"></i><b>1.5</b> 統計ソフトウェアRの準備</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="01-mean.html"><a href="01-mean.html"><i class="fa fa-check"></i><b>2</b> 平均値と推測統計の基礎</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="01-mean.html"><a href="01-mean.html#効果量としての平均値"><i class="fa fa-check"></i><b>2.1</b> 効果量としての平均値</a></li>
+<li class="chapter" data-level="2.2" data-path="01-mean.html"><a href="01-mean.html#母平均の推定"><i class="fa fa-check"></i><b>2.2</b> 母平均の推定</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="01-mean.html"><a href="01-mean.html#点推定"><i class="fa fa-check"></i><b>2.2.1</b> 点推定</a></li>
+<li class="chapter" data-level="2.2.2" data-path="01-mean.html"><a href="01-mean.html#区間推定"><i class="fa fa-check"></i><b>2.2.2</b> 区間推定</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="01-mean.html"><a href="01-mean.html#ベイズ統計に基づくアプローチ"><i class="fa fa-check"></i><b>2.3</b> ベイズ統計に基づくアプローチ</a></li>
+<li class="chapter" data-level="2.4" data-path="01-mean.html"><a href="01-mean.html#結果の報告"><i class="fa fa-check"></i><b>2.4</b> 結果の報告</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="02-mean_difference.html"><a href="02-mean_difference.html"><i class="fa fa-check"></i><b>3</b> 平均値差の効果量</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="02-mean_difference.html"><a href="02-mean_difference.html#独立した2群の平均値差"><i class="fa fa-check"></i><b>3.1</b> 独立した2群の平均値差</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="02-mean_difference.html"><a href="02-mean_difference.html#非標準化平均値差"><i class="fa fa-check"></i><b>3.1.1</b> 非標準化平均値差</a></li>
+<li class="chapter" data-level="3.1.2" data-path="02-mean_difference.html"><a href="02-mean_difference.html#標準化平均値差"><i class="fa fa-check"></i><b>3.1.2</b> 標準化平均値差</a></li>
+<li class="chapter" data-level="3.1.3" data-path="02-mean_difference.html"><a href="02-mean_difference.html#等分散を仮定する場合"><i class="fa fa-check"></i><b>3.1.3</b> 等分散を仮定する場合</a></li>
+<li class="chapter" data-level="3.1.4" data-path="02-mean_difference.html"><a href="02-mean_difference.html#等分散を仮定しない場合"><i class="fa fa-check"></i><b>3.1.4</b> 等分散を仮定しない場合</a></li>
+<li class="chapter" data-level="3.1.5" data-path="02-mean_difference.html"><a href="02-mean_difference.html#信頼区間"><i class="fa fa-check"></i><b>3.1.5</b> 信頼区間</a></li>
+<li class="chapter" data-level="3.1.6" data-path="02-mean_difference.html"><a href="02-mean_difference.html#ベイズ統計に基づくアプローチ-1"><i class="fa fa-check"></i><b>3.1.6</b> ベイズ統計に基づくアプローチ</a></li>
+<li class="chapter" data-level="3.1.7" data-path="02-mean_difference.html"><a href="02-mean_difference.html#結果の報告-1"><i class="fa fa-check"></i><b>3.1.7</b> 結果の報告</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="02-mean_difference.html"><a href="02-mean_difference.html#対応のある2群の平均値差"><i class="fa fa-check"></i><b>3.2</b> 対応のある2群の平均値差</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="02-mean_difference.html"><a href="02-mean_difference.html#非標準化平均値差-1"><i class="fa fa-check"></i><b>3.2.1</b> 非標準化平均値差</a></li>
+<li class="chapter" data-level="3.2.2" data-path="02-mean_difference.html"><a href="02-mean_difference.html#標準化平均値差-1"><i class="fa fa-check"></i><b>3.2.2</b> 標準化平均値差</a></li>
+<li class="chapter" data-level="3.2.3" data-path="02-mean_difference.html"><a href="02-mean_difference.html#信頼区間-1"><i class="fa fa-check"></i><b>3.2.3</b> 信頼区間</a></li>
+<li class="chapter" data-level="3.2.4" data-path="02-mean_difference.html"><a href="02-mean_difference.html#結果の報告-2"><i class="fa fa-check"></i><b>3.2.4</b> 結果の報告</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="02-mean_difference.html"><a href="02-mean_difference.html#標準化平均値差の補正"><i class="fa fa-check"></i><b>3.3</b> 標準化平均値差の補正</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="02-mean_difference.html"><a href="02-mean_difference.html#小標本の補正"><i class="fa fa-check"></i><b>3.3.1</b> 小標本の補正</a></li>
+<li class="chapter" data-level="3.3.2" data-path="02-mean_difference.html"><a href="02-mean_difference.html#信頼性の補正"><i class="fa fa-check"></i><b>3.3.2</b> 信頼性の補正</a></li>
+<li class="chapter" data-level="3.3.3" data-path="02-mean_difference.html"><a href="02-mean_difference.html#範囲制限の補正"><i class="fa fa-check"></i><b>3.3.3</b> 範囲制限の補正</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="02-mean_difference.html"><a href="02-mean_difference.html#名称の混乱問題について"><i class="fa fa-check"></i><b>3.4</b> 名称の混乱問題について</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="03-correlation.html"><a href="03-correlation.html"><i class="fa fa-check"></i><b>4</b> 相関の効果量</a>
+<ul>
+<li class="chapter" data-level="4.0.1" data-path="03-correlation.html"><a href="03-correlation.html#pearsons-r"><i class="fa fa-check"></i><b>4.0.1</b> Pearson’s r</a></li>
+<li class="chapter" data-level="4.0.2" data-path="03-correlation.html"><a href="03-correlation.html#ベイズ"><i class="fa fa-check"></i><b>4.0.2</b> ベイズ</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="04-ANOVA.html"><a href="04-ANOVA.html"><i class="fa fa-check"></i><b>5</b> 分散の効果量</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="04-ANOVA.html"><a href="04-ANOVA.html#一元配置分散分析"><i class="fa fa-check"></i><b>5.1</b> 一元配置分散分析</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="04-ANOVA.html"><a href="04-ANOVA.html#効果量"><i class="fa fa-check"></i><b>5.1.1</b> 効果量</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="04-ANOVA.html"><a href="04-ANOVA.html#二元配置分散分析"><i class="fa fa-check"></i><b>5.2</b> 二元配置分散分析</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="04-ANOVA.html"><a href="04-ANOVA.html#ベイズ-1"><i class="fa fa-check"></i><b>5.2.1</b> ベイズ</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="05-ratio.html"><a href="05-ratio.html"><i class="fa fa-check"></i><b>6</b> 比率の効果量</a></li>
+<li class="chapter" data-level="7" data-path="06-single_case.html"><a href="06-single_case.html"><i class="fa fa-check"></i><b>7</b> 単一事例研究の効果量</a></li>
+<li class="chapter" data-level="8" data-path="07-conversion.html"><a href="07-conversion.html"><i class="fa fa-check"></i><b>8</b> 効果量の変換</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="07-conversion.html"><a href="07-conversion.html#統計量から効果量への変換"><i class="fa fa-check"></i><b>8.1</b> 統計量から効果量への変換</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="07-conversion.html"><a href="07-conversion.html#t---d"><i class="fa fa-check"></i><b>8.1.1</b> t -&gt; d</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="07-conversion.html"><a href="07-conversion.html#効果量から効果量への変換"><i class="fa fa-check"></i><b>8.2</b> 効果量から効果量への変換</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="07-conversion.html"><a href="07-conversion.html#d---r"><i class="fa fa-check"></i><b>8.2.1</b> d &lt;-&gt; r</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="08-interpret.html"><a href="08-interpret.html"><i class="fa fa-check"></i><b>9</b> 効果量の解釈と利用</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="08-interpret.html"><a href="08-interpret.html#共通言語効果量"><i class="fa fa-check"></i><b>9.1</b> 共通言語効果量</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="08-interpret.html"><a href="08-interpret.html#優越率probability-of-superiority"><i class="fa fa-check"></i><b>9.1.1</b> 優越率（Probability of Superiority）</a></li>
+<li class="chapter" data-level="9.1.2" data-path="08-interpret.html"><a href="08-interpret.html#cohens-u3"><i class="fa fa-check"></i><b>9.1.2</b> Cohen’s U3</a></li>
+<li class="chapter" data-level="9.1.3" data-path="08-interpret.html"><a href="08-interpret.html#被覆度overlap"><i class="fa fa-check"></i><b>9.1.3</b> 被覆度（Overlap）</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="08-interpret.html"><a href="08-interpret.html#cohenの規準"><i class="fa fa-check"></i><b>9.2</b> Cohenの規準</a></li>
+<li class="chapter" data-level="9.3" data-path="08-interpret.html"><a href="08-interpret.html#分野ごとに細分化された規準"><i class="fa fa-check"></i><b>9.3</b> 分野ごとに細分化された規準</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="09-meta_analysis.html"><a href="09-meta_analysis.html"><i class="fa fa-check"></i><b>10</b> メタ分析</a></li>
+<li class="chapter" data-level="11" data-path="10-pawer_analysis.html"><a href="10-pawer_analysis.html"><i class="fa fa-check"></i><b>11</b> 検定力分析</a></li>
+<li class="chapter" data-level="12" data-path="11-discussion.html"><a href="11-discussion.html"><i class="fa fa-check"></i><b>12</b> 引用文献リスト</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">効果量に関するまとめ</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="効果量の変換" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">chapter: 8</span> 効果量の変換<a href="07-conversion.html#効果量の変換" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>後で加筆。</p>
+<div id="統計量から効果量への変換" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> 統計量から効果量への変換<a href="07-conversion.html#統計量から効果量への変換" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="t---d" class="section level3 hasAnchor" number="8.1.1">
+<h3><span class="header-section-number">8.1.1</span> t -&gt; d<a href="07-conversion.html#t---d" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="07-conversion.html#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb139-2"><a href="07-conversion.html#cb139-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">60</span>, <span class="dv">10</span>)</span>
+<span id="cb139-3"><a href="07-conversion.html#cb139-3" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">50</span>, <span class="dv">10</span>)</span>
+<span id="cb139-4"><a href="07-conversion.html#cb139-4" aria-hidden="true" tabindex="-1"></a><span class="co"># t to d</span></span>
+<span id="cb139-5"><a href="07-conversion.html#cb139-5" aria-hidden="true" tabindex="-1"></a>res.st <span class="ot">&lt;-</span> <span class="fu">t.test</span>(A, B)</span>
+<span id="cb139-6"><a href="07-conversion.html#cb139-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cohens_d</span>(A, B)</span></code></pre></div>
+<pre><code>## Cohen&#39;s d |       95% CI
+## ------------------------
+## 1.27      | [0.97, 1.58]
+## 
+## - Estimated using pooled SD.</code></pre>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="07-conversion.html#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t_to_d</span>(res.st<span class="sc">$</span>statistic[<span class="dv">1</span>], res.st<span class="sc">$</span>parameter) <span class="co">#近似値</span></span></code></pre></div>
+<pre><code>## d    |       95% CI
+## -------------------
+## 1.28 | [0.97, 1.59]</code></pre>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="07-conversion.html#cb143-1" aria-hidden="true" tabindex="-1"></a>dhat <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>res.st<span class="sc">$</span>statistic[<span class="dv">1</span>]<span class="sc">/</span><span class="fu">sqrt</span>(res.st<span class="sc">$</span>parameter)</span></code></pre></div>
+</div>
+</div>
+<div id="効果量から効果量への変換" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">8.2</span> 効果量から効果量への変換<a href="07-conversion.html#効果量から効果量への変換" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="d---r" class="section level3 hasAnchor" number="8.2.1">
+<h3><span class="header-section-number">8.2.1</span> d &lt;-&gt; r<a href="07-conversion.html#d---r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="07-conversion.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Converting Between Indices of Effect Size -------------------------------</span></span>
+<span id="cb144-2"><a href="07-conversion.html#cb144-2" aria-hidden="true" tabindex="-1"></a><span class="co"># d to r</span></span>
+<span id="cb144-3"><a href="07-conversion.html#cb144-3" aria-hidden="true" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">each=</span><span class="dv">100</span>)</span>
+<span id="cb144-4"><a href="07-conversion.html#cb144-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb144-5"><a href="07-conversion.html#cb144-5" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">50</span>, <span class="dv">10</span>)</span>
+<span id="cb144-6"><a href="07-conversion.html#cb144-6" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">60</span>, <span class="dv">10</span>)</span>
+<span id="cb144-7"><a href="07-conversion.html#cb144-7" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">group=</span>group, <span class="at">outcome=</span><span class="fu">c</span>(A, B))</span>
+<span id="cb144-8"><a href="07-conversion.html#cb144-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb144-9"><a href="07-conversion.html#cb144-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(dat) <span class="co">#点双列相関</span></span></code></pre></div>
+<pre><code>##             group   outcome
+## group   1.0000000 0.3939704
+## outcome 0.3939704 1.0000000</code></pre>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="07-conversion.html#cb146-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">cohens_d</span>(dat<span class="sc">$</span>outcome[group<span class="sc">==</span><span class="dv">1</span>], dat<span class="sc">$</span>outcome[group<span class="sc">==</span><span class="dv">0</span>])<span class="sc">$</span>Cohens_d</span>
+<span id="cb146-2"><a href="07-conversion.html#cb146-2" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">cor</span>(dat<span class="sc">$</span>group, dat<span class="sc">$</span>outcome)</span>
+<span id="cb146-3"><a href="07-conversion.html#cb146-3" aria-hidden="true" tabindex="-1"></a>d_convert <span class="ot">&lt;-</span> <span class="fu">r_to_d</span>(r)</span>
+<span id="cb146-4"><a href="07-conversion.html#cb146-4" aria-hidden="true" tabindex="-1"></a>r_convert <span class="ot">&lt;-</span> <span class="fu">d_to_r</span>(d)</span></code></pre></div>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="06-single_case.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="08-interpret.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/Daiki-Nakamura-git/effectsize/edit/master/07-conversion.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["book_filename.pdf", "book_filename.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

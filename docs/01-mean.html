@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>chapter: 2 平均値と推測統計の基礎 | 効果量に関するまとめ</title>
+  <meta name="description" content="効果量の定義、種類、Rによる計算法、解釈、統合の方法." />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="chapter: 2 平均値と推測統計の基礎 | 効果量に関するまとめ" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="効果量の定義、種類、Rによる計算法、解釈、統合の方法." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="chapter: 2 平均値と推測統計の基礎 | 効果量に関するまとめ" />
+  
+  <meta name="twitter:description" content="効果量の定義、種類、Rによる計算法、解釈、統合の方法." />
+  
+
+<meta name="author" content="Daiki Nakamura" />
+
+
+<meta name="date" content="2022-07-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="02-mean_difference.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">効果量に関するまとめ</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> イントロダクション</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#ドキュメントの概要"><i class="fa fa-check"></i><b>1.1</b> ドキュメントの概要</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#効果量とは何か"><i class="fa fa-check"></i><b>1.2</b> 効果量とは何か</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#効果量を利用するメリット"><i class="fa fa-check"></i><b>1.3</b> 効果量を利用するメリット</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#効果量の種類"><i class="fa fa-check"></i><b>1.4</b> 効果量の種類</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#統計ソフトウェアrの準備"><i class="fa fa-check"></i><b>1.5</b> 統計ソフトウェアRの準備</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="01-mean.html"><a href="01-mean.html"><i class="fa fa-check"></i><b>2</b> 平均値と推測統計の基礎</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="01-mean.html"><a href="01-mean.html#効果量としての平均値"><i class="fa fa-check"></i><b>2.1</b> 効果量としての平均値</a></li>
+<li class="chapter" data-level="2.2" data-path="01-mean.html"><a href="01-mean.html#母平均の推定"><i class="fa fa-check"></i><b>2.2</b> 母平均の推定</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="01-mean.html"><a href="01-mean.html#点推定"><i class="fa fa-check"></i><b>2.2.1</b> 点推定</a></li>
+<li class="chapter" data-level="2.2.2" data-path="01-mean.html"><a href="01-mean.html#区間推定"><i class="fa fa-check"></i><b>2.2.2</b> 区間推定</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="01-mean.html"><a href="01-mean.html#ベイズ統計に基づくアプローチ"><i class="fa fa-check"></i><b>2.3</b> ベイズ統計に基づくアプローチ</a></li>
+<li class="chapter" data-level="2.4" data-path="01-mean.html"><a href="01-mean.html#結果の報告"><i class="fa fa-check"></i><b>2.4</b> 結果の報告</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="02-mean_difference.html"><a href="02-mean_difference.html"><i class="fa fa-check"></i><b>3</b> 平均値差の効果量</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="02-mean_difference.html"><a href="02-mean_difference.html#独立した2群の平均値差"><i class="fa fa-check"></i><b>3.1</b> 独立した2群の平均値差</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="02-mean_difference.html"><a href="02-mean_difference.html#非標準化平均値差"><i class="fa fa-check"></i><b>3.1.1</b> 非標準化平均値差</a></li>
+<li class="chapter" data-level="3.1.2" data-path="02-mean_difference.html"><a href="02-mean_difference.html#標準化平均値差"><i class="fa fa-check"></i><b>3.1.2</b> 標準化平均値差</a></li>
+<li class="chapter" data-level="3.1.3" data-path="02-mean_difference.html"><a href="02-mean_difference.html#等分散を仮定する場合"><i class="fa fa-check"></i><b>3.1.3</b> 等分散を仮定する場合</a></li>
+<li class="chapter" data-level="3.1.4" data-path="02-mean_difference.html"><a href="02-mean_difference.html#等分散を仮定しない場合"><i class="fa fa-check"></i><b>3.1.4</b> 等分散を仮定しない場合</a></li>
+<li class="chapter" data-level="3.1.5" data-path="02-mean_difference.html"><a href="02-mean_difference.html#信頼区間"><i class="fa fa-check"></i><b>3.1.5</b> 信頼区間</a></li>
+<li class="chapter" data-level="3.1.6" data-path="02-mean_difference.html"><a href="02-mean_difference.html#ベイズ統計に基づくアプローチ-1"><i class="fa fa-check"></i><b>3.1.6</b> ベイズ統計に基づくアプローチ</a></li>
+<li class="chapter" data-level="3.1.7" data-path="02-mean_difference.html"><a href="02-mean_difference.html#結果の報告-1"><i class="fa fa-check"></i><b>3.1.7</b> 結果の報告</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="02-mean_difference.html"><a href="02-mean_difference.html#対応のある2群の平均値差"><i class="fa fa-check"></i><b>3.2</b> 対応のある2群の平均値差</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="02-mean_difference.html"><a href="02-mean_difference.html#非標準化平均値差-1"><i class="fa fa-check"></i><b>3.2.1</b> 非標準化平均値差</a></li>
+<li class="chapter" data-level="3.2.2" data-path="02-mean_difference.html"><a href="02-mean_difference.html#標準化平均値差-1"><i class="fa fa-check"></i><b>3.2.2</b> 標準化平均値差</a></li>
+<li class="chapter" data-level="3.2.3" data-path="02-mean_difference.html"><a href="02-mean_difference.html#信頼区間-1"><i class="fa fa-check"></i><b>3.2.3</b> 信頼区間</a></li>
+<li class="chapter" data-level="3.2.4" data-path="02-mean_difference.html"><a href="02-mean_difference.html#結果の報告-2"><i class="fa fa-check"></i><b>3.2.4</b> 結果の報告</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="02-mean_difference.html"><a href="02-mean_difference.html#標準化平均値差の補正"><i class="fa fa-check"></i><b>3.3</b> 標準化平均値差の補正</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="02-mean_difference.html"><a href="02-mean_difference.html#小標本の補正"><i class="fa fa-check"></i><b>3.3.1</b> 小標本の補正</a></li>
+<li class="chapter" data-level="3.3.2" data-path="02-mean_difference.html"><a href="02-mean_difference.html#信頼性の補正"><i class="fa fa-check"></i><b>3.3.2</b> 信頼性の補正</a></li>
+<li class="chapter" data-level="3.3.3" data-path="02-mean_difference.html"><a href="02-mean_difference.html#範囲制限の補正"><i class="fa fa-check"></i><b>3.3.3</b> 範囲制限の補正</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="02-mean_difference.html"><a href="02-mean_difference.html#名称の混乱問題について"><i class="fa fa-check"></i><b>3.4</b> 名称の混乱問題について</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="03-correlation.html"><a href="03-correlation.html"><i class="fa fa-check"></i><b>4</b> 相関の効果量</a>
+<ul>
+<li class="chapter" data-level="4.0.1" data-path="03-correlation.html"><a href="03-correlation.html#pearsons-r"><i class="fa fa-check"></i><b>4.0.1</b> Pearson’s r</a></li>
+<li class="chapter" data-level="4.0.2" data-path="03-correlation.html"><a href="03-correlation.html#ベイズ"><i class="fa fa-check"></i><b>4.0.2</b> ベイズ</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="04-ANOVA.html"><a href="04-ANOVA.html"><i class="fa fa-check"></i><b>5</b> 分散の効果量</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="04-ANOVA.html"><a href="04-ANOVA.html#一元配置分散分析"><i class="fa fa-check"></i><b>5.1</b> 一元配置分散分析</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="04-ANOVA.html"><a href="04-ANOVA.html#効果量"><i class="fa fa-check"></i><b>5.1.1</b> 効果量</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="04-ANOVA.html"><a href="04-ANOVA.html#二元配置分散分析"><i class="fa fa-check"></i><b>5.2</b> 二元配置分散分析</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="04-ANOVA.html"><a href="04-ANOVA.html#ベイズ-1"><i class="fa fa-check"></i><b>5.2.1</b> ベイズ</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="05-ratio.html"><a href="05-ratio.html"><i class="fa fa-check"></i><b>6</b> 比率の効果量</a></li>
+<li class="chapter" data-level="7" data-path="06-single_case.html"><a href="06-single_case.html"><i class="fa fa-check"></i><b>7</b> 単一事例研究の効果量</a></li>
+<li class="chapter" data-level="8" data-path="07-conversion.html"><a href="07-conversion.html"><i class="fa fa-check"></i><b>8</b> 効果量の変換</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="07-conversion.html"><a href="07-conversion.html#統計量から効果量への変換"><i class="fa fa-check"></i><b>8.1</b> 統計量から効果量への変換</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="07-conversion.html"><a href="07-conversion.html#t---d"><i class="fa fa-check"></i><b>8.1.1</b> t -&gt; d</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="07-conversion.html"><a href="07-conversion.html#効果量から効果量への変換"><i class="fa fa-check"></i><b>8.2</b> 効果量から効果量への変換</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="07-conversion.html"><a href="07-conversion.html#d---r"><i class="fa fa-check"></i><b>8.2.1</b> d &lt;-&gt; r</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="08-interpret.html"><a href="08-interpret.html"><i class="fa fa-check"></i><b>9</b> 効果量の解釈と利用</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="08-interpret.html"><a href="08-interpret.html#共通言語効果量"><i class="fa fa-check"></i><b>9.1</b> 共通言語効果量</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="08-interpret.html"><a href="08-interpret.html#優越率probability-of-superiority"><i class="fa fa-check"></i><b>9.1.1</b> 優越率（Probability of Superiority）</a></li>
+<li class="chapter" data-level="9.1.2" data-path="08-interpret.html"><a href="08-interpret.html#cohens-u3"><i class="fa fa-check"></i><b>9.1.2</b> Cohen’s U3</a></li>
+<li class="chapter" data-level="9.1.3" data-path="08-interpret.html"><a href="08-interpret.html#被覆度overlap"><i class="fa fa-check"></i><b>9.1.3</b> 被覆度（Overlap）</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="08-interpret.html"><a href="08-interpret.html#cohenの規準"><i class="fa fa-check"></i><b>9.2</b> Cohenの規準</a></li>
+<li class="chapter" data-level="9.3" data-path="08-interpret.html"><a href="08-interpret.html#分野ごとに細分化された規準"><i class="fa fa-check"></i><b>9.3</b> 分野ごとに細分化された規準</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="09-meta_analysis.html"><a href="09-meta_analysis.html"><i class="fa fa-check"></i><b>10</b> メタ分析</a></li>
+<li class="chapter" data-level="11" data-path="10-pawer_analysis.html"><a href="10-pawer_analysis.html"><i class="fa fa-check"></i><b>11</b> 検定力分析</a></li>
+<li class="chapter" data-level="12" data-path="11-discussion.html"><a href="11-discussion.html"><i class="fa fa-check"></i><b>12</b> 引用文献リスト</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">効果量に関するまとめ</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="平均値と推測統計の基礎" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">chapter: 2</span> 平均値と推測統計の基礎<a href="01-mean.html#平均値と推測統計の基礎" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>本章では、多くの読者にとってなじみが深い指標であろう<strong>平均値</strong>（相加平均）が効果量として解釈可能であることを示した上で、正規母集団から得られた標本を用いて母平均<span class="math inline">\(\mu\)</span> の点推定・区間推定を行うことを通して、推測統計の基礎を確認する。また、ベイズ統計に基づくアプローチについても紹介する。</p>
+<div id="効果量としての平均値" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> 効果量としての平均値<a href="01-mean.html#効果量としての平均値" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>ある研究においてn個の観測値 <span class="math inline">\(x_1, x_2, ..., x_n\)</span> が得られたとき、平均値は以下の式で計算できる。 <span class="math display">\[
+\bar{x}=\frac{1}{n}(x_1+x_2+...+x_n)=\frac{1}{n}\sum_{i=1}^{n}x_i
+\]</span> 平均は全観測値の重心を示すものであり、分布が左右対称の場合は全観測値の中心を示す。 研究間で同一の測定が実現しているとき、各研究から得られた平均値を比較可能である。 特に、元の測定単位における比較に関心がある場合、平均値を比較することは有用かもしれない。</p>
+</div>
+<div id="母平均の推定" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> 母平均の推定<a href="01-mean.html#母平均の推定" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>母集団における平均（母平均<span class="math inline">\(\mu\)</span>）を知りたい場合、理想的には全数調査を行い平均値を計算すればよいが、このような調査はコストがかかるため多くの場合、現実的ではない。そこで、母集団からの抽出された標本を用いて母平均<span class="math inline">\(\mu\)</span>を推定することを考える。</p>
+<p>標本調査によって、平均<span class="math inline">\(\mu=5\)</span>、分散<span class="math inline">\(\sigma^2=1\)</span>の正規分布に独立に従う100個の標本が得られたとする。<span class="math display">\[
+x_1, x_2, ..., x_{100} \sim \mathcal{N}(5, 1)
+\]</span> 実際には、得られた標本がどのような母数の分布に従うかは多くの場合、未知である。 得られた標本から母平均を推定することを考えてみよう。</p>
+<div id="点推定" class="section level3 hasAnchor" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> 点推定<a href="01-mean.html#点推定" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>標本から母平均 <span class="math inline">\(\mu\)</span> を点推定する場合、推定量には標本平均 <span class="math inline">\(\bar{x}\)</span> を用いる。 これは、大数の法則より、標本平均 <span class="math inline">\(\bar{x}\)</span> はサンプルサイズ <span class="math inline">\(n\)</span> が大きくなると母平均 <span class="math inline">\(\mu\)</span> に近づくという<strong>一致性</strong>を持つからである（<span class="math inline">\(\bar{x}\stackrel{p}{\longrightarrow}\mu\)</span>）。 また、標本平均 <span class="math inline">\(\bar{x}\)</span> の期待値 <span class="math inline">\(E[\bar{x}]=\mu\)</span> となることから、サンプルサイズ <span class="math inline">\(n\)</span> に関係なく標本平均 <span class="math inline">\(\bar{x}\)</span> の期待値は母平均に一致するという<strong>不偏性</strong>を持つ。 よって、標本平均 <span class="math inline">\(\bar{x}\)</span> は母平均 <span class="math inline">\(\mu\)</span> の一致推定量かつ不偏推定量である。</p>
+<p>このことを確かめるために、Rを使用して以下のようなシミュレーションを行ってみよう。ここでは毎回同じ結果が再現されるよう乱数の種を固定したうえで、平均 <span class="math inline">\(\mu=5\)</span>、分散 <span class="math inline">\(\sigma^2=1\)</span> の正規分布に独立に従う <span class="math inline">\(n\)</span>個の乱数を発生させ、それらの標本平均を求めるシミュレーションを <span class="math inline">\(k\)</span>回繰り返している。例えば、サンプルサイズ <span class="math inline">\(n=100\)</span> の標本平均を算出することを1000回繰り返すと、その平均は5.000977になることが分かる。</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="01-mean.html#cb5-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="cn">NULL</span> <span class="co"># 結果の格納用</span></span>
+<span id="cb5-2"><a href="01-mean.html#cb5-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">100</span>   <span class="co"># サンプルサイズ</span></span>
+<span id="cb5-3"><a href="01-mean.html#cb5-3" aria-hidden="true" tabindex="-1"></a>k <span class="ot">=</span> <span class="dv">1000</span>  <span class="co"># シミュレーション回数</span></span>
+<span id="cb5-4"><a href="01-mean.html#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) <span class="co"># 乱数の種の固定</span></span>
+<span id="cb5-5"><a href="01-mean.html#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>k){</span>
+<span id="cb5-6"><a href="01-mean.html#cb5-6" aria-hidden="true" tabindex="-1"></a>  dat <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">5</span>, <span class="dv">1</span>) <span class="co"># 正規分布N(5,1)からn個の乱数を発生</span></span>
+<span id="cb5-7"><a href="01-mean.html#cb5-7" aria-hidden="true" tabindex="-1"></a>  m[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(dat)     <span class="co"># 標本平均の格納</span></span>
+<span id="cb5-8"><a href="01-mean.html#cb5-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-9"><a href="01-mean.html#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(m)   <span class="co"># k個の標本平均の平均</span></span></code></pre></div>
+<pre><code>## [1] 5.000977</code></pre>
+<p><span class="math inline">\(n\)</span> や <span class="math inline">\(k\)</span> の値を変えながら様々な条件で標本平均の計算を繰り返すと以下のような結果が得られる。</p>
+<table>
+<caption>標本平均のシミュレーション</caption>
+<colgroup>
+<col width="10%" />
+<col width="12%" />
+<col width="11%" />
+<col width="12%" />
+<col width="12%" />
+<col width="12%" />
+<col width="12%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">k \ n</th>
+<th align="left">1</th>
+<th align="left">5</th>
+<th align="left">10</th>
+<th align="left">20</th>
+<th align="left">100</th>
+<th align="left">1000</th>
+<th align="left">10000</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">4.439524</td>
+<td align="left">5.19357</td>
+<td align="left">5.074626</td>
+<td align="left">5.141624</td>
+<td align="left">5.090406</td>
+<td align="left">5.016128</td>
+<td align="left">4.997628</td>
+</tr>
+<tr class="even">
+<td align="left">100</td>
+<td align="left">5.090406</td>
+<td align="left">5.03459</td>
+<td align="left">5.016128</td>
+<td align="left">5.029297</td>
+<td align="left">4.997628</td>
+<td align="left">5.000977</td>
+<td align="left">4.999479</td>
+</tr>
+<tr class="odd">
+<td align="left">1000</td>
+<td align="left">5.016128</td>
+<td align="left">4.99943</td>
+<td align="left">4.997628</td>
+<td align="left">4.994261</td>
+<td align="left">5.000977</td>
+<td align="left">4.999479</td>
+<td align="left">5.000115</td>
+</tr>
+<tr class="even">
+<td align="left">10000</td>
+<td align="left">4.997628</td>
+<td align="left">4.99826</td>
+<td align="left">5.000977</td>
+<td align="left">5.003096</td>
+<td align="left">4.999479</td>
+<td align="left">5.000115</td>
+<td align="left">5.000157</td>
+</tr>
+<tr class="odd">
+<td align="left">100000</td>
+<td align="left">5.000977</td>
+<td align="left">5.00006</td>
+<td align="left">4.999479</td>
+<td align="left">4.998962</td>
+<td align="left">5.000115</td>
+<td align="left">5.000157</td>
+<td align="left">5.000010</td>
+</tr>
+</tbody>
+</table>
+<p>表より、シミュレーション回数 <span class="math inline">\(k=1\)</span> の行を横に見ると、サンプルサイズ <span class="math inline">\(n\)</span> が増加するにつれて、標本平均 <span class="math inline">\(\bar{x}\)</span> が母平均 <span class="math inline">\(\mu=5\)</span> に近づく一致性が確認できる。また、シミュレーション回数 <span class="math inline">\(k=100000\)</span> の行を横に見ると、サンプルサイズ <span class="math inline">\(n\)</span> に関係なく標本平均 <span class="math inline">\(\bar{x}\)</span> の期待値が <span class="math inline">\(\bar{x}\)</span> が母平均 <span class="math inline">\(\mu=5\)</span> に一致する不偏性が確認できる。</p>
+</div>
+<div id="区間推定" class="section level3 hasAnchor" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> 区間推定<a href="01-mean.html#区間推定" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>点推定が母数を標本から得られる1つの値で推定したのに対して、区間推定では標本から得られる2つの値で母数が含まれる区間を推定する。</p>
+<p>点推定の場合と同様、平均<span class="math inline">\(\mu=5\)</span>、分散<span class="math inline">\(\sigma^2=1\)</span>の正規分布に独立に従う100個の標本が得られているとする。ここで標本平均の標本分布が<span class="math inline">\(\mathcal{N}(\mu, \sigma^2/n)\)</span> に従うことを利用すれば、任意の確率で母平均を含む信頼区間（Confidence Interval）を構成することができる。</p>
+<div id="母分散既知の場合" class="section level4 hasAnchor" number="2.2.2.1">
+<h4><span class="header-section-number">2.2.2.1</span> 母分散既知の場合<a href="01-mean.html#母分散既知の場合" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>母分散が既知の場合、95%信頼区間は、以下の式で求められる。 <span class="math display">\[
+\bar{x}-1.96\frac{\sigma}{\sqrt{n}}\leq\mu\leq\bar{x}+1.96\frac{\sigma}{\sqrt{n}}
+\]</span> 上式は母数を含んでいるため、標本から直接計算することはできない。 すでに先行研究などから母分散が分かっている場合、その値を代入して計算すればよい。</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="01-mean.html#cb7-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="co"># サンプルサイズ</span></span>
+<span id="cb7-2"><a href="01-mean.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) <span class="co"># 乱数の種の固定</span></span>
+<span id="cb7-3"><a href="01-mean.html#cb7-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">5</span>, <span class="dv">1</span>) <span class="co"># 正規分布N(5,1)から100個の乱数を発生</span></span>
+<span id="cb7-4"><a href="01-mean.html#cb7-4" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">mean</span>(x) <span class="co"># 標本平均</span></span>
+<span id="cb7-5"><a href="01-mean.html#cb7-5" aria-hidden="true" tabindex="-1"></a>m <span class="sc">-</span> <span class="fl">1.96</span><span class="sc">*</span><span class="dv">1</span><span class="sc">/</span><span class="fu">sqrt</span>(n) <span class="co"># 95%信頼区間の下限値</span></span></code></pre></div>
+<pre><code>## [1] 4.894406</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="01-mean.html#cb9-1" aria-hidden="true" tabindex="-1"></a>m <span class="sc">+</span> <span class="fl">1.96</span><span class="sc">*</span><span class="dv">1</span><span class="sc">/</span><span class="fu">sqrt</span>(n) <span class="co"># 95%信頼区間の上限値</span></span></code></pre></div>
+<pre><code>## [1] 5.286406</code></pre>
+</div>
+<div id="母分散未知の場合" class="section level4 hasAnchor" number="2.2.2.2">
+<h4><span class="header-section-number">2.2.2.2</span> 母分散未知の場合<a href="01-mean.html#母分散未知の場合" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>母分散が未知でもnが十分に大きい場合は、標本の標準偏差を<span class="math inline">\(\sigma\)</span>に代入して計算してもよい（一致性があるため）。 母分散が未知でnが小さい場合、<span class="math inline">\(\frac{\bar{x}-\mu}{\sigma/\sqrt{n}}\)</span> が自由度 <span class="math inline">\(n-1\)</span> のｔ分布に従うことを利用して、95%信頼区間は以下の式で求められる。 ここで、<span class="math inline">\(\hat{\sigma}\)</span> は母標準偏差の推定値であり、標本の標準偏差を代入して計算する。<span class="math display">\[
+\bar{x}-t_{0.025}(n-1)\frac{\hat{\sigma}}{\sqrt{n}}\leq\mu\leq\bar{x}+t_{0.975}(n-1)\frac{\hat{\sigma}}{\sqrt{n}}
+\]</span> Rでは、<code>qt()</code>を用いてｔ分布の任意の確率点を算出することができる。サンプルサイズを <span class="math inline">\(n=20\)</span> に変更して、95%信頼区間を求めてみよう。</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="01-mean.html#cb11-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">20</span>             <span class="co"># サンプルサイズ</span></span>
+<span id="cb11-2"><a href="01-mean.html#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)       <span class="co"># 乱数の種の固定</span></span>
+<span id="cb11-3"><a href="01-mean.html#cb11-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">5</span>, <span class="dv">1</span>) <span class="co"># 正規分布N(5,1)からn個の乱数を発生</span></span>
+<span id="cb11-4"><a href="01-mean.html#cb11-4" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)        <span class="co"># 標本平均</span></span>
+<span id="cb11-5"><a href="01-mean.html#cb11-5" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">sd</span>(x)          <span class="co"># 標準偏差</span></span>
+<span id="cb11-6"><a href="01-mean.html#cb11-6" aria-hidden="true" tabindex="-1"></a>m <span class="sc">-</span> <span class="fu">qt</span>(<span class="fl">0.025</span>, n<span class="dv">-1</span>, <span class="at">lower.tail =</span> F)<span class="sc">*</span>s<span class="sc">/</span><span class="fu">sqrt</span>(n) <span class="co"># 95%信頼区間の下限値</span></span></code></pre></div>
+<pre><code>## [1] 4.686402</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="01-mean.html#cb13-1" aria-hidden="true" tabindex="-1"></a>m <span class="sc">+</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, n<span class="dv">-1</span>)<span class="sc">*</span>s<span class="sc">/</span><span class="fu">sqrt</span>(n)                <span class="co"># 95%信頼区間の上限値</span></span></code></pre></div>
+<pre><code>## [1] 5.596845</code></pre>
+<p>既存の関数を利用して95%信頼区間を求めても結果は一致する。</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="01-mean.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x)<span class="sc">$</span>conf.int     <span class="co"># 既存の関数を利用した場合</span></span></code></pre></div>
+<pre><code>## [1] 4.686402 5.596845
+## attr(,&quot;conf.level&quot;)
+## [1] 0.95</code></pre>
+<p>95%信頼区間の意味するところは、標本調査を何回も繰り返してその度に95%信頼区間を構成した場合、95%の確率でそれらの区間内に母数が含まれている区間であるということである。 個々の信頼区間が母数を含むかどうかはTrue/Falseの2択であり、確率的な表現ができているわけではない。 実験を何回も繰り返すことのできる研究分野や様々な研究者によって類似の研究が繰り返される分野では、信頼区間の概念が想像しやすいだろう。 他方で、実験を繰り返すことが困難な分野では、1回の調査で得られたデータから任意の確率で母数を含む区間を構成したいと考えるかもしれない。 そこで、次の節ではベイズ統計の考え方を紹介し、ベイズ信用区間（Credible Interval）を構成する。</p>
+</div>
+</div>
+</div>
+<div id="ベイズ統計に基づくアプローチ" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> ベイズ統計に基づくアプローチ<a href="01-mean.html#ベイズ統計に基づくアプローチ" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>いま、正規母集団 <span class="math inline">\(\mathcal{N}(\mu, \sigma^2)\)</span> から大きさｎのデータを得たとする。この標本から母平均 <span class="math inline">\(\mu\)</span> を区間推定することを考える。ベイズ統計では、母数に関する事前の信念を確率モデルを用いて表現する（事前分布）。そして、ベイズの定理を用いて、事前分布と尤度から、データを得た後の事後分布を求める。</p>
+<p>ここでは、母分散が既知であるのに対して、母平均 <span class="math inline">\(\mu\)</span> に関して少ない情報しか持っておらず、 <span class="math inline">\(\mu\)</span> の事前分布を一様分布と設定したとしよう。観測されたデータを用いて事前分布を更新すれば、事後分布は <span class="math inline">\(\mathcal{N}(\bar{x}, \sigma/\sqrt{n})\)</span> になる。この事後分布を利用して95%の確率で母平均 <span class="math inline">\(\mu\)</span> を含む区間を構成すれば、95%信用区間は以下の通りになる。</p>
+<p><span class="math display">\[
+\bar{x}-1.96\frac{\sigma}{\sqrt{n}}\leq\mu\leq\bar{x}+1.96\frac{\sigma}{\sqrt{n}}
+\]</span></p>
+<p>こうして構成した信用区間は、信頼区間とまったく異なる概念であることに注意が必要である。95%信用区間は、その区間内に95%の確率で母数が存在すると信用できる区間である。繰り返しの調査を前提とする必要はない。</p>
+</div>
+<div id="結果の報告" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> 結果の報告<a href="01-mean.html#結果の報告" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>非標準化効果量として平均値を報告する際には、以下の3点を報告すればよい。</p>
+<ol style="list-style-type: decimal">
+<li><p>母平均の推定値（標本平均）</p></li>
+<li><p>推定値の不確かさ（95%信頼区間など）</p></li>
+<li><p>推定値の単位</p></li>
+</ol>
+<p>例）今回得られた標本における長さの平均は5.14cm, 95% CI [4.69, 5.60] であった。</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="02-mean_difference.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/Daiki-Nakamura-git/effectsize/edit/master/01-mean.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["book_filename.pdf", "book_filename.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
