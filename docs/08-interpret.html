@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>chapter: 9 効果量の解釈と利用 | 効果量に関するまとめ</title>
+  <meta name="description" content="効果量の定義、種類、Rによる計算法、解釈、統合の方法." />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="chapter: 9 効果量の解釈と利用 | 効果量に関するまとめ" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="効果量の定義、種類、Rによる計算法、解釈、統合の方法." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="chapter: 9 効果量の解釈と利用 | 効果量に関するまとめ" />
+  
+  <meta name="twitter:description" content="効果量の定義、種類、Rによる計算法、解釈、統合の方法." />
+  
+
+<meta name="author" content="Daiki Nakamura" />
+
+
+<meta name="date" content="2022-07-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="07-conversion.html"/>
+<link rel="next" href="09-meta_analysis.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">効果量に関するまとめ</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> イントロダクション</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#ドキュメントの概要"><i class="fa fa-check"></i><b>1.1</b> ドキュメントの概要</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#効果量とは何か"><i class="fa fa-check"></i><b>1.2</b> 効果量とは何か</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#効果量を利用するメリット"><i class="fa fa-check"></i><b>1.3</b> 効果量を利用するメリット</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#効果量の種類"><i class="fa fa-check"></i><b>1.4</b> 効果量の種類</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#統計ソフトウェアrの準備"><i class="fa fa-check"></i><b>1.5</b> 統計ソフトウェアRの準備</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="01-mean.html"><a href="01-mean.html"><i class="fa fa-check"></i><b>2</b> 平均値と推測統計の基礎</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="01-mean.html"><a href="01-mean.html#効果量としての平均値"><i class="fa fa-check"></i><b>2.1</b> 効果量としての平均値</a></li>
+<li class="chapter" data-level="2.2" data-path="01-mean.html"><a href="01-mean.html#母平均の推定"><i class="fa fa-check"></i><b>2.2</b> 母平均の推定</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="01-mean.html"><a href="01-mean.html#点推定"><i class="fa fa-check"></i><b>2.2.1</b> 点推定</a></li>
+<li class="chapter" data-level="2.2.2" data-path="01-mean.html"><a href="01-mean.html#区間推定"><i class="fa fa-check"></i><b>2.2.2</b> 区間推定</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="01-mean.html"><a href="01-mean.html#ベイズ統計に基づくアプローチ"><i class="fa fa-check"></i><b>2.3</b> ベイズ統計に基づくアプローチ</a></li>
+<li class="chapter" data-level="2.4" data-path="01-mean.html"><a href="01-mean.html#結果の報告"><i class="fa fa-check"></i><b>2.4</b> 結果の報告</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="02-mean_difference.html"><a href="02-mean_difference.html"><i class="fa fa-check"></i><b>3</b> 平均値差の効果量</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="02-mean_difference.html"><a href="02-mean_difference.html#独立した2群の平均値差"><i class="fa fa-check"></i><b>3.1</b> 独立した2群の平均値差</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="02-mean_difference.html"><a href="02-mean_difference.html#非標準化平均値差"><i class="fa fa-check"></i><b>3.1.1</b> 非標準化平均値差</a></li>
+<li class="chapter" data-level="3.1.2" data-path="02-mean_difference.html"><a href="02-mean_difference.html#標準化平均値差"><i class="fa fa-check"></i><b>3.1.2</b> 標準化平均値差</a></li>
+<li class="chapter" data-level="3.1.3" data-path="02-mean_difference.html"><a href="02-mean_difference.html#等分散を仮定する場合"><i class="fa fa-check"></i><b>3.1.3</b> 等分散を仮定する場合</a></li>
+<li class="chapter" data-level="3.1.4" data-path="02-mean_difference.html"><a href="02-mean_difference.html#等分散を仮定しない場合"><i class="fa fa-check"></i><b>3.1.4</b> 等分散を仮定しない場合</a></li>
+<li class="chapter" data-level="3.1.5" data-path="02-mean_difference.html"><a href="02-mean_difference.html#信頼区間"><i class="fa fa-check"></i><b>3.1.5</b> 信頼区間</a></li>
+<li class="chapter" data-level="3.1.6" data-path="02-mean_difference.html"><a href="02-mean_difference.html#ベイズ統計に基づくアプローチ-1"><i class="fa fa-check"></i><b>3.1.6</b> ベイズ統計に基づくアプローチ</a></li>
+<li class="chapter" data-level="3.1.7" data-path="02-mean_difference.html"><a href="02-mean_difference.html#結果の報告-1"><i class="fa fa-check"></i><b>3.1.7</b> 結果の報告</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="02-mean_difference.html"><a href="02-mean_difference.html#対応のある2群の平均値差"><i class="fa fa-check"></i><b>3.2</b> 対応のある2群の平均値差</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="02-mean_difference.html"><a href="02-mean_difference.html#非標準化平均値差-1"><i class="fa fa-check"></i><b>3.2.1</b> 非標準化平均値差</a></li>
+<li class="chapter" data-level="3.2.2" data-path="02-mean_difference.html"><a href="02-mean_difference.html#標準化平均値差-1"><i class="fa fa-check"></i><b>3.2.2</b> 標準化平均値差</a></li>
+<li class="chapter" data-level="3.2.3" data-path="02-mean_difference.html"><a href="02-mean_difference.html#信頼区間-1"><i class="fa fa-check"></i><b>3.2.3</b> 信頼区間</a></li>
+<li class="chapter" data-level="3.2.4" data-path="02-mean_difference.html"><a href="02-mean_difference.html#結果の報告-2"><i class="fa fa-check"></i><b>3.2.4</b> 結果の報告</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="02-mean_difference.html"><a href="02-mean_difference.html#標準化平均値差の補正"><i class="fa fa-check"></i><b>3.3</b> 標準化平均値差の補正</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="02-mean_difference.html"><a href="02-mean_difference.html#小標本の補正"><i class="fa fa-check"></i><b>3.3.1</b> 小標本の補正</a></li>
+<li class="chapter" data-level="3.3.2" data-path="02-mean_difference.html"><a href="02-mean_difference.html#信頼性の補正"><i class="fa fa-check"></i><b>3.3.2</b> 信頼性の補正</a></li>
+<li class="chapter" data-level="3.3.3" data-path="02-mean_difference.html"><a href="02-mean_difference.html#範囲制限の補正"><i class="fa fa-check"></i><b>3.3.3</b> 範囲制限の補正</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="02-mean_difference.html"><a href="02-mean_difference.html#名称の混乱問題について"><i class="fa fa-check"></i><b>3.4</b> 名称の混乱問題について</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="03-correlation.html"><a href="03-correlation.html"><i class="fa fa-check"></i><b>4</b> 相関の効果量</a>
+<ul>
+<li class="chapter" data-level="4.0.1" data-path="03-correlation.html"><a href="03-correlation.html#pearsons-r"><i class="fa fa-check"></i><b>4.0.1</b> Pearson’s r</a></li>
+<li class="chapter" data-level="4.0.2" data-path="03-correlation.html"><a href="03-correlation.html#ベイズ"><i class="fa fa-check"></i><b>4.0.2</b> ベイズ</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="04-ANOVA.html"><a href="04-ANOVA.html"><i class="fa fa-check"></i><b>5</b> 分散の効果量</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="04-ANOVA.html"><a href="04-ANOVA.html#一元配置分散分析"><i class="fa fa-check"></i><b>5.1</b> 一元配置分散分析</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="04-ANOVA.html"><a href="04-ANOVA.html#効果量"><i class="fa fa-check"></i><b>5.1.1</b> 効果量</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="04-ANOVA.html"><a href="04-ANOVA.html#二元配置分散分析"><i class="fa fa-check"></i><b>5.2</b> 二元配置分散分析</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="04-ANOVA.html"><a href="04-ANOVA.html#ベイズ-1"><i class="fa fa-check"></i><b>5.2.1</b> ベイズ</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="05-ratio.html"><a href="05-ratio.html"><i class="fa fa-check"></i><b>6</b> 比率の効果量</a></li>
+<li class="chapter" data-level="7" data-path="06-single_case.html"><a href="06-single_case.html"><i class="fa fa-check"></i><b>7</b> 単一事例研究の効果量</a></li>
+<li class="chapter" data-level="8" data-path="07-conversion.html"><a href="07-conversion.html"><i class="fa fa-check"></i><b>8</b> 効果量の変換</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="07-conversion.html"><a href="07-conversion.html#統計量から効果量への変換"><i class="fa fa-check"></i><b>8.1</b> 統計量から効果量への変換</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="07-conversion.html"><a href="07-conversion.html#t---d"><i class="fa fa-check"></i><b>8.1.1</b> t -&gt; d</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="07-conversion.html"><a href="07-conversion.html#効果量から効果量への変換"><i class="fa fa-check"></i><b>8.2</b> 効果量から効果量への変換</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="07-conversion.html"><a href="07-conversion.html#d---r"><i class="fa fa-check"></i><b>8.2.1</b> d &lt;-&gt; r</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="08-interpret.html"><a href="08-interpret.html"><i class="fa fa-check"></i><b>9</b> 効果量の解釈と利用</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="08-interpret.html"><a href="08-interpret.html#共通言語効果量"><i class="fa fa-check"></i><b>9.1</b> 共通言語効果量</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="08-interpret.html"><a href="08-interpret.html#優越率probability-of-superiority"><i class="fa fa-check"></i><b>9.1.1</b> 優越率（Probability of Superiority）</a></li>
+<li class="chapter" data-level="9.1.2" data-path="08-interpret.html"><a href="08-interpret.html#cohens-u3"><i class="fa fa-check"></i><b>9.1.2</b> Cohen’s U3</a></li>
+<li class="chapter" data-level="9.1.3" data-path="08-interpret.html"><a href="08-interpret.html#被覆度overlap"><i class="fa fa-check"></i><b>9.1.3</b> 被覆度（Overlap）</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="08-interpret.html"><a href="08-interpret.html#cohenの規準"><i class="fa fa-check"></i><b>9.2</b> Cohenの規準</a></li>
+<li class="chapter" data-level="9.3" data-path="08-interpret.html"><a href="08-interpret.html#分野ごとに細分化された規準"><i class="fa fa-check"></i><b>9.3</b> 分野ごとに細分化された規準</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="09-meta_analysis.html"><a href="09-meta_analysis.html"><i class="fa fa-check"></i><b>10</b> メタ分析</a></li>
+<li class="chapter" data-level="11" data-path="10-pawer_analysis.html"><a href="10-pawer_analysis.html"><i class="fa fa-check"></i><b>11</b> 検定力分析</a></li>
+<li class="chapter" data-level="12" data-path="11-discussion.html"><a href="11-discussion.html"><i class="fa fa-check"></i><b>12</b> 引用文献リスト</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">効果量に関するまとめ</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="効果量の解釈と利用" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">chapter: 9</span> 効果量の解釈と利用<a href="08-interpret.html#効果量の解釈と利用" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>研究から得られた効果量の値がどのような意味を持つのかを解釈する方法には以下の4つのアプローチがある。</p>
+<ol style="list-style-type: decimal">
+<li>共通言語効果量（Common Language Effect Sizes）</li>
+<li>Cohenの規準（一般的なベンチマーク）</li>
+<li>研究分野ごとの基準（分野固有のベンチマーク）</li>
+<li>メタ分析の参照</li>
+</ol>
+<p>1つ目は、より解釈しやすい別の指標に変換して解釈する方法である。共通言語効果量と呼ばれる一連の指標を用いて確率的に効果量を解釈することが提案されている<span class="citation">(<a href="#ref-mcgraw1992" role="doc-biblioref">McGraw &amp; Wong, 1992</a>)</span>。2つ目は、効果量解釈の目安を示した一般的なベンチマークを参照することである。もっとも有名なベンチマークとしてはCohenによって提案された基準がある。しかし、研究デザインを考慮せずにベンチマークを機械的に当てはめることには多くの批判があり<span class="citation">(e.g., <a href="#ref-cummings2011" role="doc-biblioref">Cummings, 2011</a>; <a href="#ref-kraft2020" role="doc-biblioref">Kraft, 2020</a>)</span>、何よりもCohen自身がそのような使用法の問題点を認識していた<span class="citation">(<a href="#ref-cohen1988" role="doc-biblioref">Cohen, 1988, p. 25</a>)</span>。3つ目は、各研究分野で一般的な効果量の大きさを参照するアプローチである。これもCohenの規準と同様の問題を抱えており、分野内でもテーマによって効果量分布が大きく異なることを考慮できていない。4つ目のアプローチは、関連する研究テーマの先行研究を統合したメタ分析の結果を参照する方法である。しかし、メタ分析も出版バイアスや問題のある研究実践（QRPs）の影響によって、効果量の分布を正しくとらえられているとは限らない。このように、効果量の解釈は非常に困難の伴う作業である。</p>
+<div id="共通言語効果量" class="section level2 hasAnchor" number="9.1">
+<h2><span class="header-section-number">9.1</span> 共通言語効果量<a href="08-interpret.html#共通言語効果量" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>共通言語効果量とは、効果量（標準化平均値差）を解釈する際の”共通言語”として用いることを意図して提案された指標であり、1．優越率（Probability of Superiority）、2．Cohen’s U3、3．被覆度（Overlap）から構成される。※優越率のみを共通言語効果量と呼ぶ文献もある。3つの指標の共通の仮定は、2つの群が等分散の正規分布に従うというものである。 3つの指標を順に解説する。</p>
+<div id="優越率probability-of-superiority" class="section level3 hasAnchor" number="9.1.1">
+<h3><span class="header-section-number">9.1.1</span> 優越率（Probability of Superiority）<a href="08-interpret.html#優越率probability-of-superiority" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>優越率とは、一方の群の観測値が他方の群の観測値を上回る確率である<span class="citation">(<a href="#ref-haebara2014" role="doc-biblioref">南風原朝和, 2014</a>; <a href="#ref-haebara1987" role="doc-biblioref">南風原朝和 &amp; 芝祐順, 1987</a>)</span>。別の表現をすれば、両群から1個体をランダムサンプリングして比較した場合に、実験群の個体の観測値が統制群を上回る確率である。2つの集団の観測値が等分散の正規分布A, B に独立に従う場合、優越率は以下の式で求められる。ここで、zは標準正規分布の確率点を指す。例えば、<span class="math inline">\(\delta=1\)</span> の場合、標準正規分布において<span class="math inline">\(z&lt;\frac{1}{\sqrt{2}}=0.707\)</span> 以下となる確率なので<span class="math inline">\(\pi_d=0.76\)</span> である。これは、標準化平均値差が <span class="math inline">\(\delta=1\)</span> の場合、実験群が統制群を上回る確率が76%であることを意味している。</p>
+<p><span class="math display">\[
+\pi_d=P(z&lt;\frac{\delta}{\sqrt{2}})
+\]</span></p>
+</div>
+<div id="cohens-u3" class="section level3 hasAnchor" number="9.1.2">
+<h3><span class="header-section-number">9.1.2</span> Cohen’s U3<a href="08-interpret.html#cohens-u3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Cohen’s U3とは、第1グループ（実験群）の平均値より小さい第2グループ（統制群）の割合である<span class="citation">(<a href="#ref-cohen1988" role="doc-biblioref">Cohen, 1988</a>)</span>。以下の図で示す通り、標準化平均値差が <span class="math inline">\(d_s=0.8\)</span> の場合、実験群（水色）の平均（白線）を下回る統制群（紺色）の割合は78.8%である。Cohen’s U3は、統制群の中でどれくらいの割合が実験群の平均に満たない状況にあるのかを理解する上で有用な指標である。</p>
+<p><img src="images/commonl.png" alt="共通言語効果量（ds=0.8）" /></p>
+</div>
+<div id="被覆度overlap" class="section level3 hasAnchor" number="9.1.3">
+<h3><span class="header-section-number">9.1.3</span> 被覆度（Overlap）<a href="08-interpret.html#被覆度overlap" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>被覆度は2つの分布の重なる部分の面積であり、上図の黒色で表される部分である。被覆度が大きいほど2群間の差は小さく、<span class="math inline">\(\delta=0\)</span> のときに被覆度は100%になる。</p>
+<p>以下のサイトで3つの指標の関係を視覚的に確認することができる[<a href="https://rpsychologist.com/cohend/" class="uri">https://rpsychologist.com/cohend/</a>]。 また、Rを用いて以下のように共通言語効果量を計算できる。</p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="08-interpret.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Common Language Effect Sizes</span></span>
+<span id="cb144-2"><a href="08-interpret.html#cb144-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb144-3"><a href="08-interpret.html#cb144-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">60</span>, <span class="dv">10</span>)</span>
+<span id="cb144-4"><a href="08-interpret.html#cb144-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">50</span>, <span class="dv">10</span>)</span>
+<span id="cb144-5"><a href="08-interpret.html#cb144-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb144-6"><a href="08-interpret.html#cb144-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cohens_d</span>(A, B)</span></code></pre></div>
+<pre><code>## Cohen&#39;s d |       95% CI
+## ------------------------
+## 1.27      | [0.97, 1.58]
+## 
+## - Estimated using pooled SD.</code></pre>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="08-interpret.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cles</span>(A, B)</span></code></pre></div>
+<pre><code>## Parameter       | Coefficient |       95% CI
+## --------------------------------------------
+## Pr(superiority) |        0.82 | [0.75, 0.87]
+## Cohen&#39;s U3      |        0.90 | [0.83, 0.94]
+## Overlap         |        0.52 | [0.43, 0.63]</code></pre>
+<p>ここまでの説明で分かる通り、共通言語効果量は効果量を確率で表現しているだけであって、その効果量がどのような意味を持つのかを教えてくれるわけではない。また、実際の母集団分布が正確に等分散の正規分布に従うわけでもない。よって、効果量の意味を解釈する際の参考値としての利用に留めるのが一般的である。</p>
+</div>
+</div>
+<div id="cohenの規準" class="section level2 hasAnchor" number="9.2">
+<h2><span class="header-section-number">9.2</span> Cohenの規準<a href="08-interpret.html#cohenの規準" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><span class="citation">Cohen (<a href="#ref-cohen1988" role="doc-biblioref">1988</a>)</span> は、標準化効果量を解釈する際の目安となる基準を「小（small）」「中（medium）」「大（large）」の3段階で示している。例えば、標準化平均値差については、以下のような目安を提案している<span class="citation">(<a href="#ref-cohen1988" role="doc-biblioref">Cohen, 1988, pp. 25–27</a>)</span>。</p>
+<table>
+<caption>Cohen の基準 <span class="citation">(<a href="#ref-cohen1988" role="doc-biblioref">Cohen, 1988</a>)</span></caption>
+<thead>
+<tr class="header">
+<th align="center">d</th>
+<th align="center">判定</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">d = 0.2</td>
+<td align="center">Small</td>
+</tr>
+<tr class="even">
+<td align="center">d = 0.5</td>
+<td align="center">Medium</td>
+</tr>
+<tr class="odd">
+<td align="center">d = 0.8</td>
+<td align="center">Large</td>
+</tr>
+</tbody>
+</table>
+<p>Cohenの基準は行動科学分野の研究を通してこれまでに得られた効果量を参考にして作成された経験則であり、全ての分野において適応することを意図していたものではなかった。Cohenは、各分野で効果量を解釈するための参照基準がない場合のみ、この基準を参照するという使用法を想定していた<span class="citation">(<a href="#ref-cohen1988" role="doc-biblioref">Cohen, 1988, p. 25</a>)</span>。しかしながら、本人の意図に反して、Cohenの基準は各分野での適応可能性が十分に吟味されることなく、機械的に使用されることが常態化していった。<span class="citation">Lenth (<a href="#ref-lenth2001" role="doc-biblioref">2001</a>)</span> はこの使い方を「定型化効果量（“Canned” Effect Sizes）」と呼んで批判している。</p>
+<p>Cohenの規準に基づいて効果量の大きさがいったん解釈されるとそれ以上の追加の解釈は行われず、効果量の持つ現実的な意味が見失われてしまう。仮に効果量の大きさが小さかったとしても、その発見は現実的に大きな意味を持つものかもしれない<span class="citation">(<a href="#ref-anvari2021" role="doc-biblioref">Anvari et al., 2021</a>)</span>。例えば、産業分野では小さな効果量であっても、その生産工程の改善が大きな利益につながる可能性がある。疫学の分野では、小さの効果量であっても、多くの命を救うことに貢献する可能性がある。効果量が小さかったとしても、その介入を実施するコストが小さければ、それは実施する価値があるだろう。</p>
+<p>また、現実的な意味が見いだしにくい基礎研究においても、効果量が小さいことが当たり前の分野においては、Cohenの基準で「中程度（Medium）」とされる効果量が大きな効果を持つものとして受け入れられるだろう。このように、その分野では大きいとみなされる効果が効果量の大きさそのものだけに着目することで小さいと判断される現象を <span class="citation">Editors (<a href="#ref-editors2005" role="doc-biblioref">2005</a>)</span> はアベルソンのパラドックス（Abelson’s paradox）と呼んでいる。分野ごとの効果量分布を無視して、Cohenの規準を常に当てはめることは効果量の持つ意味を分かりにくくする。</p>
+<p>ところで、Cohenの規準が多くの分野の実際の効果量分布と適合しているのであれば問題はないかもしれないが、実際には適合していないことが多い。例えば、ソフトウェア工学分野の92の実験をレビューした <span class="citation">Kampenes et al. (<a href="#ref-kampenes2007" role="doc-biblioref">2007</a>)</span> は、効果量の分布が全体的にCohenの規準よりも大きいことを指摘している。このように分野における効果量分布がCohenの規準と適合していないのであれば、やはりCohenの規準の使用を正当化する理由はないだろう。</p>
+<p>研究者は、得られた効果量を現実的な文脈や研究分野ごとの文脈に位置づけることでその実質的な意味を解釈すべきであり、Cohenの規準のようなベンチマークを機械的に当てはめて解釈を放棄することは望ましくない。しかしながら、Cohenの基準は今なお多くの研究で使い続けられている。そして、Cohenの基準を批判する研究者も、その後、Cohenの規準に代わるさらなるベンチマークを開発していくことになる。</p>
+</div>
+<div id="分野ごとに細分化された規準" class="section level2 hasAnchor" number="9.3">
+<h2><span class="header-section-number">9.3</span> 分野ごとに細分化された規準<a href="08-interpret.html#分野ごとに細分化された規準" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Cohenの規準への批判は、Cohenの規準に代わる新しいベンチマークを生み出すことにつながった。新しいベンチマークの修正の方向性は主に３点にまとめられる。１点目は、Cohenの基準の段階をより細かくすることである。２点目は、分野を限定し、過去の知見から経験的に段階を設定することである。</p>
+<p><span class="citation">Sawilowsky (<a href="#ref-sawilowsky2009" role="doc-biblioref">2009</a>)</span> は、近年のメタ分析によって得られた効果量の値が大きくなっていることを根拠に、Cohenの基準を以下のようにプラスの方向に拡張することを提案している。これは、従来のCohenの規準で大きいとみなされていた効果量をさらに細かく段階分けするという修正である。</p>
+<table>
+<caption>Sawilowsky の基準<span class="citation">(<a href="#ref-sawilowsky2009" role="doc-biblioref">Sawilowsky, 2009</a>)</span></caption>
+<thead>
+<tr class="header">
+<th align="center">d</th>
+<th align="center">判定</th>
+<th align="center">d</th>
+<th align="center">判定</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">d &lt; 0.1</td>
+<td align="center">Tiny</td>
+<td align="center">0.8 &lt;= d &lt; 1.2</td>
+<td align="center">Large</td>
+</tr>
+<tr class="even">
+<td align="center">0.1 &lt;= d &lt; 0.2</td>
+<td align="center">Very small</td>
+<td align="center">1.2 &lt;= d &lt; 2</td>
+<td align="center">Very large</td>
+</tr>
+<tr class="odd">
+<td align="center">0.2 &lt;= d &lt; 0.5</td>
+<td align="center">Small</td>
+<td align="center">d &gt;= 2</td>
+<td align="center">Huge</td>
+</tr>
+<tr class="even">
+<td align="center">0.5 &lt;= d &lt; 0.8</td>
+<td align="center">Medium</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<p><span class="citation">Gignac &amp; Szodorai (<a href="#ref-gignac2016" role="doc-biblioref">2016</a>)</span> は、心理的な構成概念や行動の相関に関する708件のメタ分析を収集した結果、この分野の効果量分布はCohenの基準よりもより小さいものであることを明らかにした。そして、相関係数rの判断基準を以下のように修正することを提案した。これは、分野の実態に合わせて効果量分布をマイナス方向へシフトさせるという修正である。</p>
+<table>
+<caption>Gignac &amp; Szodorai の基準<span class="citation">(<a href="#ref-gignac2016" role="doc-biblioref">Gignac &amp; Szodorai, 2016</a>)</span></caption>
+<thead>
+<tr class="header">
+<th>判定</th>
+<th><span class="citation">Cohen (<a href="#ref-cohen1988" role="doc-biblioref">1988</a>)</span></th>
+<th><span class="citation">Gignac &amp; Szodorai (<a href="#ref-gignac2016" role="doc-biblioref">2016</a>)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Very small</td>
+<td>r &lt; 0.1</td>
+<td>r &lt; 0.1</td>
+</tr>
+<tr class="even">
+<td>Small</td>
+<td>0.1 &lt;= r &lt; 0.3</td>
+<td>0.1 &lt;= r &lt; 0.2</td>
+</tr>
+<tr class="odd">
+<td>Moderate</td>
+<td>0.3 &lt;= r &lt; 0.5</td>
+<td>0.2 &lt;= r &lt; 0.3</td>
+</tr>
+<tr class="even">
+<td>Large</td>
+<td>r &gt;= 0.5</td>
+<td>r &gt;= 0.3</td>
+</tr>
+</tbody>
+</table>
+<p>その他にも、心理学<span class="citation">(<a href="#ref-funder2019" role="doc-biblioref">Funder &amp; Ozer, 2019</a>)</span>や社会心理学<span class="citation">(<a href="#ref-lovakov2021" role="doc-biblioref">Lovakov &amp; Agadullina, 2021</a>)</span>といった分野特有の規準が提案されてきた。また、老年学<span class="citation">(<a href="#ref-brydges2019" role="doc-biblioref">Brydges, 2019</a>)</span>や教育介入<span class="citation">(<a href="#ref-kraft2020" role="doc-biblioref">Kraft, 2020</a>)</span>といったより細かな分野ごとの基準も提案されている。</p>
+<table>
+<caption>各分野ごとの基準</caption>
+<colgroup>
+<col width="34%" />
+<col width="34%" />
+<col width="30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="citation">Funder &amp; Ozer (<a href="#ref-funder2019" role="doc-biblioref">2019</a>)</span></th>
+<th><span class="citation">Lovakov &amp; Agadullina (<a href="#ref-lovakov2021" role="doc-biblioref">2021</a>)</span></th>
+<th><span class="citation">Kraft (<a href="#ref-kraft2020" role="doc-biblioref">2020</a>)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>r &lt; 0.05 - Tiny</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>0.05 &lt;= r &lt; 0.1 - Very small</td>
+<td>r &lt; 0.12 - Very small</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>0.1 &lt;= r &lt; 0.2 - Small</td>
+<td>0.12 &lt;= r &lt; 0.24 - Small</td>
+<td>d &lt; 0.05 - Small</td>
+</tr>
+<tr class="even">
+<td>0.2 &lt;= r &lt; 0.3 - Medium</td>
+<td>0.24 &lt;= r &lt; 0.41 - Moderate</td>
+<td>0.05 &lt;= d &lt; 0.2 - Medium</td>
+</tr>
+<tr class="odd">
+<td>0.3 &lt;= r &lt; 0.4 - Large</td>
+<td>r &gt;= 0.41 - Large</td>
+<td>0.2 &lt;= d - Large</td>
+</tr>
+<tr class="even">
+<td>r &gt;= 0.4 - Very large</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>しかし、各分野ごとの経験データから効果量の判断基準が作成されたからといって、それらが適切とは限らない。第一に、各分野の中でも研究テーマごとに効果量分布が大きく異なる可能性がある。第二に、集められた経験データそのものが歪められている可能性がある。例えば、<span class="citation">Schäfer &amp; Schwarz (<a href="#ref-schäfer2019" role="doc-biblioref">2019</a>)</span> は心理学分野の研究からランダムに収集した効果量の分布が事前登録の有無によって異なることを指摘している。このように、判断基準の作成に使用されたデータが真の効果量分布を捉えていなければ、そこから作成された判断基準も誤ったものになる。</p>
+<p>Rを使えば、各基準に基づいて効果量の大きさを判断できる。※ここまでの記述内容を踏まえて適切に使用すること。</p>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="08-interpret.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 平均値差のデータ</span></span>
+<span id="cb148-2"><a href="08-interpret.html#cb148-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb148-3"><a href="08-interpret.html#cb148-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">55</span>, <span class="dv">10</span>)</span>
+<span id="cb148-4"><a href="08-interpret.html#cb148-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">50</span>, <span class="dv">10</span>)</span>
+<span id="cb148-5"><a href="08-interpret.html#cb148-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb148-6"><a href="08-interpret.html#cb148-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Cohen&#39;s d_s</span></span>
+<span id="cb148-7"><a href="08-interpret.html#cb148-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb148-8"><a href="08-interpret.html#cb148-8" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">cohens_d</span>(A, B)</span>
+<span id="cb148-9"><a href="08-interpret.html#cb148-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Cohen (1988) の基準</span></span>
+<span id="cb148-10"><a href="08-interpret.html#cb148-10" aria-hidden="true" tabindex="-1"></a><span class="fu">interpret_cohens_d</span>(d, <span class="at">rules =</span> <span class="st">&quot;cohen1988&quot;</span>)</span></code></pre></div>
+<pre><code>## Cohen&#39;s d |       95% CI | Interpretation
+## -----------------------------------------
+## 0.74      | [0.45, 1.03] |         medium
+## 
+## - Estimated using pooled SD.
+## - Interpretation rule: cohen1988</code></pre>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="08-interpret.html#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sawilowsky (2009) の基準</span></span>
+<span id="cb150-2"><a href="08-interpret.html#cb150-2" aria-hidden="true" tabindex="-1"></a><span class="fu">interpret_cohens_d</span>(d, <span class="at">rules =</span> <span class="st">&quot;sawilowsky2009&quot;</span>)</span></code></pre></div>
+<pre><code>## Cohen&#39;s d |       95% CI | Interpretation
+## -----------------------------------------
+## 0.74      | [0.45, 1.03] |         medium
+## 
+## - Estimated using pooled SD.
+## - Interpretation rule: sawilowsky2009</code></pre>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="08-interpret.html#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gignac &amp; Szodorai (2016) の基準</span></span>
+<span id="cb152-2"><a href="08-interpret.html#cb152-2" aria-hidden="true" tabindex="-1"></a><span class="fu">interpret_cohens_d</span>(d<span class="sc">$</span>Cohens_d, <span class="at">rules =</span> <span class="st">&quot;gignac2016&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;large&quot;
+## (Rules: gignac2016)</code></pre>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="08-interpret.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lovakov &amp; Agadullina (2021) の基準</span></span>
+<span id="cb154-2"><a href="08-interpret.html#cb154-2" aria-hidden="true" tabindex="-1"></a><span class="fu">interpret_cohens_d</span>(d, <span class="at">rules =</span> <span class="st">&quot;lovakov2021&quot;</span>)</span></code></pre></div>
+<pre><code>## Cohen&#39;s d |       95% CI | Interpretation
+## -----------------------------------------
+## 0.74      | [0.45, 1.03] |          large
+## 
+## - Estimated using pooled SD.
+## - Interpretation rule: lovakov2021</code></pre>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="08-interpret.html#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 相関のデータ</span></span>
+<span id="cb156-2"><a href="08-interpret.html#cb156-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mvtnorm)</span>
+<span id="cb156-3"><a href="08-interpret.html#cb156-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb156-4"><a href="08-interpret.html#cb156-4" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">50</span>,<span class="dv">50</span>,<span class="dv">100</span>), <span class="at">byrow=</span><span class="cn">TRUE</span>, <span class="at">ncol=</span><span class="dv">2</span>) </span>
+<span id="cb156-5"><a href="08-interpret.html#cb156-5" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">60</span>)</span>
+<span id="cb156-6"><a href="08-interpret.html#cb156-6" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb156-7"><a href="08-interpret.html#cb156-7" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">rmvnorm</span>(<span class="at">n=</span>n, <span class="at">mean=</span>mu, <span class="at">sigma=</span>sigma)) </span>
+<span id="cb156-8"><a href="08-interpret.html#cb156-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-9"><a href="08-interpret.html#cb156-9" aria-hidden="true" tabindex="-1"></a><span class="co"># ピアソンの積率相関</span></span>
+<span id="cb156-10"><a href="08-interpret.html#cb156-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(correlation)</span>
+<span id="cb156-11"><a href="08-interpret.html#cb156-11" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">correlation</span>(dat)<span class="sc">$</span>r</span>
+<span id="cb156-12"><a href="08-interpret.html#cb156-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Cohen (1988) の基準</span></span>
+<span id="cb156-13"><a href="08-interpret.html#cb156-13" aria-hidden="true" tabindex="-1"></a><span class="fu">interpret_r</span>(r, <span class="at">rules =</span> <span class="st">&quot;cohen1988&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;moderate&quot;
+## (Rules: cohen1988)</code></pre>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="08-interpret.html#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gignac &amp; Szodorai (2016) の基準</span></span>
+<span id="cb158-2"><a href="08-interpret.html#cb158-2" aria-hidden="true" tabindex="-1"></a><span class="fu">interpret_r</span>(r, <span class="at">rules =</span> <span class="st">&quot;gignac2016&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;large&quot;
+## (Rules: gignac2016)</code></pre>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="08-interpret.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Funder &amp; Ozer (2019) の基準</span></span>
+<span id="cb160-2"><a href="08-interpret.html#cb160-2" aria-hidden="true" tabindex="-1"></a><span class="fu">interpret_r</span>(r, <span class="at">rules =</span> <span class="st">&quot;funder2019&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;large&quot;
+## (Rules: funder2019)</code></pre>
+
+</div>
+</div>
+<h3> 引用文献リスト<a href="11-discussion.html#引用文献リスト" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
+<div id="ref-anvari2021" class="csl-entry">
+Anvari, F., Kievit, R., Lakens, D., Pennington, C. R., Przybylski, A. K., Tiokhin, L., Wiernik, B. M., &amp; Orben, A. (2021). <em>Not all effects are indispensable: Psychological science requires verifiable lines of reasoning for whether an effect matters.</em> <a href="http://dx.doi.org/10.31234/osf.io/g3vtr">http://dx.doi.org/10.31234/osf.io/g3vtr</a>
+</div>
+<div id="ref-brydges2019" class="csl-entry">
+Brydges, C. R. (2019). Effect Size Guidelines, Sample Size Calculations, and Statistical Power in Gerontology. <em>Innovation in Aging</em>, <em>3</em>(4). <a href="https://doi.org/10.1093/geroni/igz036">https://doi.org/10.1093/geroni/igz036</a>
+</div>
+<div id="ref-cohen1988" class="csl-entry">
+Cohen, J. (1988). <em>Statistical power analysis for the behavioral sciences</em>. L. Erlbaum Associates.
+</div>
+<div id="ref-cummings2011" class="csl-entry">
+Cummings, P. (2011). Arguments for and Against Standardized Mean Differences (Effect Sizes). <em>Archives of Pediatrics &amp; Adolescent Medicine</em>, <em>165</em>(7), 592. <a href="https://doi.org/10.1001/archpediatrics.2011.97">https://doi.org/10.1001/archpediatrics.2011.97</a>
+</div>
+<div id="ref-editors2005" class="csl-entry">
+Editors, J. (2005). Letter to the Editor: Abelson<span>’</span>s Paradox And The Michelson-Morley Experiment. <em>Journal of Modern Applied Statistical Methods</em>, <em>4</em>(1), 352–352. <a href="https://doi.org/10.22237/jmasm/1114907520">https://doi.org/10.22237/jmasm/1114907520</a>
+</div>
+<div id="ref-funder2019" class="csl-entry">
+Funder, D. C., &amp; Ozer, D. J. (2019). Evaluating Effect Size in Psychological Research: Sense and Nonsense. <em>Advances in Methods and Practices in Psychological Science</em>, <em>2</em>(2), 156–168. <a href="https://doi.org/10.1177/2515245919847202">https://doi.org/10.1177/2515245919847202</a>
+</div>
+<div id="ref-gignac2016" class="csl-entry">
+Gignac, G. E., &amp; Szodorai, E. T. (2016). Effect size guidelines for individual differences researchers. <em>Personality and Individual Differences</em>, <em>102</em>, 74–78. <a href="https://doi.org/10.1016/j.paid.2016.06.069">https://doi.org/10.1016/j.paid.2016.06.069</a>
+</div>
+<div id="ref-kampenes2007" class="csl-entry">
+Kampenes, V. B., Dybå, T., Hannay, J. E., &amp; Sjøberg, D. I. K. (2007). A systematic review of effect size in software engineering experiments. <em>Information and Software Technology</em>, <em>49</em>(11-12), 1073–1086. <a href="https://doi.org/10.1016/j.infsof.2007.02.015">https://doi.org/10.1016/j.infsof.2007.02.015</a>
+</div>
+<div id="ref-kraft2020" class="csl-entry">
+Kraft, M. A. (2020). Interpreting Effect Sizes of Education Interventions. <em>Educational Researcher</em>, <em>49</em>(4), 241–253. <a href="https://doi.org/10.3102/0013189x20912798">https://doi.org/10.3102/0013189x20912798</a>
+</div>
+<div id="ref-lenth2001" class="csl-entry">
+Lenth, R. V. (2001). Some Practical Guidelines for Effective Sample Size Determination. <em>The American Statistician</em>, <em>55</em>(3), 187–193. <a href="https://doi.org/10.1198/000313001317098149">https://doi.org/10.1198/000313001317098149</a>
+</div>
+<div id="ref-lovakov2021" class="csl-entry">
+Lovakov, A., &amp; Agadullina, E. R. (2021). Empirically derived guidelines for effect size interpretation in social psychology. <em>European Journal of Social Psychology</em>, <em>51</em>(3), 485–504. <a href="https://doi.org/10.1002/ejsp.2752">https://doi.org/10.1002/ejsp.2752</a>
+</div>
+<div id="ref-mcgraw1992" class="csl-entry">
+McGraw, K. O., &amp; Wong, S. P. (1992). A common language effect size statistic. <em>Psychological Bulletin</em>, <em>111</em>(2), 361–365. <a href="https://doi.org/10.1037/0033-2909.111.2.361">https://doi.org/10.1037/0033-2909.111.2.361</a>
+</div>
+<div id="ref-sawilowsky2009" class="csl-entry">
+Sawilowsky, S. S. (2009). New Effect Size Rules of Thumb. <em>Journal of Modern Applied Statistical Methods</em>, <em>8</em>(2), 597–599. <a href="https://doi.org/10.22237/jmasm/1257035100">https://doi.org/10.22237/jmasm/1257035100</a>
+</div>
+<div id="ref-schäfer2019" class="csl-entry">
+Schäfer, T., &amp; Schwarz, M. A. (2019). The meaningfulness of effect sizes in psychological research: Differences between sub-disciplines and the impact of potential biases. <em>Frontiers in Psychology</em>, <em>10</em>. <a href="https://doi.org/10.3389/fpsyg.2019.00813">https://doi.org/10.3389/fpsyg.2019.00813</a>
+</div>
+<div id="ref-haebara2014" class="csl-entry">
+南風原朝和. (2014). <em>続・心理統計学の基礎: 統合的理解を広げ深める</em>. 有斐閣. <a href="https://books.google.co.jp/books?id=h-vFrQEACAAJ">https://books.google.co.jp/books?id=h-vFrQEACAAJ</a>
+</div>
+<div id="ref-haebara1987" class="csl-entry">
+南風原朝和, &amp; 芝祐順. (1987). 相関係数および平均値差の解釈のための確率的な指標. <em>教育心理学研究</em>, <em>35</em>(3), 259–265.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="07-conversion.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="09-meta_analysis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/Daiki-Nakamura-git/effectsize/edit/master/08-interpret.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
