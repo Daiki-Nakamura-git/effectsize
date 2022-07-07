@@ -23,7 +23,7 @@
 <meta name="author" content="Daiki Nakamura" />
 
 
-<meta name="date" content="2022-07-06" />
+<meta name="date" content="2022-07-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -453,8 +453,8 @@ Cohen&#39;s~d_s=\frac{\bar{A}-\bar{B}}{\sqrt{(\hat\sigma_A^2+\hat\sigma_B^2)/2}}
 <p>標準化平均値差の効果量の信頼区間を算出する方法には、1．標準誤差を用いる方法、2．非心ｔ分布に基づく方法、3．ブートストラップ法の3種類がある<span class="citation">(<a href="#ref-inoue2008" role="doc-biblioref">井上俊哉, 2008</a>)</span>。以下で順に紹介する。なお、使用するデータは以下の通りである。</p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="02-mean_difference.html#cb47-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">100</span> ; n <span class="ot">&lt;-</span> <span class="dv">100</span>   <span class="co"># サンプルサイズ</span></span>
 <span id="cb47-2"><a href="02-mean_difference.html#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)         <span class="co"># 乱数の種の固定</span></span>
-<span id="cb47-3"><a href="02-mean_difference.html#cb47-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(m, <span class="dv">60</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(50,100)からm個の乱数を発生</span></span>
-<span id="cb47-4"><a href="02-mean_difference.html#cb47-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(60,100)からn個の乱数を発生</span></span></code></pre></div>
+<span id="cb47-3"><a href="02-mean_difference.html#cb47-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(m, <span class="dv">60</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(60,100)からm個の乱数を発生</span></span>
+<span id="cb47-4"><a href="02-mean_difference.html#cb47-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(50,100)からn個の乱数を発生</span></span></code></pre></div>
 <div id="標準誤差を用いる方法" class="section level4 hasAnchor" number="3.1.5.1">
 <h4><span class="header-section-number">3.1.5.1</span> 標準誤差を用いる方法<a href="02-mean_difference.html#標準誤差を用いる方法" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>1つ目は、標準誤差 <span class="math inline">\(se\)</span>（誤差分散<span class="math inline">\(V_{\hat\delta}\)</span>の平方根）を用いる簡易的な方法である。効果量の標本分布を正規分布で近似することで、95％信頼区間は以下のように計算できる<span class="citation">(<a href="#ref-nakagawa2007" role="doc-biblioref">Nakagawa &amp; Cuthill, 2007</a>)</span>。ここで、<span class="math inline">\(\hat\delta\)</span> は、母効果量 <span class="math inline">\(\delta\)</span> の推定値である標本効果量（<span class="math inline">\(d, d_S, \Delta\)</span>）を指す。</p>
@@ -477,9 +477,10 @@ Cohen&#39;s~d_s=\frac{\bar{A}-\bar{B}}{\sqrt{(\hat\sigma_A^2+\hat\sigma_B^2)/2}}
 <p><span class="math display">\[
 t=d_s*\sqrt{\frac{mn}{m+n}},\\
 \lambda=\delta*\sqrt{\frac{mn}{m+n}},\\
+\delta=\lambda*\sqrt{\frac{m+n}{mn}},\\
 df=m+n-2
 \]</span></p>
-<p>今回の例の場合、自由度<span class="math inline">\(df=198\)</span>の非心ｔ分布を非心度<span class="math inline">\(λ\)</span>を変えながら描いていったとき、検定統計量<span class="math inline">\(t\)</span>の実現値<span class="math inline">\(t=9.008702\)</span>が上側確率0.975に一致する非心度<span class="math inline">\(λ_L\)</span>を求める。そして、それに<span class="math inline">\(\sqrt{\frac{mn}{m+n}}\)</span> をかけることで効果量<span class="math inline">\(\delta\)</span>に変換したものが効果量<span class="math inline">\(d_s\)</span>の信頼区間の上限値になる。同様に、検定統計量<span class="math inline">\(t\)</span>の実現値が非心ｔ分布の下側確率0.025に一致する非心度<span class="math inline">\(λ_H\)</span>を求めて変換すれば効果量<span class="math inline">\(d_s\)</span>の信頼区間の下限値になる。非心ｔ分布の詳細については、<span class="citation">(<a href="#ref-haebara2014" role="doc-biblioref">南風原朝和, 2014</a>)</span>などを参照されたい。※Glass’s <span class="math inline">\(\Delta\)</span> の場合は、自由度<span class="math inline">\(df\)</span>を<span class="math inline">\(n-1\)</span>とする。</p>
+<p>今回の例の場合、自由度<span class="math inline">\(df=198\)</span>の非心ｔ分布を非心度<span class="math inline">\(λ\)</span>を変えながら描いていったとき、検定統計量<span class="math inline">\(t\)</span>の実現値<span class="math inline">\(t=9.008702\)</span>が上側確率0.975に一致する非心度<span class="math inline">\(λ_L\)</span>を求める。そして、それに<span class="math inline">\(\sqrt{\frac{m+n}{mn}}\)</span> をかけることで効果量<span class="math inline">\(\delta\)</span>に変換したものが効果量<span class="math inline">\(d_s\)</span>の信頼区間の上限値になる。同様に、検定統計量<span class="math inline">\(t\)</span>の実現値が非心ｔ分布の下側確率0.025に一致する非心度<span class="math inline">\(λ_H\)</span>を求めて変換すれば効果量<span class="math inline">\(d_s\)</span>の信頼区間の下限値になる。非心ｔ分布の詳細については、<span class="citation">(<a href="#ref-haebara2014" role="doc-biblioref">南風原朝和, 2014</a>)</span>などを参照されたい。※Glass’s <span class="math inline">\(\Delta\)</span> の場合は、自由度<span class="math inline">\(df\)</span>を<span class="math inline">\(n-1\)</span>とする。</p>
 <p>Rを利用すれば、Cohen’s <span class="math inline">\(d_s\)</span> の95%信頼区間は以下のように求められる。</p>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="02-mean_difference.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
 <span id="cb52-2"><a href="02-mean_difference.html#cb52-2" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">cohens_d</span>(A, B)  <span class="co"># Cohen&#39;s d_s</span></span>
@@ -506,10 +507,11 @@ df=m+n-2
 <p>3つ目は、ブートストラップ法を用いる方法である。ブートストラップ法とは、標本からの復元抽出を繰り返すことで大きな標本を生成し、そこから得られる近似分布（経験分布）によって標準誤差や信頼区間を求める方法である。ブートストラップ法では、母集団分布を仮定せずに信頼区間を計算することができるため便利である。</p>
 <p>ここでは既存のパッケージを利用して、Cohen’s <span class="math inline">\(d_s\)</span> の95%信頼区間を求める。R=10000回の復元抽出を行うよう設定している。</p>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="02-mean_difference.html#cb58-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">score=</span><span class="fu">append</span>(A, B), <span class="at">group=</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>), <span class="at">each=</span><span class="dv">100</span>))</span>
-<span id="cb58-2"><a href="02-mean_difference.html#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bootES)</span>
-<span id="cb58-3"><a href="02-mean_difference.html#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb58-4"><a href="02-mean_difference.html#cb58-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bootES</span>(<span class="at">data =</span> dat, <span class="at">data.col =</span> <span class="st">&quot;score&quot;</span>, <span class="at">group.col =</span> <span class="st">&quot;group&quot;</span>, <span class="at">contrast =</span> <span class="fu">c</span>(<span class="st">&quot;B&quot;</span>,<span class="st">&quot;A&quot;</span>), </span>
-<span id="cb58-5"><a href="02-mean_difference.html#cb58-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">effect.type =</span> <span class="st">&quot;cohens.d&quot;</span>, <span class="at">ci.conf =</span> <span class="fl">0.95</span>, <span class="at">R =</span> <span class="dv">10000</span>)</span></code></pre></div>
+<span id="cb58-2"><a href="02-mean_difference.html#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bootES)</span></code></pre></div>
+<pre><code>##  要求されたパッケージ boot をロード中です</code></pre>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="02-mean_difference.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb60-2"><a href="02-mean_difference.html#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bootES</span>(<span class="at">data =</span> dat, <span class="at">data.col =</span> <span class="st">&quot;score&quot;</span>, <span class="at">group.col =</span> <span class="st">&quot;group&quot;</span>, <span class="at">contrast =</span> <span class="fu">c</span>(<span class="st">&quot;B&quot;</span>,<span class="st">&quot;A&quot;</span>), </span>
+<span id="cb60-3"><a href="02-mean_difference.html#cb60-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">effect.type =</span> <span class="st">&quot;cohens.d&quot;</span>, <span class="at">ci.conf =</span> <span class="fl">0.95</span>, <span class="at">R =</span> <span class="dv">10000</span>)</span></code></pre></div>
 <pre><code>## 
 ## User-specified lambdas: (B, A)
 ## Scaled lambdas: (-1, 1)
@@ -517,11 +519,11 @@ df=m+n-2
 ## Stat        CI (Low)    CI (High)   bias        SE          
 ## 1.274       0.931       1.602       0.014       0.172</code></pre>
 <p>Glassの <span class="math inline">\(\Delta\)</span> の95%信頼区間も以下のように求められる。</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="02-mean_difference.html#cb60-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">score=</span><span class="fu">append</span>(A, B), <span class="at">group=</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>), <span class="at">each=</span><span class="dv">100</span>))</span>
-<span id="cb60-2"><a href="02-mean_difference.html#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bootES)</span>
-<span id="cb60-3"><a href="02-mean_difference.html#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb60-4"><a href="02-mean_difference.html#cb60-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bootES</span>(<span class="at">data =</span> dat, <span class="at">data.col =</span> <span class="st">&quot;score&quot;</span>, <span class="at">group.col =</span> <span class="st">&quot;group&quot;</span>, <span class="at">contrast =</span> <span class="fu">c</span>(<span class="st">&quot;B&quot;</span>,<span class="st">&quot;A&quot;</span>), </span>
-<span id="cb60-5"><a href="02-mean_difference.html#cb60-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">effect.type =</span> <span class="st">&quot;cohens.d&quot;</span>, <span class="at">glass.control =</span> <span class="st">&quot;B&quot;</span>, <span class="at">ci.conf =</span> <span class="fl">0.95</span>, <span class="at">R =</span> <span class="dv">10000</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="02-mean_difference.html#cb62-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">score=</span><span class="fu">append</span>(A, B), <span class="at">group=</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>), <span class="at">each=</span><span class="dv">100</span>))</span>
+<span id="cb62-2"><a href="02-mean_difference.html#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bootES)</span>
+<span id="cb62-3"><a href="02-mean_difference.html#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb62-4"><a href="02-mean_difference.html#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bootES</span>(<span class="at">data =</span> dat, <span class="at">data.col =</span> <span class="st">&quot;score&quot;</span>, <span class="at">group.col =</span> <span class="st">&quot;group&quot;</span>, <span class="at">contrast =</span> <span class="fu">c</span>(<span class="st">&quot;B&quot;</span>,<span class="st">&quot;A&quot;</span>), </span>
+<span id="cb62-5"><a href="02-mean_difference.html#cb62-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">effect.type =</span> <span class="st">&quot;cohens.d&quot;</span>, <span class="at">glass.control =</span> <span class="st">&quot;B&quot;</span>, <span class="at">ci.conf =</span> <span class="fl">0.95</span>, <span class="at">R =</span> <span class="dv">10000</span>)</span></code></pre></div>
 <pre><code>## 
 ## User-specified lambdas: (B, A)
 ## Scaled lambdas: (-1, 1)
@@ -549,17 +551,29 @@ B_j \sim \mathcal{N}\left(\mu + \cfrac{\delta \sigma}{2}, \sigma^2\right),~~~j=1
 \end{cases}
 \]</span></p>
 <p>JZSの事前分布を用いた場合の母効果量 <span class="math inline">\(\delta\)</span> の事後分布の式については割愛するが、以下のRコードでのMAP推定値と信用区間を求めることができる。</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="02-mean_difference.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb62-2"><a href="02-mean_difference.html#cb62-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">60</span>, <span class="dv">10</span>)</span>
-<span id="cb62-3"><a href="02-mean_difference.html#cb62-3" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">50</span>, <span class="dv">10</span>)</span>
-<span id="cb62-4"><a href="02-mean_difference.html#cb62-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-5"><a href="02-mean_difference.html#cb62-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(BayesFactor)</span>
-<span id="cb62-6"><a href="02-mean_difference.html#cb62-6" aria-hidden="true" tabindex="-1"></a>bf <span class="ot">&lt;-</span> <span class="fu">ttestBF</span>(A, B, <span class="at">paired =</span> F) <span class="co"># ベイズファクター BF_10</span></span>
-<span id="cb62-7"><a href="02-mean_difference.html#cb62-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bayestestR)</span>
-<span id="cb62-8"><a href="02-mean_difference.html#cb62-8" aria-hidden="true" tabindex="-1"></a><span class="fu">describe_prior</span>(bf) <span class="co"># 事前分布</span></span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="02-mean_difference.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb64-2"><a href="02-mean_difference.html#cb64-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">60</span>, <span class="dv">10</span>)</span>
+<span id="cb64-3"><a href="02-mean_difference.html#cb64-3" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">50</span>, <span class="dv">10</span>)</span>
+<span id="cb64-4"><a href="02-mean_difference.html#cb64-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-5"><a href="02-mean_difference.html#cb64-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(BayesFactor)</span></code></pre></div>
+<pre><code>##  要求されたパッケージ coda をロード中です</code></pre>
+<pre><code>##  要求されたパッケージ Matrix をロード中です</code></pre>
+<pre><code>## ************
+## Welcome to BayesFactor 0.9.12-4.4. If you have questions, please contact Richard Morey (richarddmorey@gmail.com).
+## 
+## Type BFManual() to open the manual.
+## ************</code></pre>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="02-mean_difference.html#cb68-1" aria-hidden="true" tabindex="-1"></a>bf <span class="ot">&lt;-</span> <span class="fu">ttestBF</span>(A, B, <span class="at">paired =</span> F) <span class="co"># ベイズファクター BF_10</span></span>
+<span id="cb68-2"><a href="02-mean_difference.html#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bayestestR)</span></code></pre></div>
+<pre><code>## 
+##  次のパッケージを付け加えます: &#39;bayestestR&#39;</code></pre>
+<pre><code>##  以下のオブジェクトは &#39;package:MBESS&#39; からマスクされています:
+## 
+##     mediation</code></pre>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="02-mean_difference.html#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">describe_prior</span>(bf) <span class="co"># 事前分布</span></span></code></pre></div>
 <pre><code>##    Parameter Prior_Distribution Prior_Location Prior_Scale
 ## 1 Difference             cauchy              0   0.7071068</code></pre>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="02-mean_difference.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">effectsize</span>(bf, <span class="at">test =</span> <span class="cn">NULL</span>) <span class="co"># 事後分布における効果量のMAP推定値</span></span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="02-mean_difference.html#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">effectsize</span>(bf, <span class="at">test =</span> <span class="cn">NULL</span>) <span class="co"># 事後分布における効果量のMAP推定値</span></span></code></pre></div>
 <pre><code>## Cohen&#39;s d |       95% CI
 ## ------------------------
 ## 1.25      | [0.94, 1.56]</code></pre>
@@ -574,16 +588,16 @@ B_j \sim \mathcal{N}\left(\mu + \cfrac{\delta \sigma}{2}, \sigma^2\right),~~~j=1
 <li>推定の不確実性（95%信頼区間など）</li>
 </ol>
 <p>Rを用いて以下のように結果報告の表や文章を出力することもできる。</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="02-mean_difference.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb66-2"><a href="02-mean_difference.html#cb66-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">60</span>, <span class="dv">10</span>)</span>
-<span id="cb66-3"><a href="02-mean_difference.html#cb66-3" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">50</span>, <span class="dv">10</span>)</span>
-<span id="cb66-4"><a href="02-mean_difference.html#cb66-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-5"><a href="02-mean_difference.html#cb66-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(report)</span>
-<span id="cb66-6"><a href="02-mean_difference.html#cb66-6" aria-hidden="true" tabindex="-1"></a><span class="fu">report_table</span>(<span class="fu">t.test</span>(A, B, <span class="at">var.equal =</span> T)) <span class="co"># 表</span></span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="02-mean_difference.html#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb75-2"><a href="02-mean_difference.html#cb75-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">60</span>, <span class="dv">10</span>)</span>
+<span id="cb75-3"><a href="02-mean_difference.html#cb75-3" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">50</span>, <span class="dv">10</span>)</span>
+<span id="cb75-4"><a href="02-mean_difference.html#cb75-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-5"><a href="02-mean_difference.html#cb75-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(report)</span>
+<span id="cb75-6"><a href="02-mean_difference.html#cb75-6" aria-hidden="true" tabindex="-1"></a><span class="fu">report_table</span>(<span class="fu">t.test</span>(A, B, <span class="at">var.equal =</span> T)) <span class="co"># 表</span></span></code></pre></div>
 <pre><code>## Parameter1 | Parameter2 | Mean_Parameter1 | Mean_Parameter2 | Difference |        95% CI | t(198) |      p |            Method | Alternative | Cohen&#39;s d | Cohens_d  CI
 ## -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## A          |          B |           60.90 |           48.92 |      11.98 | [9.36, 14.60] |   9.01 | &lt; .001 | Two Sample t-test |   two.sided |      1.27 | [0.97, 1.58]</code></pre>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="02-mean_difference.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(<span class="fu">t.test</span>(A, B, <span class="at">var.equal =</span> T)) <span class="co"># 文章</span></span></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="02-mean_difference.html#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(<span class="fu">t.test</span>(A, B, <span class="at">var.equal =</span> T)) <span class="co"># 文章</span></span></code></pre></div>
 <pre><code>## Effect sizes were labelled following Cohen&#39;s (1988) recommendations.
 ## 
 ## The Two Sample t-test testing the difference between A and B (mean of x = 60.90, mean of y = 48.92) suggests that the effect is positive, statistically significant, and large (difference = 11.98, 95% CI [9.36, 14.60], t(198) = 9.01, p &lt; .001; Cohen&#39;s d = 1.27, 95% CI [0.97, 1.58])</code></pre>
@@ -603,13 +617,13 @@ B_j \sim \mathcal{N}\left(\mu + \cfrac{\delta \sigma}{2}, \sigma^2\right),~~~j=1
 X_{post}-X_{pre}\sim Normal(10, 100)
 \]</span></p>
 <p>Rを使って上記の分布に従う乱数を発生させてみよう。このデータを用いて後に示す効果量を計算していく。</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="02-mean_difference.html#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mvtnorm)</span>
-<span id="cb70-2"><a href="02-mean_difference.html#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb70-3"><a href="02-mean_difference.html#cb70-3" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">50</span>,<span class="dv">50</span>,<span class="dv">100</span>), <span class="at">byrow=</span><span class="cn">TRUE</span>, <span class="at">ncol=</span><span class="dv">2</span>) </span>
-<span id="cb70-4"><a href="02-mean_difference.html#cb70-4" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">60</span>)</span>
-<span id="cb70-5"><a href="02-mean_difference.html#cb70-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb70-6"><a href="02-mean_difference.html#cb70-6" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">rmvnorm</span>(<span class="at">n=</span>n, <span class="at">mean=</span>mu, <span class="at">sigma=</span>sigma)) </span>
-<span id="cb70-7"><a href="02-mean_difference.html#cb70-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(dat) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;pre&quot;</span>,<span class="st">&quot;post&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="02-mean_difference.html#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mvtnorm)</span>
+<span id="cb79-2"><a href="02-mean_difference.html#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb79-3"><a href="02-mean_difference.html#cb79-3" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">50</span>,<span class="dv">50</span>,<span class="dv">100</span>), <span class="at">byrow=</span><span class="cn">TRUE</span>, <span class="at">ncol=</span><span class="dv">2</span>) </span>
+<span id="cb79-4"><a href="02-mean_difference.html#cb79-4" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">60</span>)</span>
+<span id="cb79-5"><a href="02-mean_difference.html#cb79-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb79-6"><a href="02-mean_difference.html#cb79-6" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">rmvnorm</span>(<span class="at">n=</span>n, <span class="at">mean=</span>mu, <span class="at">sigma=</span>sigma)) </span>
+<span id="cb79-7"><a href="02-mean_difference.html#cb79-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(dat) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;pre&quot;</span>,<span class="st">&quot;post&quot;</span>)</span></code></pre></div>
 <div id="非標準化平均値差-1" class="section level3 hasAnchor" number="3.2.1">
 <h3><span class="header-section-number">3.2.1</span> 非標準化平均値差<a href="02-mean_difference.html#非標準化平均値差-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>プレ・ポストの平均値差Dは、以下の式で求められる。これは非標準化効果量の一種であり、元の測定単位における比較に関心がある場合などに有用である。 <span class="math display">\[
@@ -636,11 +650,11 @@ Cohen&#39;s~d_z=\frac{D}{\hat\sigma_D}=\frac{D}{\sqrt{\hat\sigma_{pre}^2+\hat\si
 V_{d_z} = \dfrac{2(1-r)}{n}+\frac{d_z^2}{2n}
 \]</span></p>
 <p>Rを利用すれば、Cohen の <span class="math inline">\(d_z\)</span> は以下のように計算できる。</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="02-mean_difference.html#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dat<span class="sc">$</span>post<span class="sc">-</span>dat<span class="sc">$</span>pre)<span class="sc">/</span><span class="fu">sd</span>(dat<span class="sc">$</span>post<span class="sc">-</span>dat<span class="sc">$</span>pre)</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="02-mean_difference.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dat<span class="sc">$</span>post<span class="sc">-</span>dat<span class="sc">$</span>pre)<span class="sc">/</span><span class="fu">sd</span>(dat<span class="sc">$</span>post<span class="sc">-</span>dat<span class="sc">$</span>pre)</span></code></pre></div>
 <pre><code>## [1] 0.9587383</code></pre>
 <p>既存のパッケージを利用した場合でも同様の結果が得られる。</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="02-mean_difference.html#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
-<span id="cb73-2"><a href="02-mean_difference.html#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cohens_d</span>(dat<span class="sc">$</span>post, dat<span class="sc">$</span>pre, <span class="at">paired =</span> T) <span class="co"># Cohen&#39;s d_z</span></span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="02-mean_difference.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb82-2"><a href="02-mean_difference.html#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cohens_d</span>(dat<span class="sc">$</span>post, dat<span class="sc">$</span>pre, <span class="at">paired =</span> T) <span class="co"># Cohen&#39;s d_z</span></span></code></pre></div>
 <pre><code>## Cohen&#39;s d |       95% CI
 ## ------------------------
 ## 0.96      | [0.72, 1.20]</code></pre>
@@ -656,19 +670,19 @@ df=n-1
 \]</span>
 今回の例の場合、自由度<span class="math inline">\(df=99\)</span>の非心ｔ分布を非心度<span class="math inline">\(λ\)</span>を変えながら描いていったとき、検定統計量<span class="math inline">\(t\)</span>の実現値<span class="math inline">\(t=9.587383\)</span>が上側確率0.975に一致する非心度<span class="math inline">\(λ_L\)</span>を求める。そして、それに<span class="math inline">\(\sqrt{n}\)</span>をかけることで効果量<span class="math inline">\(\delta\)</span>に変換したものが効果量<span class="math inline">\(d_s\)</span>の信頼区間の上限値になる。同様に、検定統計量<span class="math inline">\(t\)</span>の実現値が非心ｔ分布の下側確率0.025に一致する非心度<span class="math inline">\(λ_H\)</span>を求めて変換すれば効果量<span class="math inline">\(d_s\)</span>の信頼区間の下限値になる。非心ｔ分布の詳細については、<span class="citation">(<a href="#ref-haebara2014" role="doc-biblioref">南風原朝和, 2014</a>)</span>などを参照されたい。</p>
 <p>Rを利用すれば、Cohen’s <span class="math inline">\(d_s\)</span> の95%信頼区間は以下のように求められる。</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="02-mean_difference.html#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
-<span id="cb75-2"><a href="02-mean_difference.html#cb75-2" aria-hidden="true" tabindex="-1"></a>dz <span class="ot">&lt;-</span> <span class="fu">cohens_d</span>(dat<span class="sc">$</span>post, dat<span class="sc">$</span>pre, <span class="at">paired =</span> T) <span class="co"># Cohen&#39;s d_z</span></span>
-<span id="cb75-3"><a href="02-mean_difference.html#cb75-3" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> dz<span class="sc">$</span>Cohens_d<span class="sc">*</span><span class="fu">sqrt</span>(n) <span class="co"># t値</span></span>
-<span id="cb75-4"><a href="02-mean_difference.html#cb75-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> n<span class="dv">-1</span> <span class="co"># 自由度</span></span>
-<span id="cb75-5"><a href="02-mean_difference.html#cb75-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MBESS)</span>
-<span id="cb75-6"><a href="02-mean_difference.html#cb75-6" aria-hidden="true" tabindex="-1"></a>lambda.ci <span class="ot">&lt;-</span> <span class="fu">conf.limits.nct</span>(<span class="at">t.value =</span> t, <span class="at">df=</span>df, <span class="at">conf.level =</span> .<span class="dv">95</span>) <span class="co"># 非心t分布の95%点</span></span>
-<span id="cb75-7"><a href="02-mean_difference.html#cb75-7" aria-hidden="true" tabindex="-1"></a>lambda.ci<span class="sc">$</span>Lower.Limit<span class="sc">/</span><span class="fu">sqrt</span>(n)  <span class="co"># 95%信頼区間の下限値</span></span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="02-mean_difference.html#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb84-2"><a href="02-mean_difference.html#cb84-2" aria-hidden="true" tabindex="-1"></a>dz <span class="ot">&lt;-</span> <span class="fu">cohens_d</span>(dat<span class="sc">$</span>post, dat<span class="sc">$</span>pre, <span class="at">paired =</span> T) <span class="co"># Cohen&#39;s d_z</span></span>
+<span id="cb84-3"><a href="02-mean_difference.html#cb84-3" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> dz<span class="sc">$</span>Cohens_d<span class="sc">*</span><span class="fu">sqrt</span>(n) <span class="co"># t値</span></span>
+<span id="cb84-4"><a href="02-mean_difference.html#cb84-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> n<span class="dv">-1</span> <span class="co"># 自由度</span></span>
+<span id="cb84-5"><a href="02-mean_difference.html#cb84-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MBESS)</span>
+<span id="cb84-6"><a href="02-mean_difference.html#cb84-6" aria-hidden="true" tabindex="-1"></a>lambda.ci <span class="ot">&lt;-</span> <span class="fu">conf.limits.nct</span>(<span class="at">t.value =</span> t, <span class="at">df=</span>df, <span class="at">conf.level =</span> .<span class="dv">95</span>) <span class="co"># 非心t分布の95%点</span></span>
+<span id="cb84-7"><a href="02-mean_difference.html#cb84-7" aria-hidden="true" tabindex="-1"></a>lambda.ci<span class="sc">$</span>Lower.Limit<span class="sc">/</span><span class="fu">sqrt</span>(n)  <span class="co"># 95%信頼区間の下限値</span></span></code></pre></div>
 <pre><code>## [1] 0.719982</code></pre>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="02-mean_difference.html#cb77-1" aria-hidden="true" tabindex="-1"></a>lambda.ci<span class="sc">$</span>Upper.Limit<span class="sc">/</span><span class="fu">sqrt</span>(n)  <span class="co"># 95%信頼区間の上限値</span></span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="02-mean_difference.html#cb86-1" aria-hidden="true" tabindex="-1"></a>lambda.ci<span class="sc">$</span>Upper.Limit<span class="sc">/</span><span class="fu">sqrt</span>(n)  <span class="co"># 95%信頼区間の上限値</span></span></code></pre></div>
 <pre><code>## [1] 1.194118</code></pre>
 <p>既存のパッケージを利用した場合でも同様の結果が得られる。</p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="02-mean_difference.html#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
-<span id="cb79-2"><a href="02-mean_difference.html#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cohens_d</span>(dat<span class="sc">$</span>post, dat<span class="sc">$</span>pre, <span class="at">paired =</span> T) <span class="co"># Cohen&#39;s d_z</span></span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="02-mean_difference.html#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb88-2"><a href="02-mean_difference.html#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cohens_d</span>(dat<span class="sc">$</span>post, dat<span class="sc">$</span>pre, <span class="at">paired =</span> T) <span class="co"># Cohen&#39;s d_z</span></span></code></pre></div>
 <pre><code>## Cohen&#39;s d |       95% CI
 ## ------------------------
 ## 0.96      | [0.72, 1.20]</code></pre>
@@ -684,12 +698,12 @@ df=n-1
 <li>プレとポストの相関係数r</li>
 </ol>
 <p>Rを用いて以下のように結果報告の表や文章を出力することもできる。</p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="02-mean_difference.html#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(report)</span>
-<span id="cb81-2"><a href="02-mean_difference.html#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="fu">report_table</span>(<span class="fu">t.test</span>(dat<span class="sc">$</span>post, dat<span class="sc">$</span>pre, <span class="at">paired =</span> T)) <span class="co"># 表</span></span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="02-mean_difference.html#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(report)</span>
+<span id="cb90-2"><a href="02-mean_difference.html#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="fu">report_table</span>(<span class="fu">t.test</span>(dat<span class="sc">$</span>post, dat<span class="sc">$</span>pre, <span class="at">paired =</span> T)) <span class="co"># 表</span></span></code></pre></div>
 <pre><code>## Parameter |   Group | Difference | t(99) |      p |        95% CI |        Method | Alternative | Cohen&#39;s d | Cohens_d  CI
 ## --------------------------------------------------------------------------------------------------------------------------
 ## dat$post  | dat$pre |       9.80 |  9.59 | &lt; .001 | [7.77, 11.82] | Paired t-test |   two.sided |      0.96 | [0.72, 1.20]</code></pre>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="02-mean_difference.html#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(<span class="fu">t.test</span>(dat<span class="sc">$</span>post, dat<span class="sc">$</span>pre, <span class="at">paired =</span> T)) <span class="co"># 文章</span></span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="02-mean_difference.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(<span class="fu">t.test</span>(dat<span class="sc">$</span>post, dat<span class="sc">$</span>pre, <span class="at">paired =</span> T)) <span class="co"># 文章</span></span></code></pre></div>
 <pre><code>## Effect sizes were labelled following Cohen&#39;s (1988) recommendations.
 ## 
 ## The Paired t-test testing the difference between dat$post and dat$pre (mean difference = 9.80) suggests that the effect is positive, statistically significant, and large (difference = 9.80, 95% CI [7.77, 11.82], t(99) = 9.59, p &lt; .001; Cohen&#39;s d = 0.96, 95% CI [0.72, 1.20])</code></pre>
@@ -710,17 +724,17 @@ J\approx1-\frac{3}{4*df-1}
 J\approx1-\frac{3}{4(m+n-2)-1}\\
 Heges&#39;~g=J*d_s
 \]</span> Rを利用すれば、Hedges の <span class="math inline">\(g\)</span> は以下のように計算できる。</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="02-mean_difference.html#cb85-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">100</span> ; n <span class="ot">&lt;-</span> <span class="dv">100</span>   <span class="co"># サンプルサイズ</span></span>
-<span id="cb85-2"><a href="02-mean_difference.html#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)         <span class="co"># 乱数の種の固定</span></span>
-<span id="cb85-3"><a href="02-mean_difference.html#cb85-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(m, <span class="dv">60</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(50,100)からm個の乱数を発生</span></span>
-<span id="cb85-4"><a href="02-mean_difference.html#cb85-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(60,100)からn個の乱数を発生</span></span>
-<span id="cb85-5"><a href="02-mean_difference.html#cb85-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
-<span id="cb85-6"><a href="02-mean_difference.html#cb85-6" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">cohens_d</span>(A, B)   <span class="co"># Cohen&#39;s d_s</span></span>
-<span id="cb85-7"><a href="02-mean_difference.html#cb85-7" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Cohens_d <span class="sc">*</span> (<span class="dv">1</span><span class="sc">-</span>(<span class="dv">3</span><span class="sc">/</span>(<span class="dv">4</span><span class="sc">*</span>(m<span class="sc">+</span>n<span class="dv">-2</span>)<span class="sc">-</span><span class="dv">1</span>))) <span class="co"># Hedges&#39; g</span></span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="02-mean_difference.html#cb94-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">100</span> ; n <span class="ot">&lt;-</span> <span class="dv">100</span>   <span class="co"># サンプルサイズ</span></span>
+<span id="cb94-2"><a href="02-mean_difference.html#cb94-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)         <span class="co"># 乱数の種の固定</span></span>
+<span id="cb94-3"><a href="02-mean_difference.html#cb94-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(m, <span class="dv">60</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(50,100)からm個の乱数を発生</span></span>
+<span id="cb94-4"><a href="02-mean_difference.html#cb94-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(60,100)からn個の乱数を発生</span></span>
+<span id="cb94-5"><a href="02-mean_difference.html#cb94-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb94-6"><a href="02-mean_difference.html#cb94-6" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">cohens_d</span>(A, B)   <span class="co"># Cohen&#39;s d_s</span></span>
+<span id="cb94-7"><a href="02-mean_difference.html#cb94-7" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Cohens_d <span class="sc">*</span> (<span class="dv">1</span><span class="sc">-</span>(<span class="dv">3</span><span class="sc">/</span>(<span class="dv">4</span><span class="sc">*</span>(m<span class="sc">+</span>n<span class="dv">-2</span>)<span class="sc">-</span><span class="dv">1</span>))) <span class="co"># Hedges&#39; g</span></span></code></pre></div>
 <pre><code>## [1] 1.269191</code></pre>
 <p>既存のパッケージを利用した場合でも同様の結果が得られる。</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="02-mean_difference.html#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
-<span id="cb87-2"><a href="02-mean_difference.html#cb87-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hedges_g</span>(A, B)</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="02-mean_difference.html#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb96-2"><a href="02-mean_difference.html#cb96-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hedges_g</span>(A, B)</span></code></pre></div>
 <pre><code>## Hedges&#39; g |       95% CI
 ## ------------------------
 ## 1.27      | [0.96, 1.57]
@@ -735,49 +749,62 @@ J\approx1-\frac{3}{4(n-1)-1}\\
 Glass&#39;s~\Delta_{adj}=J*\Delta
 \]</span></p>
 <p>Rを利用すれば、Glass の <span class="math inline">\(\Delta_{adj}\)</span> は以下のように計算できる。</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="02-mean_difference.html#cb89-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">100</span> ; n <span class="ot">&lt;-</span> <span class="dv">100</span>   <span class="co"># サンプルサイズ</span></span>
-<span id="cb89-2"><a href="02-mean_difference.html#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)         <span class="co"># 乱数の種の固定</span></span>
-<span id="cb89-3"><a href="02-mean_difference.html#cb89-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(m, <span class="dv">60</span>, <span class="dv">12</span>) <span class="co"># 正規分布N(50,144)からm個の乱数を発生</span></span>
-<span id="cb89-4"><a href="02-mean_difference.html#cb89-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(60,100)からn個の乱数を発生</span></span>
-<span id="cb89-5"><a href="02-mean_difference.html#cb89-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
-<span id="cb89-6"><a href="02-mean_difference.html#cb89-6" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="fu">glass_delta</span>(A, B)  <span class="co"># Glass&#39;s delta</span></span>
-<span id="cb89-7"><a href="02-mean_difference.html#cb89-7" aria-hidden="true" tabindex="-1"></a>delta<span class="sc">$</span>Glass_delta <span class="sc">*</span> (<span class="dv">1</span><span class="sc">-</span>(<span class="dv">3</span><span class="sc">/</span>(<span class="dv">4</span><span class="sc">*</span>(n<span class="dv">-1</span>)<span class="sc">-</span><span class="dv">1</span>))) <span class="co"># Glass&#39;s delta_adjusted</span></span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="02-mean_difference.html#cb98-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">100</span> ; n <span class="ot">&lt;-</span> <span class="dv">100</span>   <span class="co"># サンプルサイズ</span></span>
+<span id="cb98-2"><a href="02-mean_difference.html#cb98-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)         <span class="co"># 乱数の種の固定</span></span>
+<span id="cb98-3"><a href="02-mean_difference.html#cb98-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(m, <span class="dv">60</span>, <span class="dv">12</span>) <span class="co"># 正規分布N(50,144)からm個の乱数を発生</span></span>
+<span id="cb98-4"><a href="02-mean_difference.html#cb98-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(60,100)からn個の乱数を発生</span></span>
+<span id="cb98-5"><a href="02-mean_difference.html#cb98-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb98-6"><a href="02-mean_difference.html#cb98-6" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="fu">glass_delta</span>(A, B)  <span class="co"># Glass&#39;s delta</span></span>
+<span id="cb98-7"><a href="02-mean_difference.html#cb98-7" aria-hidden="true" tabindex="-1"></a>delta<span class="sc">$</span>Glass_delta <span class="sc">*</span> (<span class="dv">1</span><span class="sc">-</span>(<span class="dv">3</span><span class="sc">/</span>(<span class="dv">4</span><span class="sc">*</span>(n<span class="dv">-1</span>)<span class="sc">-</span><span class="dv">1</span>))) <span class="co"># Glass&#39;s delta_adjusted</span></span></code></pre></div>
 <pre><code>## [1] 1.247999</code></pre>
-<p>既存のパッケージを利用した場合でも同様の結果が得られる。</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="02-mean_difference.html#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
-<span id="cb91-2"><a href="02-mean_difference.html#cb91-2" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="fu">glass_delta</span>(A, B)  <span class="co"># Glass&#39;s delta</span></span>
-<span id="cb91-3"><a href="02-mean_difference.html#cb91-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psychmeta)</span>
-<span id="cb91-4"><a href="02-mean_difference.html#cb91-4" aria-hidden="true" tabindex="-1"></a><span class="fu">correct_glass_bias</span>(delta<span class="sc">$</span>Glass_delta, <span class="at">nc=</span>n, <span class="at">ne=</span>m)</span></code></pre></div>
+<p>既存のパッケージを利用した場合でも同様の結果が得られる。わずかに数値がずれるのは、<code>psychmeta</code>パッケージがガンマ関数を利用したより正確な補正係数の計算法を採用しているためである。</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="02-mean_difference.html#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb100-2"><a href="02-mean_difference.html#cb100-2" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="fu">glass_delta</span>(A, B)  <span class="co"># Glass&#39;s delta</span></span>
+<span id="cb100-3"><a href="02-mean_difference.html#cb100-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psychmeta)</span></code></pre></div>
+<pre><code>## -----------------------------------------------------  psychmeta version 2.6.3  --</code></pre>
+<pre><code>## 
+## Please report any bugs to github.com/psychmeta/psychmeta/issues
+## or issues@psychmeta.com</code></pre>
+<pre><code>## 
+## We work hard to produce these open-source tools for the R community.
+## Please cite psychmeta when you use it in your research:
+##   Dahlke, J. A., &amp; Wiernik, B. M. (2019). psychmeta: An R package for
+##     psychometric meta-analysis. Applied Psychological Measurement, 43(5), 415-416.
+##     https://doi.org/10.1177/0146621618795933</code></pre>
+<pre><code>## 
+## ---------------------------------------------------------------  Version check  --</code></pre>
+<pre><code>## ✔ Yay! Your copy of psychmeta is up to date!</code></pre>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="02-mean_difference.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">correct_glass_bias</span>(delta<span class="sc">$</span>Glass_delta, <span class="at">nc=</span>n, <span class="at">ne=</span>m)</span></code></pre></div>
 <pre><code>## [1] 1.247995</code></pre>
 </div>
 <div id="シミュレーション" class="section level4 hasAnchor" number="3.3.1.3">
 <h4><span class="header-section-number">3.3.1.3</span> シミュレーション<a href="02-mean_difference.html#シミュレーション" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>これまでに紹介した平均値差の標本効果量が母効果量の推定値としてどのような性質を持つのかをシミュレーションによって確認しよう。以下のコードでは、各効果量について結果格納用の箱を作った上で、任意のサンプルサイズ<span class="math inline">\(n\)</span>で効果量を算出する計算を10000回繰り返している。母効果量は <span class="math inline">\(\delta=1\)</span> であることから、バイアスが無ければ10000個の効果量の平均（期待値）と<span class="math inline">\(\delta=1\)</span>の差は0に近づくはずである（i.e., 不偏性）。</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="02-mean_difference.html#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
-<span id="cb93-2"><a href="02-mean_difference.html#cb93-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="cn">NULL</span>     <span class="co"># Hedged &amp; Olkin&#39;s d の箱</span></span>
-<span id="cb93-3"><a href="02-mean_difference.html#cb93-3" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="cn">NULL</span>    <span class="co"># Cohen&#39;s d_s の箱</span></span>
-<span id="cb93-4"><a href="02-mean_difference.html#cb93-4" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="cn">NULL</span>     <span class="co"># Hedges&#39;g の箱</span></span>
-<span id="cb93-5"><a href="02-mean_difference.html#cb93-5" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="cn">NULL</span> <span class="co"># Glass&#39;s delta の箱</span></span>
-<span id="cb93-6"><a href="02-mean_difference.html#cb93-6" aria-hidden="true" tabindex="-1"></a>delta_adj <span class="ot">&lt;-</span> <span class="cn">NULL</span> <span class="co"># Glass&#39;s delta_adj の箱</span></span>
-<span id="cb93-7"><a href="02-mean_difference.html#cb93-7" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">5</span>        <span class="co"># サンプルサイズ</span></span>
-<span id="cb93-8"><a href="02-mean_difference.html#cb93-8" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">10000</span>    <span class="co"># シミュレーション回数</span></span>
-<span id="cb93-9"><a href="02-mean_difference.html#cb93-9" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb93-10"><a href="02-mean_difference.html#cb93-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>k){</span>
-<span id="cb93-11"><a href="02-mean_difference.html#cb93-11" aria-hidden="true" tabindex="-1"></a>  A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">60</span>, <span class="dv">10</span>) <span class="co"># 正規分布に従う乱数A</span></span>
-<span id="cb93-12"><a href="02-mean_difference.html#cb93-12" aria-hidden="true" tabindex="-1"></a>  B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布に従う乱数B</span></span>
-<span id="cb93-13"><a href="02-mean_difference.html#cb93-13" aria-hidden="true" tabindex="-1"></a>  svA <span class="ot">&lt;-</span> <span class="fu">sum</span>((A<span class="sc">-</span><span class="fu">mean</span>(A))<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>n <span class="co"># 標本分散A</span></span>
-<span id="cb93-14"><a href="02-mean_difference.html#cb93-14" aria-hidden="true" tabindex="-1"></a>  svB <span class="ot">&lt;-</span> <span class="fu">sum</span>((B<span class="sc">-</span><span class="fu">mean</span>(B))<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>n <span class="co"># 標本分散B</span></span>
-<span id="cb93-15"><a href="02-mean_difference.html#cb93-15" aria-hidden="true" tabindex="-1"></a>  poolsd <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((n<span class="sc">*</span>svA<span class="sc">+</span>n<span class="sc">*</span>svB)<span class="sc">/</span>(n<span class="sc">+</span>n)) <span class="co">#2群をプールした標準偏差</span></span>
-<span id="cb93-16"><a href="02-mean_difference.html#cb93-16" aria-hidden="true" tabindex="-1"></a>  d[i] <span class="ot">&lt;-</span> (<span class="fu">mean</span>(A)<span class="sc">-</span><span class="fu">mean</span>(B))<span class="sc">/</span>poolsd <span class="co"># Hedged &amp; Olkin&#39;s d</span></span>
-<span id="cb93-17"><a href="02-mean_difference.html#cb93-17" aria-hidden="true" tabindex="-1"></a>  ds[i] <span class="ot">&lt;-</span> <span class="fu">cohens_d</span>(A, B)<span class="sc">$</span>Cohens_d <span class="co"># Cohen&#39;s d_s</span></span>
-<span id="cb93-18"><a href="02-mean_difference.html#cb93-18" aria-hidden="true" tabindex="-1"></a>  g[i] <span class="ot">&lt;-</span> <span class="fu">hedges_g</span>(A, B)<span class="sc">$</span>Hedges_g  <span class="co"># Hedges&#39;g</span></span>
-<span id="cb93-19"><a href="02-mean_difference.html#cb93-19" aria-hidden="true" tabindex="-1"></a>  delta[i] <span class="ot">&lt;-</span> <span class="fu">glass_delta</span>(A, B)<span class="sc">$</span>Glass_delta    <span class="co"># Glass&#39;s delta</span></span>
-<span id="cb93-20"><a href="02-mean_difference.html#cb93-20" aria-hidden="true" tabindex="-1"></a>  delta_adj[i] <span class="ot">&lt;-</span> delta[i]<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>(<span class="dv">3</span><span class="sc">/</span>(<span class="dv">4</span><span class="sc">*</span>(n<span class="dv">-1</span>)<span class="sc">-</span><span class="dv">1</span>))) <span class="co"># Glass&#39;s delta_adj</span></span>
-<span id="cb93-21"><a href="02-mean_difference.html#cb93-21" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb93-22"><a href="02-mean_difference.html#cb93-22" aria-hidden="true" tabindex="-1"></a><span class="co"># bias</span></span>
-<span id="cb93-23"><a href="02-mean_difference.html#cb93-23" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(d)<span class="sc">-</span><span class="dv">1</span>, <span class="dv">4</span>)</span>
-<span id="cb93-24"><a href="02-mean_difference.html#cb93-24" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(ds)<span class="sc">-</span><span class="dv">1</span>, <span class="dv">4</span>) ; <span class="fu">round</span>(<span class="fu">mean</span>(g)<span class="sc">-</span><span class="dv">1</span>, <span class="dv">4</span>)</span>
-<span id="cb93-25"><a href="02-mean_difference.html#cb93-25" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(delta)<span class="sc">-</span><span class="dv">1</span>, <span class="dv">4</span>) ; <span class="fu">round</span>(<span class="fu">mean</span>(delta_adj)<span class="sc">-</span><span class="dv">1</span>, <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="02-mean_difference.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb108-2"><a href="02-mean_difference.html#cb108-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="cn">NULL</span>     <span class="co"># Hedged &amp; Olkin&#39;s d の箱</span></span>
+<span id="cb108-3"><a href="02-mean_difference.html#cb108-3" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="cn">NULL</span>    <span class="co"># Cohen&#39;s d_s の箱</span></span>
+<span id="cb108-4"><a href="02-mean_difference.html#cb108-4" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="cn">NULL</span>     <span class="co"># Hedges&#39;g の箱</span></span>
+<span id="cb108-5"><a href="02-mean_difference.html#cb108-5" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="cn">NULL</span> <span class="co"># Glass&#39;s delta の箱</span></span>
+<span id="cb108-6"><a href="02-mean_difference.html#cb108-6" aria-hidden="true" tabindex="-1"></a>delta_adj <span class="ot">&lt;-</span> <span class="cn">NULL</span> <span class="co"># Glass&#39;s delta_adj の箱</span></span>
+<span id="cb108-7"><a href="02-mean_difference.html#cb108-7" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">5</span>        <span class="co"># サンプルサイズ</span></span>
+<span id="cb108-8"><a href="02-mean_difference.html#cb108-8" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">10000</span>    <span class="co"># シミュレーション回数</span></span>
+<span id="cb108-9"><a href="02-mean_difference.html#cb108-9" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb108-10"><a href="02-mean_difference.html#cb108-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>k){</span>
+<span id="cb108-11"><a href="02-mean_difference.html#cb108-11" aria-hidden="true" tabindex="-1"></a>  A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">60</span>, <span class="dv">10</span>) <span class="co"># 正規分布に従う乱数A</span></span>
+<span id="cb108-12"><a href="02-mean_difference.html#cb108-12" aria-hidden="true" tabindex="-1"></a>  B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布に従う乱数B</span></span>
+<span id="cb108-13"><a href="02-mean_difference.html#cb108-13" aria-hidden="true" tabindex="-1"></a>  svA <span class="ot">&lt;-</span> <span class="fu">sum</span>((A<span class="sc">-</span><span class="fu">mean</span>(A))<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>n <span class="co"># 標本分散A</span></span>
+<span id="cb108-14"><a href="02-mean_difference.html#cb108-14" aria-hidden="true" tabindex="-1"></a>  svB <span class="ot">&lt;-</span> <span class="fu">sum</span>((B<span class="sc">-</span><span class="fu">mean</span>(B))<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>n <span class="co"># 標本分散B</span></span>
+<span id="cb108-15"><a href="02-mean_difference.html#cb108-15" aria-hidden="true" tabindex="-1"></a>  poolsd <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((n<span class="sc">*</span>svA<span class="sc">+</span>n<span class="sc">*</span>svB)<span class="sc">/</span>(n<span class="sc">+</span>n)) <span class="co">#2群をプールした標準偏差</span></span>
+<span id="cb108-16"><a href="02-mean_difference.html#cb108-16" aria-hidden="true" tabindex="-1"></a>  d[i] <span class="ot">&lt;-</span> (<span class="fu">mean</span>(A)<span class="sc">-</span><span class="fu">mean</span>(B))<span class="sc">/</span>poolsd <span class="co"># Hedged &amp; Olkin&#39;s d</span></span>
+<span id="cb108-17"><a href="02-mean_difference.html#cb108-17" aria-hidden="true" tabindex="-1"></a>  ds[i] <span class="ot">&lt;-</span> <span class="fu">cohens_d</span>(A, B)<span class="sc">$</span>Cohens_d <span class="co"># Cohen&#39;s d_s</span></span>
+<span id="cb108-18"><a href="02-mean_difference.html#cb108-18" aria-hidden="true" tabindex="-1"></a>  g[i] <span class="ot">&lt;-</span> <span class="fu">hedges_g</span>(A, B)<span class="sc">$</span>Hedges_g  <span class="co"># Hedges&#39;g</span></span>
+<span id="cb108-19"><a href="02-mean_difference.html#cb108-19" aria-hidden="true" tabindex="-1"></a>  delta[i] <span class="ot">&lt;-</span> <span class="fu">glass_delta</span>(A, B)<span class="sc">$</span>Glass_delta    <span class="co"># Glass&#39;s delta</span></span>
+<span id="cb108-20"><a href="02-mean_difference.html#cb108-20" aria-hidden="true" tabindex="-1"></a>  delta_adj[i] <span class="ot">&lt;-</span> delta[i]<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>(<span class="dv">3</span><span class="sc">/</span>(<span class="dv">4</span><span class="sc">*</span>(n<span class="dv">-1</span>)<span class="sc">-</span><span class="dv">1</span>))) <span class="co"># Glass&#39;s delta_adj</span></span>
+<span id="cb108-21"><a href="02-mean_difference.html#cb108-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb108-22"><a href="02-mean_difference.html#cb108-22" aria-hidden="true" tabindex="-1"></a><span class="co"># bias</span></span>
+<span id="cb108-23"><a href="02-mean_difference.html#cb108-23" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(d)<span class="sc">-</span><span class="dv">1</span>, <span class="dv">4</span>)</span>
+<span id="cb108-24"><a href="02-mean_difference.html#cb108-24" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(ds)<span class="sc">-</span><span class="dv">1</span>, <span class="dv">4</span>) ; <span class="fu">round</span>(<span class="fu">mean</span>(g)<span class="sc">-</span><span class="dv">1</span>, <span class="dv">4</span>)</span>
+<span id="cb108-25"><a href="02-mean_difference.html#cb108-25" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(delta)<span class="sc">-</span><span class="dv">1</span>, <span class="dv">4</span>) ; <span class="fu">round</span>(<span class="fu">mean</span>(delta_adj)<span class="sc">-</span><span class="dv">1</span>, <span class="dv">4</span>)</span></code></pre></div>
 <p><span class="math inline">\(n\)</span> の値を変えながらK=10000回のシミュレーションを繰り返すと、以下のような結果が得られる。</p>
 <table style="width:100%;">
 <caption>標準化平均値差の効果量のバイアス</caption>
@@ -870,24 +897,24 @@ r_{pb_c}=\frac{r_{pb}}{\sqrt{r_{yy}}},\\
 d_c=\frac{r_{pb_c}\sqrt{h}}{\sqrt{1-r_{pb_c}^2}}, \\
 V_{d_c}=\frac{V_{d_s}}{r_{yy}}
 \]</span>たとえば、標本A, Bに共通した測定の信頼性が0.7であった場合、標準化平均値差は以下のように補正できる。</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="02-mean_difference.html#cb94-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">100</span> ; n <span class="ot">&lt;-</span> <span class="dv">100</span>   <span class="co"># サンプルサイズ</span></span>
-<span id="cb94-2"><a href="02-mean_difference.html#cb94-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)         <span class="co"># 乱数の種の固定</span></span>
-<span id="cb94-3"><a href="02-mean_difference.html#cb94-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(m, <span class="dv">60</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(50,100)からm個の乱数を発生</span></span>
-<span id="cb94-4"><a href="02-mean_difference.html#cb94-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(60,100)からn個の乱数を発生</span></span>
-<span id="cb94-5"><a href="02-mean_difference.html#cb94-5" aria-hidden="true" tabindex="-1"></a>r_yy <span class="ot">&lt;-</span> <span class="fl">0.7</span>  <span class="co"># 信頼性係数</span></span>
-<span id="cb94-6"><a href="02-mean_difference.html#cb94-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
-<span id="cb94-7"><a href="02-mean_difference.html#cb94-7" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">cohens_d</span>(A, B)<span class="sc">$</span>Cohens_d   <span class="co"># Cohen&#39;s d_s</span></span>
-<span id="cb94-8"><a href="02-mean_difference.html#cb94-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb94-9"><a href="02-mean_difference.html#cb94-9" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> m <span class="sc">+</span> n <span class="sc">-</span> <span class="dv">2</span></span>
-<span id="cb94-10"><a href="02-mean_difference.html#cb94-10" aria-hidden="true" tabindex="-1"></a>h <span class="ot">=</span> df<span class="sc">/</span>m <span class="sc">+</span> df<span class="sc">/</span>n</span>
-<span id="cb94-11"><a href="02-mean_difference.html#cb94-11" aria-hidden="true" tabindex="-1"></a>rpb <span class="ot">=</span> (d <span class="sc">*</span> <span class="fu">sqrt</span>(d<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> h))<span class="sc">/</span>(d<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> h)</span>
-<span id="cb94-12"><a href="02-mean_difference.html#cb94-12" aria-hidden="true" tabindex="-1"></a>rpbc <span class="ot">=</span> rpb<span class="sc">/</span><span class="fu">sqrt</span>(r_yy)</span>
-<span id="cb94-13"><a href="02-mean_difference.html#cb94-13" aria-hidden="true" tabindex="-1"></a>dc <span class="ot">=</span> (rpbc <span class="sc">*</span> <span class="fu">sqrt</span>(h))<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> rpbc<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb94-14"><a href="02-mean_difference.html#cb94-14" aria-hidden="true" tabindex="-1"></a>dc</span></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="02-mean_difference.html#cb109-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">100</span> ; n <span class="ot">&lt;-</span> <span class="dv">100</span>   <span class="co"># サンプルサイズ</span></span>
+<span id="cb109-2"><a href="02-mean_difference.html#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)         <span class="co"># 乱数の種の固定</span></span>
+<span id="cb109-3"><a href="02-mean_difference.html#cb109-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(m, <span class="dv">60</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(50,100)からm個の乱数を発生</span></span>
+<span id="cb109-4"><a href="02-mean_difference.html#cb109-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(60,100)からn個の乱数を発生</span></span>
+<span id="cb109-5"><a href="02-mean_difference.html#cb109-5" aria-hidden="true" tabindex="-1"></a>r_yy <span class="ot">&lt;-</span> <span class="fl">0.7</span>  <span class="co"># 信頼性係数</span></span>
+<span id="cb109-6"><a href="02-mean_difference.html#cb109-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb109-7"><a href="02-mean_difference.html#cb109-7" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">cohens_d</span>(A, B)<span class="sc">$</span>Cohens_d   <span class="co"># Cohen&#39;s d_s</span></span>
+<span id="cb109-8"><a href="02-mean_difference.html#cb109-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb109-9"><a href="02-mean_difference.html#cb109-9" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> m <span class="sc">+</span> n <span class="sc">-</span> <span class="dv">2</span></span>
+<span id="cb109-10"><a href="02-mean_difference.html#cb109-10" aria-hidden="true" tabindex="-1"></a>h <span class="ot">=</span> df<span class="sc">/</span>m <span class="sc">+</span> df<span class="sc">/</span>n</span>
+<span id="cb109-11"><a href="02-mean_difference.html#cb109-11" aria-hidden="true" tabindex="-1"></a>rpb <span class="ot">=</span> (d <span class="sc">*</span> <span class="fu">sqrt</span>(d<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> h))<span class="sc">/</span>(d<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> h)</span>
+<span id="cb109-12"><a href="02-mean_difference.html#cb109-12" aria-hidden="true" tabindex="-1"></a>rpbc <span class="ot">=</span> rpb<span class="sc">/</span><span class="fu">sqrt</span>(r_yy)</span>
+<span id="cb109-13"><a href="02-mean_difference.html#cb109-13" aria-hidden="true" tabindex="-1"></a>dc <span class="ot">=</span> (rpbc <span class="sc">*</span> <span class="fu">sqrt</span>(h))<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> rpbc<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb109-14"><a href="02-mean_difference.html#cb109-14" aria-hidden="true" tabindex="-1"></a>dc</span></code></pre></div>
 <pre><code>## [1] 1.677166</code></pre>
 <p>既存のパッケージを利用した場合でも同様の結果が得られる。</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="02-mean_difference.html#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psychmeta)</span>
-<span id="cb96-2"><a href="02-mean_difference.html#cb96-2" aria-hidden="true" tabindex="-1"></a><span class="fu">correct_d</span>(<span class="at">correction =</span> <span class="st">&quot;meas&quot;</span>, <span class="at">d =</span> d, <span class="at">ryy =</span> r_yy, <span class="at">n1=</span>m, <span class="at">n2=</span>n)</span></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="02-mean_difference.html#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psychmeta)</span>
+<span id="cb111-2"><a href="02-mean_difference.html#cb111-2" aria-hidden="true" tabindex="-1"></a><span class="fu">correct_d</span>(<span class="at">correction =</span> <span class="st">&quot;meas&quot;</span>, <span class="at">d =</span> d, <span class="at">ryy =</span> r_yy, <span class="at">n1=</span>m, <span class="at">n2=</span>n)</span></code></pre></div>
 <pre><code>## d Values Corrected for Measurement Error:
 ## ---------------------------------------------------------------------------------------
 ##   value CI_LL_95 CI_UL_95   n n_effective
@@ -909,20 +936,20 @@ d_c=\frac{r_{pb_c}\sqrt{h}}{\sqrt{1-r_{pb_c}^2}}, \\
 V_{d_c}=\frac{d_c}{d_s}*V_{d_s}
 \]</span></p>
 <p>Rを利用すれば、以下のように計算できる。</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="02-mean_difference.html#cb98-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">100</span> ; n <span class="ot">&lt;-</span> <span class="dv">100</span>   <span class="co"># サンプルサイズ</span></span>
-<span id="cb98-2"><a href="02-mean_difference.html#cb98-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)         <span class="co"># 乱数の種の固定</span></span>
-<span id="cb98-3"><a href="02-mean_difference.html#cb98-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(m, <span class="dv">60</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(50,100)からm個の乱数を発生</span></span>
-<span id="cb98-4"><a href="02-mean_difference.html#cb98-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(60,100)からn個の乱数を発生</span></span>
-<span id="cb98-5"><a href="02-mean_difference.html#cb98-5" aria-hidden="true" tabindex="-1"></a>U <span class="ot">&lt;-</span> <span class="fl">1.2</span>  <span class="co"># 標準偏差比</span></span>
-<span id="cb98-6"><a href="02-mean_difference.html#cb98-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb98-7"><a href="02-mean_difference.html#cb98-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
-<span id="cb98-8"><a href="02-mean_difference.html#cb98-8" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">cohens_d</span>(A, B)<span class="sc">$</span>Cohens_d   <span class="co"># Cohen&#39;s d_s</span></span>
-<span id="cb98-9"><a href="02-mean_difference.html#cb98-9" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> m <span class="sc">+</span> n <span class="sc">-</span> <span class="dv">2</span></span>
-<span id="cb98-10"><a href="02-mean_difference.html#cb98-10" aria-hidden="true" tabindex="-1"></a>h <span class="ot">=</span> df<span class="sc">/</span>m <span class="sc">+</span> df<span class="sc">/</span>n</span>
-<span id="cb98-11"><a href="02-mean_difference.html#cb98-11" aria-hidden="true" tabindex="-1"></a>rpb <span class="ot">=</span> (d <span class="sc">*</span> <span class="fu">sqrt</span>(d<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> h))<span class="sc">/</span>(d<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> h)</span>
-<span id="cb98-12"><a href="02-mean_difference.html#cb98-12" aria-hidden="true" tabindex="-1"></a>rpbc <span class="ot">=</span> U<span class="sc">*</span>rpb<span class="sc">/</span><span class="fu">sqrt</span>((U<span class="sc">^</span><span class="dv">2-1</span>)<span class="sc">*</span>rpb<span class="sc">^</span><span class="dv">2</span><span class="sc">+</span><span class="dv">1</span>)</span>
-<span id="cb98-13"><a href="02-mean_difference.html#cb98-13" aria-hidden="true" tabindex="-1"></a>dc <span class="ot">=</span> (rpbc <span class="sc">*</span> <span class="fu">sqrt</span>(h))<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> rpbc<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb98-14"><a href="02-mean_difference.html#cb98-14" aria-hidden="true" tabindex="-1"></a>dc</span></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="02-mean_difference.html#cb113-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">100</span> ; n <span class="ot">&lt;-</span> <span class="dv">100</span>   <span class="co"># サンプルサイズ</span></span>
+<span id="cb113-2"><a href="02-mean_difference.html#cb113-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)         <span class="co"># 乱数の種の固定</span></span>
+<span id="cb113-3"><a href="02-mean_difference.html#cb113-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(m, <span class="dv">60</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(50,100)からm個の乱数を発生</span></span>
+<span id="cb113-4"><a href="02-mean_difference.html#cb113-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(60,100)からn個の乱数を発生</span></span>
+<span id="cb113-5"><a href="02-mean_difference.html#cb113-5" aria-hidden="true" tabindex="-1"></a>U <span class="ot">&lt;-</span> <span class="fl">1.2</span>  <span class="co"># 標準偏差比</span></span>
+<span id="cb113-6"><a href="02-mean_difference.html#cb113-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb113-7"><a href="02-mean_difference.html#cb113-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb113-8"><a href="02-mean_difference.html#cb113-8" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">cohens_d</span>(A, B)<span class="sc">$</span>Cohens_d   <span class="co"># Cohen&#39;s d_s</span></span>
+<span id="cb113-9"><a href="02-mean_difference.html#cb113-9" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> m <span class="sc">+</span> n <span class="sc">-</span> <span class="dv">2</span></span>
+<span id="cb113-10"><a href="02-mean_difference.html#cb113-10" aria-hidden="true" tabindex="-1"></a>h <span class="ot">=</span> df<span class="sc">/</span>m <span class="sc">+</span> df<span class="sc">/</span>n</span>
+<span id="cb113-11"><a href="02-mean_difference.html#cb113-11" aria-hidden="true" tabindex="-1"></a>rpb <span class="ot">=</span> (d <span class="sc">*</span> <span class="fu">sqrt</span>(d<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> h))<span class="sc">/</span>(d<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> h)</span>
+<span id="cb113-12"><a href="02-mean_difference.html#cb113-12" aria-hidden="true" tabindex="-1"></a>rpbc <span class="ot">=</span> U<span class="sc">*</span>rpb<span class="sc">/</span><span class="fu">sqrt</span>((U<span class="sc">^</span><span class="dv">2-1</span>)<span class="sc">*</span>rpb<span class="sc">^</span><span class="dv">2</span><span class="sc">+</span><span class="dv">1</span>)</span>
+<span id="cb113-13"><a href="02-mean_difference.html#cb113-13" aria-hidden="true" tabindex="-1"></a>dc <span class="ot">=</span> (rpbc <span class="sc">*</span> <span class="fu">sqrt</span>(h))<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> rpbc<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb113-14"><a href="02-mean_difference.html#cb113-14" aria-hidden="true" tabindex="-1"></a>dc</span></code></pre></div>
 <pre><code>## [1] 1.528827</code></pre>
 </div>
 </div>

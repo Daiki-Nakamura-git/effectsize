@@ -23,7 +23,7 @@
 <meta name="author" content="Daiki Nakamura" />
 
 
-<meta name="date" content="2022-07-06" />
+<meta name="date" content="2022-07-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -274,44 +274,44 @@ div.csl-indent {
 <h2><span class="header-section-number">8.1</span> 統計量から効果量への変換<a href="07-conversion.html#統計量から効果量への変換" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="t---d" class="section level3 hasAnchor" number="8.1.1">
 <h3><span class="header-section-number">8.1.1</span> t -&gt; d<a href="07-conversion.html#t---d" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="07-conversion.html#cb136-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb136-2"><a href="07-conversion.html#cb136-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">60</span>, <span class="dv">10</span>)</span>
-<span id="cb136-3"><a href="07-conversion.html#cb136-3" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">50</span>, <span class="dv">10</span>)</span>
-<span id="cb136-4"><a href="07-conversion.html#cb136-4" aria-hidden="true" tabindex="-1"></a><span class="co"># t to d</span></span>
-<span id="cb136-5"><a href="07-conversion.html#cb136-5" aria-hidden="true" tabindex="-1"></a>res.st <span class="ot">&lt;-</span> <span class="fu">t.test</span>(A, B)</span>
-<span id="cb136-6"><a href="07-conversion.html#cb136-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cohens_d</span>(A, B)</span></code></pre></div>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="07-conversion.html#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb161-2"><a href="07-conversion.html#cb161-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">60</span>, <span class="dv">10</span>)</span>
+<span id="cb161-3"><a href="07-conversion.html#cb161-3" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">50</span>, <span class="dv">10</span>)</span>
+<span id="cb161-4"><a href="07-conversion.html#cb161-4" aria-hidden="true" tabindex="-1"></a><span class="co"># t to d</span></span>
+<span id="cb161-5"><a href="07-conversion.html#cb161-5" aria-hidden="true" tabindex="-1"></a>res.st <span class="ot">&lt;-</span> <span class="fu">t.test</span>(A, B)</span>
+<span id="cb161-6"><a href="07-conversion.html#cb161-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cohens_d</span>(A, B)</span></code></pre></div>
 <pre><code>## Cohen&#39;s d |       95% CI
 ## ------------------------
 ## 1.27      | [0.97, 1.58]
 ## 
 ## - Estimated using pooled SD.</code></pre>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="07-conversion.html#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t_to_d</span>(res.st<span class="sc">$</span>statistic[<span class="dv">1</span>], res.st<span class="sc">$</span>parameter) <span class="co">#近似値</span></span></code></pre></div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="07-conversion.html#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t_to_d</span>(res.st<span class="sc">$</span>statistic[<span class="dv">1</span>], res.st<span class="sc">$</span>parameter) <span class="co">#近似値</span></span></code></pre></div>
 <pre><code>## d    |       95% CI
 ## -------------------
 ## 1.28 | [0.97, 1.59]</code></pre>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="07-conversion.html#cb140-1" aria-hidden="true" tabindex="-1"></a>dhat <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>res.st<span class="sc">$</span>statistic[<span class="dv">1</span>]<span class="sc">/</span><span class="fu">sqrt</span>(res.st<span class="sc">$</span>parameter)</span></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="07-conversion.html#cb165-1" aria-hidden="true" tabindex="-1"></a>dhat <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>res.st<span class="sc">$</span>statistic[<span class="dv">1</span>]<span class="sc">/</span><span class="fu">sqrt</span>(res.st<span class="sc">$</span>parameter)</span></code></pre></div>
 </div>
 </div>
 <div id="効果量から効果量への変換" class="section level2 hasAnchor" number="8.2">
 <h2><span class="header-section-number">8.2</span> 効果量から効果量への変換<a href="07-conversion.html#効果量から効果量への変換" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="d---r" class="section level3 hasAnchor" number="8.2.1">
 <h3><span class="header-section-number">8.2.1</span> d &lt;-&gt; r<a href="07-conversion.html#d---r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="07-conversion.html#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Converting Between Indices of Effect Size -------------------------------</span></span>
-<span id="cb141-2"><a href="07-conversion.html#cb141-2" aria-hidden="true" tabindex="-1"></a><span class="co"># d to r</span></span>
-<span id="cb141-3"><a href="07-conversion.html#cb141-3" aria-hidden="true" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">each=</span><span class="dv">100</span>)</span>
-<span id="cb141-4"><a href="07-conversion.html#cb141-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb141-5"><a href="07-conversion.html#cb141-5" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">50</span>, <span class="dv">10</span>)</span>
-<span id="cb141-6"><a href="07-conversion.html#cb141-6" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">60</span>, <span class="dv">10</span>)</span>
-<span id="cb141-7"><a href="07-conversion.html#cb141-7" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">group=</span>group, <span class="at">outcome=</span><span class="fu">c</span>(A, B))</span>
-<span id="cb141-8"><a href="07-conversion.html#cb141-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb141-9"><a href="07-conversion.html#cb141-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(dat) <span class="co">#点双列相関</span></span></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="07-conversion.html#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Converting Between Indices of Effect Size -------------------------------</span></span>
+<span id="cb166-2"><a href="07-conversion.html#cb166-2" aria-hidden="true" tabindex="-1"></a><span class="co"># d to r</span></span>
+<span id="cb166-3"><a href="07-conversion.html#cb166-3" aria-hidden="true" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">each=</span><span class="dv">100</span>)</span>
+<span id="cb166-4"><a href="07-conversion.html#cb166-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb166-5"><a href="07-conversion.html#cb166-5" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">50</span>, <span class="dv">10</span>)</span>
+<span id="cb166-6"><a href="07-conversion.html#cb166-6" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">60</span>, <span class="dv">10</span>)</span>
+<span id="cb166-7"><a href="07-conversion.html#cb166-7" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">group=</span>group, <span class="at">outcome=</span><span class="fu">c</span>(A, B))</span>
+<span id="cb166-8"><a href="07-conversion.html#cb166-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb166-9"><a href="07-conversion.html#cb166-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(dat) <span class="co">#点双列相関</span></span></code></pre></div>
 <pre><code>##             group   outcome
 ## group   1.0000000 0.3939704
 ## outcome 0.3939704 1.0000000</code></pre>
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="07-conversion.html#cb143-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">cohens_d</span>(dat<span class="sc">$</span>outcome[group<span class="sc">==</span><span class="dv">1</span>], dat<span class="sc">$</span>outcome[group<span class="sc">==</span><span class="dv">0</span>])<span class="sc">$</span>Cohens_d</span>
-<span id="cb143-2"><a href="07-conversion.html#cb143-2" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">cor</span>(dat<span class="sc">$</span>group, dat<span class="sc">$</span>outcome)</span>
-<span id="cb143-3"><a href="07-conversion.html#cb143-3" aria-hidden="true" tabindex="-1"></a>d_convert <span class="ot">&lt;-</span> <span class="fu">r_to_d</span>(r)</span>
-<span id="cb143-4"><a href="07-conversion.html#cb143-4" aria-hidden="true" tabindex="-1"></a>r_convert <span class="ot">&lt;-</span> <span class="fu">d_to_r</span>(d)</span></code></pre></div>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="07-conversion.html#cb168-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">cohens_d</span>(dat<span class="sc">$</span>outcome[group<span class="sc">==</span><span class="dv">1</span>], dat<span class="sc">$</span>outcome[group<span class="sc">==</span><span class="dv">0</span>])<span class="sc">$</span>Cohens_d</span>
+<span id="cb168-2"><a href="07-conversion.html#cb168-2" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">cor</span>(dat<span class="sc">$</span>group, dat<span class="sc">$</span>outcome)</span>
+<span id="cb168-3"><a href="07-conversion.html#cb168-3" aria-hidden="true" tabindex="-1"></a>d_convert <span class="ot">&lt;-</span> <span class="fu">r_to_d</span>(r)</span>
+<span id="cb168-4"><a href="07-conversion.html#cb168-4" aria-hidden="true" tabindex="-1"></a>r_convert <span class="ot">&lt;-</span> <span class="fu">d_to_r</span>(d)</span></code></pre></div>
 
 </div>
 </div>
