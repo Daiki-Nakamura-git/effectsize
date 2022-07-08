@@ -23,13 +23,13 @@
 <meta name="author" content="Daiki Nakamura" />
 
 
-<meta name="date" content="2022-07-07" />
+<meta name="date" content="2022-07-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
-  
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 <link rel="prev" href="01-mean.html"/>
 <link rel="next" href="03-correlation.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -278,8 +278,8 @@ B_1, B_2, ..., B_{n} \sim \mathcal{N}(50, 100)
 \]</span></p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="02-mean_difference.html#cb14-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">100</span> ; n <span class="ot">&lt;-</span> <span class="dv">100</span>   <span class="co"># サンプルサイズ</span></span>
 <span id="cb14-2"><a href="02-mean_difference.html#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)         <span class="co"># 乱数の種の固定</span></span>
-<span id="cb14-3"><a href="02-mean_difference.html#cb14-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(m, <span class="dv">60</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(50,100)からm個の乱数を発生</span></span>
-<span id="cb14-4"><a href="02-mean_difference.html#cb14-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(60,100)からn個の乱数を発生</span></span></code></pre></div>
+<span id="cb14-3"><a href="02-mean_difference.html#cb14-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(m, <span class="dv">60</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(60,100)からm個の乱数を発生</span></span>
+<span id="cb14-4"><a href="02-mean_difference.html#cb14-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(50,100)からn個の乱数を発生</span></span></code></pre></div>
 <p><img src="effectsize_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>独立した2群の平均値差を示す効果量には、非標準化平均値差と標準化平均値差の2種類がある。また、後者については、等分散が仮定できる場合とできない場合に分けて考えることができる。以下で順に紹介していく。</p>
 <div id="非標準化平均値差" class="section level3 hasAnchor" number="3.1.1">
@@ -321,8 +321,8 @@ D-t_{0.025}(m+n-2)\sqrt{\frac{\hat\sigma^2}{m}+\frac{\hat\sigma^2}{n}}\leq\mu_A-
 <p>使用するデータは前節と同様である。</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="02-mean_difference.html#cb25-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">100</span> ; n <span class="ot">&lt;-</span> <span class="dv">100</span>   <span class="co"># サンプルサイズ</span></span>
 <span id="cb25-2"><a href="02-mean_difference.html#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)         <span class="co"># 乱数の種の固定</span></span>
-<span id="cb25-3"><a href="02-mean_difference.html#cb25-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(m, <span class="dv">60</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(50,100)からm個の乱数を発生</span></span>
-<span id="cb25-4"><a href="02-mean_difference.html#cb25-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(60,100)からn個の乱数を発生</span></span></code></pre></div>
+<span id="cb25-3"><a href="02-mean_difference.html#cb25-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(m, <span class="dv">60</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(60,100)からm個の乱数を発生</span></span>
+<span id="cb25-4"><a href="02-mean_difference.html#cb25-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(50,100)からn個の乱数を発生</span></span></code></pre></div>
 <p>なお、統計的帰無仮説検定によって2群の平均値差を検討する方法としてはｔ検定が知られており、検定統計量ｔがｔ分布に従うことを利用して、群間で平均値に差が無いという帰無仮説を棄却できるかどうかを判断する。</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="02-mean_difference.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(A, B, <span class="at">var.equal =</span> T) <span class="co"># 等分散を仮定する場合（Student&#39;s t-test）</span></span></code></pre></div>
 <pre><code>## 
@@ -411,8 +411,8 @@ V_{d_s}=\frac{m+n}{mn}+\frac {d_s^2}{2(m+n)}
 <p>なお、使用するデータは、分散を変更している。</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="02-mean_difference.html#cb38-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">100</span> ; n <span class="ot">&lt;-</span> <span class="dv">100</span>   <span class="co"># サンプルサイズ</span></span>
 <span id="cb38-2"><a href="02-mean_difference.html#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)         <span class="co"># 乱数の種の固定</span></span>
-<span id="cb38-3"><a href="02-mean_difference.html#cb38-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(m, <span class="dv">60</span>, <span class="dv">12</span>) <span class="co"># 正規分布N(50,144)からm個の乱数を発生</span></span>
-<span id="cb38-4"><a href="02-mean_difference.html#cb38-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(60,100)からn個の乱数を発生</span></span></code></pre></div>
+<span id="cb38-3"><a href="02-mean_difference.html#cb38-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(m, <span class="dv">60</span>, <span class="dv">12</span>) <span class="co"># 正規分布N(60,144)からm個の乱数を発生</span></span>
+<span id="cb38-4"><a href="02-mean_difference.html#cb38-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(50,100)からn個の乱数を発生</span></span></code></pre></div>
 <p>Glassの <span class="math inline">\(\Delta\)</span> は以下の計算式の通り、平均値差を片方の群（統制群）の標準偏差で割ることで得られる<span class="citation">(<a href="#ref-glass1981" role="doc-biblioref">Glass et al., 1981</a>)</span>。ここで、<span class="math inline">\(\hat\sigma_B^2\)</span> は群Bの不偏分差を指す。ここでは、群Bが統制群であることを想定している。</p>
 <p><span class="math display">\[
 Glass&#39;s~\Delta =\frac{\bar{A}-\bar{B}}{\hat\sigma_B}
@@ -581,9 +581,13 @@ B_j \sim \mathcal{N}\left(\mu + \cfrac{\delta \sigma}{2}, \sigma^2\right),~~~j=1
 <span id="cb66-4"><a href="02-mean_difference.html#cb66-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb66-5"><a href="02-mean_difference.html#cb66-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(report)</span>
 <span id="cb66-6"><a href="02-mean_difference.html#cb66-6" aria-hidden="true" tabindex="-1"></a><span class="fu">report_table</span>(<span class="fu">t.test</span>(A, B, <span class="at">var.equal =</span> T)) <span class="co"># 表</span></span></code></pre></div>
-<pre><code>## Parameter1 | Parameter2 | Mean_Parameter1 | Mean_Parameter2 | Difference |        95% CI | t(198) |      p |            Method | Alternative | Cohen&#39;s d | Cohens_d  CI
-## -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-## A          |          B |           60.90 |           48.92 |      11.98 | [9.36, 14.60] |   9.01 | &lt; .001 | Two Sample t-test |   two.sided |      1.27 | [0.97, 1.58]</code></pre>
+<pre><code>## Two Sample t-test
+## 
+## Parameter1 | Parameter2 | Mean_Parameter1 | Mean_Parameter2 | Difference |        95% CI | t(198) |      p | Cohen&#39;s d | Cohens_d  CI
+## -------------------------------------------------------------------------------------------------------------------------------------
+## A          |          B |           60.90 |           48.92 |      11.98 | [9.36, 14.60] |   9.01 | &lt; .001 |      1.27 | [0.97, 1.58]
+## 
+## Alternative hypothesis: two.sided</code></pre>
 <div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="02-mean_difference.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(<span class="fu">t.test</span>(A, B, <span class="at">var.equal =</span> T)) <span class="co"># 文章</span></span></code></pre></div>
 <pre><code>## Effect sizes were labelled following Cohen&#39;s (1988) recommendations.
 ## 
@@ -687,9 +691,13 @@ df=n-1
 <p>Rを用いて以下のように結果報告の表や文章を出力することもできる。</p>
 <div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="02-mean_difference.html#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(report)</span>
 <span id="cb81-2"><a href="02-mean_difference.html#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="fu">report_table</span>(<span class="fu">t.test</span>(dat<span class="sc">$</span>post, dat<span class="sc">$</span>pre, <span class="at">paired =</span> T)) <span class="co"># 表</span></span></code></pre></div>
-<pre><code>## Parameter |   Group | Difference | t(99) |      p |        95% CI |        Method | Alternative | Cohen&#39;s d | Cohens_d  CI
-## --------------------------------------------------------------------------------------------------------------------------
-## dat$post  | dat$pre |       9.80 |  9.59 | &lt; .001 | [7.77, 11.82] | Paired t-test |   two.sided |      0.96 | [0.72, 1.20]</code></pre>
+<pre><code>## Paired t-test
+## 
+## Parameter |   Group | Difference | t(99) |      p |        95% CI | Cohen&#39;s d | Cohens_d  CI
+## --------------------------------------------------------------------------------------------
+## dat$post  | dat$pre |       9.80 |  9.59 | &lt; .001 | [7.77, 11.82] |      0.96 | [0.72, 1.20]
+## 
+## Alternative hypothesis: two.sided</code></pre>
 <div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="02-mean_difference.html#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(<span class="fu">t.test</span>(dat<span class="sc">$</span>post, dat<span class="sc">$</span>pre, <span class="at">paired =</span> T)) <span class="co"># 文章</span></span></code></pre></div>
 <pre><code>## Effect sizes were labelled following Cohen&#39;s (1988) recommendations.
 ## 
@@ -713,8 +721,8 @@ Heges&#39;~g=J*d_s
 \]</span> Rを利用すれば、Hedges の <span class="math inline">\(g\)</span> は以下のように計算できる。</p>
 <div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="02-mean_difference.html#cb85-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">100</span> ; n <span class="ot">&lt;-</span> <span class="dv">100</span>   <span class="co"># サンプルサイズ</span></span>
 <span id="cb85-2"><a href="02-mean_difference.html#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)         <span class="co"># 乱数の種の固定</span></span>
-<span id="cb85-3"><a href="02-mean_difference.html#cb85-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(m, <span class="dv">60</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(50,100)からm個の乱数を発生</span></span>
-<span id="cb85-4"><a href="02-mean_difference.html#cb85-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(60,100)からn個の乱数を発生</span></span>
+<span id="cb85-3"><a href="02-mean_difference.html#cb85-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(m, <span class="dv">60</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(60,100)からm個の乱数を発生</span></span>
+<span id="cb85-4"><a href="02-mean_difference.html#cb85-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(50,100)からn個の乱数を発生</span></span>
 <span id="cb85-5"><a href="02-mean_difference.html#cb85-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
 <span id="cb85-6"><a href="02-mean_difference.html#cb85-6" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">cohens_d</span>(A, B)   <span class="co"># Cohen&#39;s d_s</span></span>
 <span id="cb85-7"><a href="02-mean_difference.html#cb85-7" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>Cohens_d <span class="sc">*</span> (<span class="dv">1</span><span class="sc">-</span>(<span class="dv">3</span><span class="sc">/</span>(<span class="dv">4</span><span class="sc">*</span>(m<span class="sc">+</span>n<span class="dv">-2</span>)<span class="sc">-</span><span class="dv">1</span>))) <span class="co"># Hedges&#39; g</span></span></code></pre></div>
@@ -738,8 +746,8 @@ Glass&#39;s~\Delta_{adj}=J*\Delta
 <p>Rを利用すれば、Glass の <span class="math inline">\(\Delta_{adj}\)</span> は以下のように計算できる。</p>
 <div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="02-mean_difference.html#cb89-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">100</span> ; n <span class="ot">&lt;-</span> <span class="dv">100</span>   <span class="co"># サンプルサイズ</span></span>
 <span id="cb89-2"><a href="02-mean_difference.html#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)         <span class="co"># 乱数の種の固定</span></span>
-<span id="cb89-3"><a href="02-mean_difference.html#cb89-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(m, <span class="dv">60</span>, <span class="dv">12</span>) <span class="co"># 正規分布N(50,144)からm個の乱数を発生</span></span>
-<span id="cb89-4"><a href="02-mean_difference.html#cb89-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(60,100)からn個の乱数を発生</span></span>
+<span id="cb89-3"><a href="02-mean_difference.html#cb89-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(m, <span class="dv">60</span>, <span class="dv">12</span>) <span class="co"># 正規分布N(60,144)からm個の乱数を発生</span></span>
+<span id="cb89-4"><a href="02-mean_difference.html#cb89-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(50,100)からn個の乱数を発生</span></span>
 <span id="cb89-5"><a href="02-mean_difference.html#cb89-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
 <span id="cb89-6"><a href="02-mean_difference.html#cb89-6" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="fu">glass_delta</span>(A, B)  <span class="co"># Glass&#39;s delta</span></span>
 <span id="cb89-7"><a href="02-mean_difference.html#cb89-7" aria-hidden="true" tabindex="-1"></a>delta<span class="sc">$</span>Glass_delta <span class="sc">*</span> (<span class="dv">1</span><span class="sc">-</span>(<span class="dv">3</span><span class="sc">/</span>(<span class="dv">4</span><span class="sc">*</span>(n<span class="dv">-1</span>)<span class="sc">-</span><span class="dv">1</span>))) <span class="co"># Glass&#39;s delta_adjusted</span></span></code></pre></div>
@@ -873,8 +881,8 @@ V_{d_c}=\frac{V_{d_s}}{r_{yy}}
 \]</span>たとえば、標本A, Bに共通した測定の信頼性が0.7であった場合、標準化平均値差は以下のように補正できる。</p>
 <div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="02-mean_difference.html#cb94-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">100</span> ; n <span class="ot">&lt;-</span> <span class="dv">100</span>   <span class="co"># サンプルサイズ</span></span>
 <span id="cb94-2"><a href="02-mean_difference.html#cb94-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)         <span class="co"># 乱数の種の固定</span></span>
-<span id="cb94-3"><a href="02-mean_difference.html#cb94-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(m, <span class="dv">60</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(50,100)からm個の乱数を発生</span></span>
-<span id="cb94-4"><a href="02-mean_difference.html#cb94-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(60,100)からn個の乱数を発生</span></span>
+<span id="cb94-3"><a href="02-mean_difference.html#cb94-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(m, <span class="dv">60</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(60,100)からm個の乱数を発生</span></span>
+<span id="cb94-4"><a href="02-mean_difference.html#cb94-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(50,100)からn個の乱数を発生</span></span>
 <span id="cb94-5"><a href="02-mean_difference.html#cb94-5" aria-hidden="true" tabindex="-1"></a>r_yy <span class="ot">&lt;-</span> <span class="fl">0.7</span>  <span class="co"># 信頼性係数</span></span>
 <span id="cb94-6"><a href="02-mean_difference.html#cb94-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
 <span id="cb94-7"><a href="02-mean_difference.html#cb94-7" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">cohens_d</span>(A, B)<span class="sc">$</span>Cohens_d   <span class="co"># Cohen&#39;s d_s</span></span>
@@ -912,8 +920,8 @@ V_{d_c}=\frac{d_c}{d_s}*V_{d_s}
 <p>Rを利用すれば、以下のように計算できる。</p>
 <div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="02-mean_difference.html#cb98-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">100</span> ; n <span class="ot">&lt;-</span> <span class="dv">100</span>   <span class="co"># サンプルサイズ</span></span>
 <span id="cb98-2"><a href="02-mean_difference.html#cb98-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)         <span class="co"># 乱数の種の固定</span></span>
-<span id="cb98-3"><a href="02-mean_difference.html#cb98-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(m, <span class="dv">60</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(50,100)からm個の乱数を発生</span></span>
-<span id="cb98-4"><a href="02-mean_difference.html#cb98-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(60,100)からn個の乱数を発生</span></span>
+<span id="cb98-3"><a href="02-mean_difference.html#cb98-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(m, <span class="dv">60</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(60,100)からm個の乱数を発生</span></span>
+<span id="cb98-4"><a href="02-mean_difference.html#cb98-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">10</span>) <span class="co"># 正規分布N(50,100)からn個の乱数を発生</span></span>
 <span id="cb98-5"><a href="02-mean_difference.html#cb98-5" aria-hidden="true" tabindex="-1"></a>U <span class="ot">&lt;-</span> <span class="fl">1.2</span>  <span class="co"># 標準偏差比</span></span>
 <span id="cb98-6"><a href="02-mean_difference.html#cb98-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb98-7"><a href="02-mean_difference.html#cb98-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
